@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/assets/js/controllers/createProgramCtrl.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/assets/js/controllers/createProjectCtrl.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/assets/js/controllers/createTaskCtrl.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/assets/js/controllers/organizationsCtrl.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/assets/js/controllers/pesrsonalInfoCtrl.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/assets/js/controllers/targetsCtrl.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/assets/js/translation/locales/ar.json" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/assets/js/translation/locales/en.json" charset="UTF-8" />
+  </component>
+</project>
