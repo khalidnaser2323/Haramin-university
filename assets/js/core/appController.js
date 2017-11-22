@@ -3,7 +3,7 @@
  */
 
 var app = angular.module('myApp', [
-    'ui.router', 'translator'
+    'ui.router'
 ]);
 
 app.config(['$locationProvider', '$stateProvider', '$urlRouterProvider', function ($locationProvider, $stateProvider, $urlRouterProvider) {
@@ -64,24 +64,24 @@ app.config(['$locationProvider', '$stateProvider', '$urlRouterProvider', functio
     });
 }]);
 
-app.run(function ($rootScope, $log, $location, $translate) {
+app.run(function ($rootScope, $log, $location) {
     console.log("Hello from Harameen University website");
-    $rootScope.setAppLanguage = function (lang) {
-
-        if (lang) {
-            $translate.use(lang)
-                .then(function () {
-                    $log.debug('$translate.use. Lang is: ' + $translate.use());
-                    if (lang === 'ar') {
-                        $rootScope.appDirection = 'rtl';
-                    }
-                    else {
-                        $rootScope.appDirection = 'ltr';
-                    }
-                });
-        }
-    };
-    $rootScope.setAppLanguage('ar');
+    //$rootScope.setAppLanguage = function (lang) {
+    //
+    //    if (lang) {
+    //        $translate.use(lang)
+    //            .then(function () {
+    //                $log.debug('$translate.use. Lang is: ' + $translate.use());
+    //                if (lang === 'ar') {
+    //                    $rootScope.appDirection = 'rtl';
+    //                }
+    //                else {
+    //                    $rootScope.appDirection = 'ltr';
+    //                }
+    //            });
+    //    }
+    //};
+    //$rootScope.setAppLanguage('ar');
 
     $rootScope.manageSideBarDisplay = function (clickedElementID) {
         if (clickedElementID) {

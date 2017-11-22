@@ -17,7 +17,6 @@
 
     <!--angular base-->
     <script type="text/javascript" src="assets/js/core/libraries/angular/angular.js"></script>
-    <script type="text/javascript" src="assets/js/core/libraries/angular/angular-route.js"></script>
     <script type="text/javascript" src="assets/js/core/libraries/angular/angular-ui-router.js"></script>
     <!--/angular base-->
 
@@ -31,50 +30,50 @@
 
     <!-- Theme JS files -->
     <script type="text/javascript" src="assets/js/plugins/ui/moment/moment.min.js"></script>
-    <script type="text/javascript" src="assets/js/plugins/pickers/daterangepicker.js"></script>
+    <script defer type="text/javascript" src="assets/js/plugins/pickers/daterangepicker.js"></script>
+    <script defer type="text/javascript" src="assets/js/pages/picker_date.js"></script>
     <script type="text/javascript" src="assets/js/core/app.js"></script>
     <script type="text/javascript" src="assets/js/core/libraries/jquery_ui/interactions.min.js"></script>
-    <script type="text/javascript" src="assets/js/plugins/forms/selects/select2.min.js"></script>
-    <script type="text/javascript" src="assets/js/pages/form_select2.js"></script>
-    <script type="text/javascript" src="assets/js/pages/picker_date.js"></script>
+    <script defer type="text/javascript" src="assets/js/plugins/forms/selects/select2.min.js"></script>
+    <script defer type="text/javascript" src="assets/js/pages/form_select2.js"></script>
     <script type="text/javascript" src="assets/js/plugins/forms/styling/uniform.min.js"></script>
     <script type="text/javascript" src="assets/js/plugins/forms/styling/switchery.min.js"></script>
     <script type="text/javascript" src="assets/js/plugins/forms/styling/switch.min.js"></script>
     <script type="text/javascript" src="assets/js/plugins/ui/nicescroll.min.js"></script>
-    <script type="text/javascript" src="assets/js/plugins/notifications/jgrowl.min.js"></script>
     <script type="text/javascript" src="assets/js/pages/form_checkboxes_radios.js"></script>
     <script type="text/javascript" src="assets/js/pages/layout_fixed_custom.js"></script>
+    <script type="text/javascript" src="assets/js/plugins/notifications/jgrowl.min.js"></script>
     <!-- /theme JS files -->
 
-    <!-- angular translator -->
-    <script type="text/javascript" src="assets/js/translation/angular-translate/translate.js"></script>
+    <!--&lt;!&ndash; angular translator &ndash;&gt;-->
+    <!--<script type="text/javascript" src="assets/js/translation/angular-translate/translate.js"></script>-->
 
-    <script type="text/javascript" src="assets/js/translation/angular-translate/directive/translate.js"></script>
-    <script type="text/javascript" src="assets/js/translation/angular-translate/directive/translate-attr.js"></script>
-    <script type="text/javascript" src="assets/js/translation/angular-translate/directive/translate-cloak.js"></script>
-    <script type="text/javascript"
-            src="assets/js/translation/angular-translate/directive/translate-language.js"></script>
-    <script type="text/javascript"
-            src="assets/js/translation/angular-translate/directive/translate-namespace.js"></script>
-    <script type="text/javascript" src="assets/js/translation/angular-translate/filter/translate.js"></script>
-    <script type="text/javascript"
-            src="assets/js/translation/angular-translate/service/default-interpolation.js"></script>
-    <script type="text/javascript" src="assets/js/translation/angular-translate/service/handler-log.js"></script>
-    <!--<script type="text/javascript" src="js/translation/angular-translate/service/loader-partial.js"></script>-->
-    <script type="text/javascript"
-            src="assets/js/translation/angular-translate/service/loader-static-files.js"></script>
-    <script type="text/javascript" src="assets/js/translation/angular-translate/service/loader-url.js"></script>
-    <script type="text/javascript"
-            src="assets/js/translation/angular-translate/service/messageformat-interpolation.js"></script>
-    <script type="text/javascript" src="assets/js/translation/angular-translate/service/sanitization.js"></script>
-    <!--<script type="text/javascript" src="js/translation/angular-translate/service/storage-cookie.js"></script>-->
-    <script type="text/javascript" src="assets/js/translation/angular-translate/service/storage-key.js"></script>
-    <script type="text/javascript" src="assets/js/translation/angular-translate/service/storage-local.js"></script>
-    <script type="text/javascript" src="assets/js/translation/angular-translate/service/translate.js"></script>
-    <script type="text/javascript" src="assets/js/translation/angular-translate/service/translationCache.js"></script>
-    <script type="text/javascript" src="assets/js/translation/translator.js"></script>
-    <!-- angular translator -->
-    <!--controllers-->
+    <!--<script type="text/javascript" src="assets/js/translation/angular-translate/directive/translate.js"></script>-->
+    <!--<script type="text/javascript" src="assets/js/translation/angular-translate/directive/translate-attr.js"></script>-->
+    <!--<script type="text/javascript" src="assets/js/translation/angular-translate/directive/translate-cloak.js"></script>-->
+    <!--<script type="text/javascript"-->
+    <!--src="assets/js/translation/angular-translate/directive/translate-language.js"></script>-->
+    <!--<script type="text/javascript"-->
+    <!--src="assets/js/translation/angular-translate/directive/translate-namespace.js"></script>-->
+    <!--<script type="text/javascript" src="assets/js/translation/angular-translate/filter/translate.js"></script>-->
+    <!--<script type="text/javascript"-->
+    <!--src="assets/js/translation/angular-translate/service/default-interpolation.js"></script>-->
+    <!--<script type="text/javascript" src="assets/js/translation/angular-translate/service/handler-log.js"></script>-->
+    <!--&lt;!&ndash;<script type="text/javascript" src="js/translation/angular-translate/service/loader-partial.js"></script>&ndash;&gt;-->
+    <!--<script type="text/javascript"-->
+    <!--src="assets/js/translation/angular-translate/service/loader-static-files.js"></script>-->
+    <!--<script type="text/javascript" src="assets/js/translation/angular-translate/service/loader-url.js"></script>-->
+    <!--<script type="text/javascript"-->
+    <!--src="assets/js/translation/angular-translate/service/messageformat-interpolation.js"></script>-->
+    <!--<script type="text/javascript" src="assets/js/translation/angular-translate/service/sanitization.js"></script>-->
+    <!--&lt;!&ndash;<script type="text/javascript" src="js/translation/angular-translate/service/storage-cookie.js"></script>&ndash;&gt;-->
+    <!--<script type="text/javascript" src="assets/js/translation/angular-translate/service/storage-key.js"></script>-->
+    <!--<script type="text/javascript" src="assets/js/translation/angular-translate/service/storage-local.js"></script>-->
+    <!--<script type="text/javascript" src="assets/js/translation/angular-translate/service/translate.js"></script>-->
+    <!--<script type="text/javascript" src="assets/js/translation/angular-translate/service/translationCache.js"></script>-->
+    <!--<script type="text/javascript" src="assets/js/translation/translator.js"></script>-->
+    <!--&lt;!&ndash; angular translator &ndash;&gt;-->
+    <!--&lt;!&ndash;controllers&ndash;&gt;-->
     <script src="assets/js/constants.js"></script>
     <script type="text/javascript" src="assets/js/core/appController.js"></script>
     <script type="text/javascript" src="assets/js/services/connector.js"></script>

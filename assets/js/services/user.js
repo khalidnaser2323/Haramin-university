@@ -12,7 +12,7 @@
  * &nbsp;&nbsp; get user data to be passed to controllers
  */
 
-app.factory('user', function ($q, $rootScope, $log, translation, $timeout, connector) {
+app.factory('user', function ($q, $rootScope, $log, $timeout, connector) {
     return {
         'getGoals': function () {
             var $this = this;

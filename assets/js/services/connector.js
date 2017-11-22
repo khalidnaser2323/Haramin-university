@@ -8,7 +8,7 @@
  * &nbsp;&nbsp; a) send encrypted data to live serve
  */
 
-app.factory('connector', function ($http, $q, $rootScope, $log, translation, $timeout) {
+app.factory('connector', function ($http, $q, $rootScope, $log, $timeout) {
     return {
         'send': function (data, serviceURL, connectionMethod, headers) {
             var startTime = new Date().getTime();
