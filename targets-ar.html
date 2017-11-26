@@ -115,11 +115,11 @@
                         <div class="col-md-6">
                             <form name="strategicGoalForm">
                                 <div class="panel panel-flat">
-                                    <div class="panel-body">
+                                    <div class="panel-body height-70-vh">
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label> الأهداف الرئيسية </label>
-                                                <select multiple="multiple" class="form-control">
+                                                <select multiple="multiple" class="form-control height-45-vh">
                                                     <option ng-repeat="mainGoal in strategicGoals"
                                                             ng-click="onStrategicGoalSelected(mainGoal,$index)">
                                                         {{mainGoal.name}}
@@ -131,7 +131,7 @@
                                                        ng-model="strategicGoalModel" required>
                                             </div>
                                             <div class="text-right">
-                                                <button type="button"
+                                                <!-- <button type="button"
                                                         ng-click="addStrategicGoal(strategicGoalForm.$valid)"
                                                         class="btn bg-primary-400"> إضافة
                                                 </button>
@@ -141,7 +141,11 @@
                                                 </button>
                                                 <button type="button" ng-click="deleteStrategicGoal()"
                                                         class="btn bg-danger-400"> حذف
-                                                </button>
+                                                </button> -->
+                                                <i class="fa fa-plus fa-2x text-green action-icon" ng-click="addStrategicGoal(strategicGoalForm.$valid)" aria-hidden="true"></i>                                                                                                                                            
+                                                <i class="fa fa-floppy-o fa-2x action-icon" ng-click="editStrategicGoal(strategicGoalForm.$valid)" aria-hidden="true"></i>                                            
+                                                <i class="fa fa-times fa-2x text-danger action-icon" ng-click="deleteStrategicGoal()" aria-hidden="true"></i>
+                                              
                                             </div>
                                         </div>
                                     </div>
@@ -151,11 +155,11 @@
                         <div class="col-md-6" ng-show="showSecondaryGoalsColumn">
                             <form name="secondaryGoalForm">
                                 <div class="panel panel-flat">
-                                    <div class="panel-body">
+                                    <div class="panel-body height-70-vh">
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label> الأهداف الفرعية </label>
-                                                <select multiple="multiple" class="form-control">
+                                                <select multiple="multiple" class="form-control height-45-vh">
                                                     <option ng-repeat="(key, value) in selectedStrategicGoal.subgoals"
                                                             ng-click="onSecondaryGoalSelected(key,$index,value)">
                                                         {{value.name}}
@@ -167,7 +171,7 @@
                                                        ng-model="secondaryGoalModel" required>
                                             </div>
                                             <div class="text-right">
-                                                <button ng-click="addSecondaryGoal(secondaryGoalForm.$valid)"
+                                                <!-- <button ng-click="addSecondaryGoal(secondaryGoalForm.$valid)"
                                                         type="submit" class="btn bg-primary-400"> إضافة
                                                 </button>
                                                 <button ng-click="editSecondaryGoal(secondaryGoalForm.$valid)"
@@ -175,7 +179,11 @@
                                                 </button>
                                                 <button ng-click="deleteSecondaryGoal()" type="button"
                                                         class="btn bg-danger-400"> حذف
-                                                </button>
+                                                </button> -->
+                                                <i class="fa fa-plus fa-2x text-green action-icon" ng-click="addSecondaryGoal(secondaryGoalForm.$valid)" aria-hidden="true"></i>                                                                                                                                            
+                                                <i class="fa fa-floppy-o fa-2x action-icon" ng-click="editSecondaryGoal(secondaryGoalForm.$valid)" aria-hidden="true"></i>                                            
+                                                <i class="fa fa-times fa-2x text-danger action-icon" ng-click="deleteSecondaryGoal()" aria-hidden="true"></i>
+                                              
                                         </div>
                                         </div>
 

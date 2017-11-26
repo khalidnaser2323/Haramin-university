@@ -151,7 +151,7 @@ a.badge,
   .sidebar {
     display: table-cell;
     vertical-align: top;
-    width: 260px;
+    width: 230px;
   }
 }
 .sidebar-main {
@@ -1163,6 +1163,7 @@ body[class*=navbar-bottom] .content {
 .footer {
   position: absolute;
   bottom: 30px;
+  right: 4px;
 }
 .footer:not(.navbar-fixed-bottom) {
   z-index: 1000;
@@ -2324,6 +2325,7 @@ label.display-block {
 .navbar-inverse {
     background-color: #4a8065;
     border-color: #4a8065;
+    border-bottom: 5px solid #fad13a;
 }
 
 .navbar-nav > li > span {
@@ -3086,6 +3088,12 @@ sidebar-xs .sidebar-user-material > .category-content {
   overflow-y: auto;
   overflow-x: hidden;
 }
+.height-45-vh{
+  min-height: 150px;
+  max-height: 45vh;
+  height: 45vh;
+  overflow: auto;
+}
 
 @media (max-width: 768px) {
   .height-70-vh {
@@ -3093,6 +3101,12 @@ sidebar-xs .sidebar-user-material > .category-content {
     height: auto;
     overflow: auto;
   }
+  .height-45-vh{
+    min-height: 150px;
+    max-height: 100%;
+    height: auto;
+    overflow: auto;
+}
 }
 
 .login-container {
@@ -3130,4 +3144,7 @@ sidebar-xs .sidebar-user-material > .category-content {
 
 .forgot-pass-link:hover {
   color: #f5f5f5;
+}
+.action-icon{
+  margin: 0 3px;
 }

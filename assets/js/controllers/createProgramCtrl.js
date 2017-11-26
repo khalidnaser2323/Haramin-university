@@ -209,6 +209,8 @@ app.controller('createProgramCtrl', function ($log, $scope, $rootScope, $locatio
         if (valid) {
             var submittedForm = angular.copy(newProgramForm);
             submittedForm._id = new Date().getTime() + '';
+            submittedForm.manager = newProgramForm.manager ? newProgramForm.manager : "";
+            submittedForm.approxCost = newProgramForm.approxCost? newProgramForm.approxCost : 0;
             submittedForm.datePlannedStart = $rootScope.formatDate(newProgramForm.datePlannedStart);
             submittedForm.datePlannedEnd = $rootScope.formatDate(newProgramForm.datePlannedEnd);
             submittedForm.dateActualStart = $rootScope.formatDate(newProgramForm.dateActualStart);
@@ -232,6 +234,11 @@ app.controller('createProgramCtrl', function ($log, $scope, $rootScope, $locatio
                 submittedForm.goals[index2].l1 = arr2[0];
                 submittedForm.goals[index2].l2 = arr2[1];
             }
+            submittedForm.description = newProgramForm.description ? newProgramForm.description : "";
+            submittedForm.strategies = newProgramForm.strategies ? newProgramForm.strategies : "";
+            submittedForm.stages = newProgramForm.stages ? newProgramForm.stages : "";
+            submittedForm.teamInt = newProgramForm.teamInt ? newProgramForm.teamInt : [];
+            submittedForm.teamExt = newProgramForm.teamExt ? newProgramForm.teamExt : [];
             $log.debug("Submit program form");
             $log.debug(submittedForm);
             user.addProgram(submittedForm).then(function (resolved) {
@@ -246,6 +253,8 @@ app.controller('createProgramCtrl', function ($log, $scope, $rootScope, $locatio
     $scope.editProgram = function (programForm, valid) {
         if (valid) {
             var submittedForm = angular.copy(programForm);
+            submittedForm.manager = newProgramForm.manager ? newProgramForm.manager : "";
+            submittedForm.approxCost = newProgramForm.approxCost? newProgramForm.approxCost : 0;
             submittedForm.datePlannedStart = $rootScope.formatDate(programForm.datePlannedStart);
             submittedForm.datePlannedEnd = $rootScope.formatDate(programForm.datePlannedEnd);
             submittedForm.dateActualStart = $rootScope.formatDate(programForm.dateActualStart);
@@ -269,6 +278,12 @@ app.controller('createProgramCtrl', function ($log, $scope, $rootScope, $locatio
                 submittedForm.goals[index2].l1 = arr2[0];
                 submittedForm.goals[index2].l2 = arr2[1];
             }
+            submittedForm.description = programForm.description ? programForm.description : "";
+            submittedForm.strategies = programForm.strategies ? programForm.strategies : "";
+            submittedForm.stages = programForm.stages ? programForm.stages : "";
+            submittedForm.teamInt = newProgramForm.teamInt ? newProgramForm.teamInt : [];
+            submittedForm.teamExt = newProgramForm.teamExt ? newProgramForm.teamExt : [];
+
             $log.debug("Submit program form");
             $log.debug(submittedForm);
             user.editProgram(submittedForm).then(function (resolved) {

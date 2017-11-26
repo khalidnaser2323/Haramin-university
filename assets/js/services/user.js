@@ -260,7 +260,6 @@ app.factory('user', function ($q, $rootScope, $log, $timeout, connector) {
         'deleteUser': function (id) {
             var $this = this;
             var deferred = $q.defer();
-            debugger;
             connector.send(null, '/user/' + id, 'DELETE', null).then(function (resolved) {
                 $log.debug('delete user response');
                 $log.debug(resolved.data);

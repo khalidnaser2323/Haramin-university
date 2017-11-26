@@ -76,7 +76,7 @@ app.controller('personsCtrl', function ($log, $scope, $rootScope, $location, con
     };
     $scope.deleteUser = function () {
         if ($scope.selectedUser) {
-            user.deleteUser($scope.selectedUser._id).then(function (resolved) {
+            user.deleteUser($scope.selectedUser._id == undefined ? "" : $scope.selectedUser._id).then(function (resolved) {
                 $scope.userForm = {};
                 $scope.renderUsers();
             });
@@ -149,15 +149,38 @@ app.controller('personsCtrl', function ($log, $scope, $rootScope, $location, con
         $scope.selectedFaculty = $scope.selectedUniversity.children[$scope.userForm.entityl2];
         $scope.selectedSector = $scope.selectedUniversity.children[$scope.userForm.entityl2].children[$scope.userForm.entityl3];
     };
-    $scope.submitUserForm = function (userForm, userAuthorotiesModel) {
+    $scope.submitUserForm = function (userForm, userAuthorotiesModel, valid) {
+        if(valid){
+        var newForm = $scope.initializeUserForm(userForm);
+        newForm = $scope.bindUserAuthorotiesWithForm(newForm, userAuthorotiesModel);
         $log.debug('submitted form');
-        userForm = $scope.bindUserAuthorotiesWithForm(userForm, userAuthorotiesModel);
-        $log.debug(userForm);
-        user.addUser(userForm).then(function (resolved) {
+        $log.debug(newForm);
+        user.addUser(newForm).then(function (resolved) {
             $scope.renderUsers();
         });
+    }else{
+        window.alert("من فضلك قم بإدخال الاسم والجهة واسم المستخدم");
+    }
 
     };
+    $scope.initializeUserForm = function(userForm){
+      var form = {};
+      form.name = userForm.name? userForm.name : "";
+      form.title = userForm.title? userForm.title : "";
+      form.position = userForm.position? userForm.position : "";
+      form.mobile = userForm.mobile? userForm.mobile : "";
+      form.whatsapp = userForm.whatsapp? userForm.whatsapp : "";
+      form.telephone = userForm.telephone? userForm.telephone : "";
+      form.email1 = userForm.email1? userForm.email1 : "";
+      form.email2 = userForm.email2? userForm.email2 : "";
+      form._id = userForm._id? userForm._id : "";
+      form.entityl1 = userForm.entityl1? userForm.entityl1 : "";
+      form.entityl2 = userForm.entityl2? userForm.entityl2 : "";
+      form.entityl3 = userForm.entityl3? userForm.entityl3 : "";
+      form.entityl4 = userForm.entityl4? userForm.entityl4 : "";
+      return form;
+      
+    }
     $scope.bindUserAuthorotiesWithForm = function (userForm, userAuthorotiesModel) {
         userAuthorotiesModel.authTask_add = userAuthorotiesModel.authTask_add ? userAuthorotiesModel.authTask_add : 0;
         userAuthorotiesModel.authTask_edit = userAuthorotiesModel.authTask_edit ? userAuthorotiesModel.authTask_edit : 0;
@@ -349,12 +372,17 @@ app.controller('personsCtrl', function ($log, $scope, $rootScope, $location, con
 
     };
 
-    $scope.updateUser = function (userForm, userAuthorotiesModel) {
+    $scope.updateUser = function (userForm, userAuthorotiesModel, valid) {
+        if(valid){
+        var newForm = $scope.initializeUserForm(userForm);
+        newForm = $scope.bindUserAuthorotiesWithForm(newForm, userAuthorotiesModel);
         $log.debug('submitted form');
-        userForm = $scope.bindUserAuthorotiesWithForm(userForm, userAuthorotiesModel);
-        $log.debug(userForm);
-        user.updateUser(userForm).then(function (resolved) {
+        $log.debug(newForm);
+        user.updateUser(newForm).then(function (resolved) {
             $scope.renderUsers();
         });
+    }else{
+        window.alert("من فضلك قم بإدخال الاسم والجهة واسم المستخدم");
+    }
     };
 });

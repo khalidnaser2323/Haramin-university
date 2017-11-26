@@ -187,7 +187,7 @@
             </form>
         </div>
         <div class="col-md-9">
-            <form name="addUserForm" ng-submit="submitUserForm(userForm,userAuthorotiesModel)">
+            <form name="addUserForm">
                 <div class="panel panel-flat">
                     <div class="panel-body height-70-vh">
                         <div class="col-md-6">
@@ -199,42 +199,42 @@
                             <div class="form-group">
                                 <label> اللقب </label>
                                 <input type="text" class="form-control" ng-model="userForm.title" placeholder="اللقب"
-                                       required>
+                                       >
                             </div>
                             <div class="form-group">
                                 <label> المسمى الوظيفي </label>
                                 <input type="text" class="form-control" ng-model="userForm.position"
-                                       placeholder="المسمى الوظيفي" required>
+                                       placeholder="المسمى الوظيفي" >
                             </div>
                             <div class="form-group">
                                 <label> الجوال </label>
                                 <input type="text" class="form-control" ng-model="userForm.mobile" placeholder="الجوال"
-                                       required>
+                                       >
                             </div>
                             <div class="form-group">
                                 <label> رقم الواتس </label>
                                 <input type="text" class="form-control" ng-model="userForm.whatsapp"
-                                       placeholder="رقم الواتس" required>
+                                       placeholder="رقم الواتس" >
                             </div>
                             <div class="form-group">
                                 <label> تليفون </label>
                                 <input type="text" class="form-control" ng-model="userForm.telephone"
-                                       placeholder="تليفون" required>
+                                       placeholder="تليفون" >
                             </div>
                             <div class="form-group">
                                 <label> بريد إلكتروني (1) </label>
                                 <input type="email" class="form-control" ng-model="userForm.email1"
-                                       placeholder="بريد إلكتروني" required>
+                                       placeholder="بريد إلكتروني" >
                             </div>
                             <div class="form-group">
                                 <label> بريد إلكتروني (2) </label>
                                 <input type="email" class="form-control" ng-model="userForm.email2"
-                                       placeholder="بريد إلكتروني" required>
+                                       placeholder="بريد إلكتروني" >
                             </div>
                             <div class="form-group">
                                 <label>اسم المستخدم</label>
                                 <input type="text" class="form-control" ng-model="userForm._id"
-                                       placeholder="اسم المستخدم" required>
+                                       placeholder="اسم المستخدم" required >
                             </div>
                             <!--<div class="form-group">-->
                             <!--<label> تغيير كلمة السر </label>-->
@@ -254,7 +254,7 @@
                             </div>
                             <div class="form-group">
                                 <label> الكلية </label>
-                                <select name="select" class="form-control" ng-model="userForm.entityl2" required
+                                <select name="select" class="form-control" ng-model="userForm.entityl2" 
                                         ng-change="onEntitySelected('level2')">
                                     <option value="" disabled>اختر الكلية</option>
                                     <option value="{{key}}"
@@ -265,7 +265,7 @@
                             </div>
                             <div class="form-group">
                                 <label> الوكالات </label>
-                                <select name="select" class="form-control" ng-model="userForm.entityl3" required
+                                <select name="select" class="form-control" ng-model="userForm.entityl3" 
                                         ng-change="onEntitySelected('level3')">
                                     <option disabled value="">اختر وكالة</option>
                                     <option value="{{key}}"
@@ -276,7 +276,7 @@
                             </div>
                             <div class="form-group">
                                 <label> الأقسام </label>
-                                <select name="select" class="form-control" ng-model="userForm.entityl4" required
+                                <select name="select" class="form-control" ng-model="userForm.entityl4" 
                                         ng-change="onEntitySelected('level4')">
                                     <option disabled value=""> اختر قسما</option>
                                     <option value="{{key}}"
@@ -495,11 +495,14 @@
                                 </table>
                             </div>
                             <div class="text-right">
-                                <button type="submit" class="btn bg-primary-400"> جديد</button>
-                                <button ng-click="updateUser(userForm,userAuthorotiesModel)" type="button"
+                                <!-- <button type="submit" class="btn bg-primary-400"> جديد</button> -->
+                                <i type="submit" ng-click="submitUserForm(userForm,userAuthorotiesModel,addUserForm.$valid)" class="fa fa-plus fa-2x text-green action-icon" aria-hidden="true" ng-click="addEntry('level4',fourthLevelForm.$valid)"></i>                                                                                                                                
+                                <!-- <button ng-click="updateUser(userForm,userAuthorotiesModel)" type="button"
                                         class="btn bg-success-400"> حفظ
-                                </button>
-                                <button ng-click="deleteUser()" type="button" class="btn bg-danger-400"> إلغاء</button>
+                                </button> -->
+                                <i class="fa fa-floppy-o fa-2x action-icon" aria-hidden="true" ng-click="updateUser(userForm,userAuthorotiesModel,addUserForm.$valid)"></i>                                                                                                
+                                <!-- <button ng-click="deleteUser()" type="button" class="btn bg-danger-400"> إلغاء</button> -->
+                                <i class="fa fa-times fa-2x text-danger action-icon" ng-click="deleteUser()" aria-hidden="true"></i>                                                                                                
                             </div>
                         </div>
 

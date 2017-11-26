@@ -209,14 +209,18 @@
                         </div>
                     </div>
                     <div class="text-right">
-                        <button ng-click="createNewProgram(programForm,newProgramForm.$valid,newProgramForm)"
+                        <!-- <button ng-click="createNewProgram(programForm,newProgramForm.$valid,newProgramForm)"
                                 type="submit"
                                 class="btn bg-primary-400"> جديد
-                        </button>
-                        <button ng-click="editProgram(programForm,newProgramForm.$valid)" type="button"
+                        </button> -->
+                        <i class="fa fa-plus fa-2x text-green action-icon" aria-hidden="true" ng-click="createNewProgram(programForm,newProgramForm.$valid,newProgramForm)"></i>                                                                                                
+                        
+                        <!-- <button ng-click="editProgram(programForm,newProgramForm.$valid)" type="button"
                                 class="btn bg-success-400"> حفظ
-                        </button>
-                        <button ng-click="deleteProgram()" type="button" class="btn bg-danger-400"> إلغاء</button>
+                        </button> -->
+                        <i class="fa fa-floppy-o fa-2x action-icon" aria-hidden="true" ng-click="editProgram(programForm,newProgramForm.$valid)"></i>
+                        <!-- <button ng-click="deleteProgram()" type="button" class="btn bg-danger-400"> إلغاء</button> -->
+                        <i class="fa fa-times fa-2x text-danger action-icon" ng-click="deleteProgram()" aria-hidden="true"></i>           
                     </div>
                 </div>
                 </div>
@@ -236,7 +240,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label> مدير البرنامج </label>
-                                <select name="select" class="form-control" required ng-model="programForm.manager">
+                                <select name="select" class="form-control"  ng-model="programForm.manager">
                                     <option value="" disabled>مدير البرنامج</option>
                                     <option value="{{user._id}}" ng-repeat="user in users">{{user.name}}</option>
                                 </select>
@@ -245,7 +249,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label> حالة البرنامج </label>
-                                <select name="select" class="form-control" required ng-model="programForm.active">
+                                <select name="select" class="form-control"  ng-model="programForm.active">
                                     <option value="" disabled>حالة البرنامج</option>
                                     <option value="true"> نشطة</option>
                                     <option value="false">تمت</option>
@@ -255,7 +259,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label> التكلفة التقديرية </label>
-                                <input type="number" class="form-control" required ng-model="programForm.approxCost"
+                                <input type="number" class="form-control"  ng-model="programForm.approxCost"
                                        placeholder="أدخل التكلفة التقديرية">
                             </div>
                         </div>
@@ -265,7 +269,7 @@
 
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="icon-calendar22"></i></span>
-                                    <input id="datePlannedStart" type="date" required
+                                    <input id="datePlannedStart" type="date" 
                                            ng-model="programForm.datePlannedStart"
                                            class="form-control daterange-single" placeholder="03/18/2013">
                                 </div>
@@ -277,7 +281,7 @@
 
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="icon-calendar22"></i></span>
-                                    <input id="datePlannedEnd" type="date" required
+                                    <input id="datePlannedEnd" type="date" 
                                            ng-model="programForm.datePlannedEnd"
                                            class="form-control daterange-single" placeholder="03/18/2013">
                                 </div>
@@ -289,7 +293,7 @@
 
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="icon-calendar22"></i></span>
-                                    <input id="dateActualStart" type="date" required
+                                    <input id="dateActualStart" type="date" 
                                            ng-model="programForm.dateActualStart"
                                            class="form-control daterange-single" placeholder="03/18/2013">
                                 </div>
@@ -301,7 +305,7 @@
 
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="icon-calendar22"></i></span>
-                                    <input id="dateActualEnd" type="date" required ng-model="programForm.dateActualEnd"
+                                    <input id="dateActualEnd" type="date"  ng-model="programForm.dateActualEnd"
                                            class="form-control daterange-single" placeholder="03/18/2013">
                                 </div>
                             </div>
@@ -309,7 +313,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>الأهداف</label>
-                                <select multiple="multiple" required class="form-control" ng-model="programForm.goals">
+                                <select multiple="multiple"  class="form-control" ng-model="programForm.goals">
                                     <optgroup ng-repeat="mainGoal in strategicGoals" label="{{mainGoal.name}}">
                                         <option value="{{mainGoal._id}}.{{key}}"
                                                 ng-repeat="(key, value) in mainGoal.subgoals">
@@ -323,7 +327,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>الجهات</label>
-                                <select multiple="multiple" required class="form-control"
+                                <select multiple="multiple" class="form-control"
                                         ng-model="programForm.entities">
                                     <optgroup ng-repeat="et in ets" label=" {{et.el1.name}}
                                        &rsaquo; {{et.el2.name}}
@@ -396,11 +400,11 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <!-- <div class="col-md-12"> -->
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label> فريق العمل داخلياً </label>
-                                    <select id="sel1" multiple="multiple" required class="form-control select"
+                                    <select id="sel1" multiple="multiple"  class="form-control select"
                                             ng-model="programForm.teamInt">
                                         <option value="{{user._id}}" ng-repeat="user in users">{{user.name}}</option>
                                     </select>
@@ -409,31 +413,31 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label> فريق العمل خارجياً </label>
-                                    <select id="sel2" multiple="multiple" required class="form-control select"
+                                    <select id="sel2" multiple="multiple"  class="form-control select"
                                             ng-model="programForm.teamExt">
                                         <option value="{{user._id}}" ng-repeat="user in users">{{user.name}}</option>
                                     </select>
                                 </div>
                             </div>
-                        </div>
+                        <!-- </div> -->
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label> وصف البرنامج</label>
-                                <textarea rows="3" class="form-control" required ng-model="programForm.description"
+                                <textarea rows="3" class="form-control"  ng-model="programForm.description"
                                           placeholder="وصف البرنامج"></textarea>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label> الإستراتيجيات العامة للبرنامج</label>
-                                <textarea rows="3" class="form-control" required ng-model="programForm.strategies"
+                                <textarea rows="3" class="form-control"  ng-model="programForm.strategies"
                                           placeholder="الإستراتيجيات العامة للبرنامج "></textarea>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label> مراحل البرنامج </label>
-                                <textarea rows="3" class="form-control" required ng-model="programForm.stages"
+                                <textarea rows="3" class="form-control"  ng-model="programForm.stages"
                                           placeholder="مراحل البرنامج"></textarea>
                             </div>
                         </div>

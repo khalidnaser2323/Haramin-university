@@ -119,7 +119,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label> المستوى الأول </label>
-                                <select multiple="multiple" class="form-control">
+                                <select multiple="multiple" class="form-control height-45-vh">
                                     <option ng-repeat="association in associations"
                                             ng-click="onAssociationSelected(association,$index,'level1')">
                                         {{association.name}}
@@ -132,14 +132,17 @@
 
                             </div>
                             <div class="text-right">
-                                <button type="submit" ng-click="addEntry('level1',firstLevelForm.$valid)"
+                                <!-- <button type="submit" ng-click="addEntry('level1',firstLevelForm.$valid)"
                                         class="btn bg-primary-400"> إضافة
-                                </button>
-                                <button ng-click="editEntry('level1',firstLevelForm.$valid)" type="submit"
+                                </button> -->
+                                <i class="fa fa-plus fa-2x text-green action-icon" aria-hidden="true" ng-click="addEntry('level1',firstLevelForm.$valid)"></i>
+                                <!-- <button ng-click="editEntry('level1',firstLevelForm.$valid)" type="submit"
                                         class="btn bg-success-400"> حفظ
-                                </button>
-                                <button type="button" ng-click="deleteEntry('level1')" class="btn bg-danger-400"> حذف
-                                </button>
+                                </button> -->
+                                <i class="fa fa-floppy-o fa-2x action-icon" aria-hidden="true" ng-click="editEntry('level1',firstLevelForm.$valid)"></i>
+                                <!-- <button type="button" ng-click="deleteEntry('level1')" class="btn bg-danger-400"> حذف
+                                </button> -->
+                                <i class="fa fa-times fa-2x text-danger action-icon" ng-click="deleteEntry('level1')" aria-hidden="true"></i>                                
                             </div>
                         </div>
 
@@ -155,7 +158,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label> المستوى الثاني </label>
-                                <select multiple="multiple" class="form-control">
+                                <select multiple="multiple" class="form-control height-45-vh">
                                     <option ng-repeat="(key, value) in selectedFirstLevelObject.children"
                                             ng-click="onAssociationSelected(selectedFirstLevelObject.children[key],$index,'level2',key)">
                                         {{value.name}}
@@ -167,14 +170,17 @@
                                        required>
                             </div>
                             <div class="text-right">
-                                <button type="submit" ng-click="addEntry('level2',secondLevelForm.$valid)"
+                                <!-- <button type="submit" ng-click="addEntry('level2',secondLevelForm.$valid)"
                                         class="btn bg-primary-400"> إضافة
-                                </button>
-                                <button ng-click="editEntry('level2',secondLevelForm.$valid)" type="submit"
+                                </button> -->
+                                <i class="fa fa-plus fa-2x text-green action-icon" aria-hidden="true" ng-click="addEntry('level2',secondLevelForm.$valid)"></i>                                
+                                <!-- <button ng-click="editEntry('level2',secondLevelForm.$valid)" type="submit"
                                         class="btn bg-success-400"> حفظ
-                                </button>
-                                <button type="button" ng-click="deleteEntry('level2')" class="btn bg-danger-400"> حذف
-                                </button>
+                                </button> -->
+                                <i class="fa fa-floppy-o fa-2x action-icon" aria-hidden="true" ng-click="editEntry('level2',secondLevelForm.$valid)"></i>
+                                <!-- <button type="button" ng-click="deleteEntry('level2')" class="btn bg-danger-400"> حذف
+                                </button> -->
+                                <i class="fa fa-times fa-2x text-danger action-icon" ng-click="deleteEntry('level2')" aria-hidden="true"></i>
                             </div>
                         </div>
 
@@ -190,7 +196,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label> المستوى الثالث </label>
-                                <select multiple="multiple" class="form-control">
+                                <select multiple="multiple" class="form-control height-45-vh">
                                     <option ng-repeat="(key, value) in selectedSecondLevelObject.children"
                                             ng-click="onAssociationSelected(selectedSecondLevelObject.children[key],$index,'level3',key)">
                                         {{value.name}}
@@ -202,14 +208,17 @@
                                        required>
                             </div>
                             <div class="text-right">
-                                <button type="submit" ng-click="addEntry('level3',thirdLevelForm.$valid)"
+                                <!-- <button type="submit" ng-click="addEntry('level3',thirdLevelForm.$valid)"
                                         class="btn bg-primary-400"> إضافة
-                                </button>
-                                <button type="submit" ng-click="editEntry('level3',thirdLevelForm.$valid)"
+                                </button> -->
+                                <i class="fa fa-plus fa-2x text-green action-icon" aria-hidden="true" ng-click="addEntry('level3',thirdLevelForm.$valid)"></i>                                                                
+                                <!-- <button type="submit" ng-click="editEntry('level3',thirdLevelForm.$valid)"
                                         class="btn bg-success-400"> حفظ
-                                </button>
-                                <button type="button" ng-click="deleteEntry('level3')" class="btn bg-danger-400"> حذف
-                                </button>
+                                </button> -->
+                                <i class="fa fa-floppy-o fa-2x action-icon" aria-hidden="true" ng-click="editEntry('level3',thirdLevelForm.$valid)"></i>                                
+                                <!-- <button type="button" ng-click="deleteEntry('level3')" class="btn bg-danger-400"> حذف
+                                </button> -->
+                                <i class="fa fa-times fa-2x text-danger action-icon" ng-click="deleteEntry('level3')" aria-hidden="true"></i>                                
                             </div>
                         </div>
 
@@ -224,7 +233,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label> المستوى الرابع </label>
-                                <select multiple="multiple" class="form-control">
+                                <select multiple="multiple" class="form-control height-45-vh">
                                     <option ng-repeat="(key, value) in selectedThirdLevelObject.children"
                                             ng-click="onAssociationSelected(selectedThirdLevelObject.children[key],$index,'level4',key)">
                                         {{value.name}}
@@ -236,14 +245,17 @@
                                        required>
                             </div>
                             <div class="text-right">
-                                <button type="submit" ng-click="addEntry('level4',fourthLevelForm.$valid)"
+                                <!-- <button type="submit" ng-click="addEntry('level4',fourthLevelForm.$valid)"
                                         class="btn bg-primary-400"> إضافة
-                                </button>
-                                <button type="submit" ng-click="editEntry('level4',fourthLevelForm.$valid)"
+                                </button> -->
+                                <i class="fa fa-plus fa-2x text-green action-icon" aria-hidden="true" ng-click="addEntry('level4',fourthLevelForm.$valid)"></i>                                                                                                
+                                <!-- <button type="submit" ng-click="editEntry('level4',fourthLevelForm.$valid)"
                                         class="btn bg-success-400"> حفظ
-                                </button>
-                                <button type="button" ng-click="deleteEntry('level4')" class="btn bg-danger-400"> حذف
-                                </button>
+                                </button> -->
+                                <i class="fa fa-floppy-o fa-2x action-icon" aria-hidden="true" ng-click="editEntry('level4',fourthLevelForm.$valid)"></i>                                                                
+                                <!-- <button type="button" ng-click="deleteEntry('level4')" class="btn bg-danger-400"> حذف
+                                </button> -->
+                                <i class="fa fa-times fa-2x text-danger action-icon" ng-click="deleteEntry('level4')" aria-hidden="true"></i>                                                                
                             </div>
                         </div>
 

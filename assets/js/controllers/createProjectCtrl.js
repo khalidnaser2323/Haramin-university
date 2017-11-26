@@ -200,13 +200,19 @@ app.controller('createProjectCtrl', function ($log, $scope, $rootScope, $locatio
         if (valid) {
             var submittedForm = angular.copy(newProjectObject);
             submittedForm._id = new Date().getTime() + '';
+            submittedForm.manager = newProjectObject.manager ? newProjectObject.manager : "";
+            submittedForm.approxCost = newProjectObject.approxCost ? newProjectObject.approxCost : 0;
+            submittedForm.teamInt = newProjectObject.teamInt ? newProjectObject.teamInt : [];
+            submittedForm.teamExt = newProjectObject.teamExt ? newProjectObject.teamExt : [];
+            submittedForm.description = newProjectObject.description ? newProjectObject.description : "";
+            submittedForm.stages = newProjectObject.stages ? newProjectObject.stages : [];
             submittedForm.datePlannedStart = $rootScope.formatDate(newProjectObject.datePlannedStart);
             submittedForm.datePlannedEnd = $rootScope.formatDate(newProjectObject.datePlannedEnd);
             submittedForm.dateActualStart = $rootScope.formatDate(newProjectObject.dateActualStart);
             submittedForm.dateActualEnd = $rootScope.formatDate(newProjectObject.dateActualEnd);
             submittedForm.active = newProjectObject.active === "true";
             submittedForm.outputs = [];
-            submittedForm.outputs[0] = newProjectObject.outputs;
+            submittedForm.outputs[0] = newProjectObject.outputs ? newProjectObject.outputs : "";
             $log.debug("Submit program form");
             $log.debug(submittedForm);
             user.addProject(submittedForm).then(function (resolved) {
@@ -221,13 +227,19 @@ app.controller('createProjectCtrl', function ($log, $scope, $rootScope, $locatio
     $scope.editProject = function (projectObject, valid) {
         if (valid) {
             var submittedForm = angular.copy(projectObject);
+            submittedForm.manager = projectObject.manager ? projectObject.manager : "";
+            submittedForm.approxCost = projectObject.approxCost ? projectObject.approxCost : 0;
+            submittedForm.teamInt = projectObject.teamInt ? projectObject.teamInt : [];
+            submittedForm.teamExt = projectObject.teamExt ? projectObject.teamExt : [];
+            submittedForm.description = projectObject.description ? projectObject.description : "";
+            submittedForm.stages = projectObject.stages ? projectObject.stages : [];
             submittedForm.datePlannedStart = $rootScope.formatDate(projectObject.datePlannedStart);
             submittedForm.datePlannedEnd = $rootScope.formatDate(projectObject.datePlannedEnd);
             submittedForm.dateActualStart = $rootScope.formatDate(projectObject.dateActualStart);
             submittedForm.dateActualEnd = $rootScope.formatDate(projectObject.dateActualEnd);
             submittedForm.active = projectObject.active === "true";
             submittedForm.outputs = [];
-            submittedForm.outputs[0] = projectObject.outputs;
+            submittedForm.outputs[0] = projectObject.outputs ? projectObject.outputs : "";
             $log.debug("Submit program form");
             $log.debug(submittedForm);
 

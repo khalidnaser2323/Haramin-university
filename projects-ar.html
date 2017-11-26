@@ -220,13 +220,16 @@
                             </div>
                         </div>
                         <div class="text-right">
-                            <button ng-click="addNewProject(projectObject,projectForm.$valid,projectForm)" type="button"
+                            <!-- <button ng-click="addNewProject(projectObject,projectForm.$valid,projectForm)" type="button"
                                     class="btn bg-primary-400"> جديد
-                            </button>
-                            <button ng-click="editProject(projectObject,projectForm.$valid)" type="button"
+                            </button> -->
+                            <i class="fa fa-plus fa-2x text-green action-icon" ng-click="addNewProject(projectObject,projectForm.$valid,projectForm)" aria-hidden="true"></i>
+                            <!-- <button ng-click="editProject(projectObject,projectForm.$valid)" type="button"
                                     class="btn bg-success-400"> حفظ
-                            </button>
-                            <button ng-click="deleteProject()" type="button" class="btn bg-danger-400"> إلغاء</button>
+                            </button> -->
+                            <i class="fa fa-floppy-o fa-2x action-icon" aria-hidden="true" ng-click="editProject(projectObject,projectForm.$valid)" ></i>
+                            <!-- <button ng-click="deleteProject()" type="button" class="btn bg-danger-400"> إلغاء</button> -->
+                            <i class="fa fa-times fa-2x text-danger action-icon" ng-click="deleteProject()" aria-hidden="true"></i>
                         </div>
                     </div>
                 </div>
@@ -256,7 +259,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label> مدير المشروع </label>
-                                <select name="select" class="form-control" required ng-model="projectObject.manager">
+                                <select name="select" class="form-control"  ng-model="projectObject.manager">
                                     <option value="" disabled>مدير المشروع</option>
                                     <option ng-repeat="user in users" value="{{user._id}}">{{user.name}}</option>
                                 </select>
@@ -265,7 +268,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label> حالة المشروع </label>
-                                <select name="select" class="form-control" required ng-model="projectObject.active">
+                                <select name="select" class="form-control"  ng-model="projectObject.active">
                                     <option value="" disabled>حالة المشروع</option>
                                     <option value="true"> نشط</option>
                                     <option value="false">تم</option>
@@ -275,7 +278,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label> التكلفة التقديرية </label>
-                                <input type="number" class="form-control" placeholder="10,000" required
+                                <input type="number" class="form-control" placeholder="10,000" 
                                        ng-model="projectObject.approxCost">
                             </div>
                         </div>
@@ -285,7 +288,7 @@
 
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="icon-calendar22"></i></span>
-                                    <input type="date" required class="form-control daterange-single"
+                                    <input type="date"  class="form-control daterange-single"
                                            ng-model="projectObject.datePlannedStart">
                                 </div>
                             </div>
@@ -391,7 +394,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label> فريق العمل داخلياً </label>
-                                    <select id="sel1" multiple="multiple" required class="form-control select"
+                                    <select id="sel1" multiple="multiple"  class="form-control select"
                                             ng-model="projectObject.teamInt">
                                         <option value="{{user._id}}" ng-repeat="user in users">{{user.name}}</option>
                                     </select>
@@ -400,7 +403,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label> فريق العمل خارجياً </label>
-                                    <select id="sel2" multiple="multiple" required class="form-control select"
+                                    <select id="sel2" multiple="multiple"  class="form-control select"
                                             ng-model="projectObject.teamExt">
                                         <option value="{{user._id}}" ng-repeat="user in users">{{user.name}}</option>
                                     </select>
@@ -410,7 +413,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label> وصف المشروع</label>
-                                <textarea rows="3" class="form-control" required ng-model="projectObject.description"
+                                <textarea rows="3" class="form-control"  ng-model="projectObject.description"
                                           placeholder="وصف المشروع"></textarea>
                             </div>
                         </div>
@@ -435,12 +438,17 @@
                                        placeholder="المرحلة الاولى">
                             </div>
                             <div class="text-right">
-                                <button ng-click="addProjectStage()" type="button" class="btn bg-primary-400"> إضافة
-                                </button>
-                                <button ng-click="editProjectStage()" type="button" class="btn bg-success-400"> حفظ
-                                </button>
-                                <button ng-click="deleteProjectStage()" type="button" class="btn bg-danger-400"> حذف
-                                </button>
+                                <!-- <button ng-click="addProjectStage()" type="button" class="btn bg-primary-400"> إضافة
+                                </button> -->
+                                <i class="fa fa-plus fa-2x text-green action-icon" ng-click="addProjectStage()" aria-hidden="true"></i>                                                                                                                                                                            
+                                <!-- <button ng-click="editProjectStage()" type="button" class="btn bg-success-400"> حفظ
+                                </button> -->
+                                <i ng-click="editProjectStage()" class="fa fa-floppy-o fa-2x action-icon" aria-hidden="true"></i>                                            
+                                
+                                <!-- <button ng-click="deleteProjectStage()" type="button" class="btn bg-danger-400"> حذف
+                                </button> -->
+                                <i class="fa fa-times fa-2x text-danger action-icon" ng-click="deleteProjectStage()" aria-hidden="true"></i>
+                                
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -457,13 +465,17 @@
                                        placeholder="مخرجات المرحلة الاولى">
                             </div>
                             <div class="text-right">
-                                <button ng-click="addOutput()" type="button" class="btn bg-primary-400"> إضافة</button>
-                                <button ng-click="editProjectStageOutput()" type="button" class="btn bg-success-400">
+                                <!-- <button ng-click="addOutput()" type="button" class="btn bg-primary-400"> إضافة</button> -->
+                                <i class="fa fa-plus fa-2x text-green action-icon" ng-click="addOutput()" aria-hidden="true"></i>                                                                                                                                            
+                                <i class="fa fa-floppy-o fa-2x action-icon" ng-click="editProjectStageOutput()" aria-hidden="true"></i>                                            
+                                <i class="fa fa-times fa-2x text-danger action-icon" ng-click="deleteProjectStageOutput()" aria-hidden="true"></i>
+                                
+                                <!-- <button ng-click="editProjectStageOutput()" type="button" class="btn bg-success-400">
                                     حفظ
-                                </button>
-                                <button ng-click="deleteProjectStageOutput()" type="button" class="btn bg-danger-400">
+                                </button> -->
+                                <!-- <button ng-click="deleteProjectStageOutput()" type="button" class="btn bg-danger-400">
                                     حذف
-                                </button>
+                                </button> -->
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -493,12 +505,16 @@
                             </div>
 
                             <div class="text-right">
-                                <button ng-click="addIndicator()" type="button" class="btn bg-primary-400"> إضافة
+                                <!-- <button ng-click="addIndicator()" type="button" class="btn bg-primary-400"> إضافة
                                 </button>
                                 <button ng-click="editIndicator()" type="button" class="btn bg-success-400"> حفظ
                                 </button>
                                 <button ng-click="deleteIndicator()" type="button" class="btn bg-danger-400"> حذف
-                                </button>
+                                </button> -->
+                                <i class="fa fa-plus fa-2x text-green action-icon" ng-click="addIndicator()" aria-hidden="true"></i>                                                                                                                                            
+                                <i class="fa fa-floppy-o fa-2x action-icon" ng-click="editIndicator()" aria-hidden="true"></i>                                            
+                                <i class="fa fa-times fa-2x text-danger action-icon" ng-click="deleteIndicator()" aria-hidden="true"></i>
+                               
                             </div>
                         </div>
                     </div>
