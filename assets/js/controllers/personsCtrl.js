@@ -6,6 +6,7 @@ app.controller('personsCtrl', function ($log, $scope, $rootScope, $location, con
     console.log("Welcome to personsCtrl");
     $scope.entitiesModel = {};
     $scope.userForm = {};
+    $scope.userForm.role = "user";
     $scope.userAuthorotiesModel = {};
     $scope.filterationModel = {
         "entityl1": undefined,
@@ -14,7 +15,7 @@ app.controller('personsCtrl', function ($log, $scope, $rootScope, $location, con
         "entityl4": undefined
     };
     $scope.updateFilterationModel = function () {
-        $scope.filterationModel.entityl1 = $scope.selectedFirstLevelObject._id;
+        $scope.filterationModel.entityl1 = angular.isDefined($scope.selectedFirstLevelObject) ? $scope.selectedFirstLevelObject._id : undefined;
         $scope.filterationModel.entityl2 = $scope.entitiesModel.secondLevel == '' ? undefined : $scope.entitiesModel.secondLevel;
         $scope.filterationModel.entityl3 = $scope.entitiesModel.thirdLevel == '' ? undefined : $scope.entitiesModel.thirdLevel;
         $scope.filterationModel.entityl4 = $scope.entitiesModel.fourthLevel == '' ? undefined : $scope.entitiesModel.fourthLevel;
@@ -36,6 +37,14 @@ app.controller('personsCtrl', function ($log, $scope, $rootScope, $location, con
                 $scope.entitiesModel.secondLevel = '';
                 $scope.entitiesModel.thirdLevel = '';
                 $scope.entitiesModel.fourthLevel = '';
+                if($scope.entitiesModel.firstLevel ===""){
+                    $scope.disableSecondLevel = true;
+                    $scope.disablethirdLevel = true;
+                    $scope.disableFourthLevel = true;
+                }
+                else{
+                    $scope.disableSecondLevel = false;
+                }
 
 
                 break;
@@ -43,10 +52,23 @@ app.controller('personsCtrl', function ($log, $scope, $rootScope, $location, con
                 $scope.selectedSecondLevelObject = $scope.selectedFirstLevelObject.children[$scope.entitiesModel.secondLevel];
                 $scope.entitiesModel.thirdLevel = '';
                 $scope.entitiesModel.fourthLevel = '';
+                if($scope.entitiesModel.secondLevel ===""){
+                    $scope.disablethirdLevel = true;
+                    $scope.disableFourthLevel = true;
+                }
+                else{
+                    $scope.disablethirdLevel = false;
+                }
                 break;
             case 'level3':
                 $scope.selectedThirdLevelObject = $scope.selectedFirstLevelObject.children[$scope.entitiesModel.secondLevel].children[$scope.entitiesModel.thirdLevel];
                 $scope.entitiesModel.fourthLevel = '';
+                if($scope.entitiesModel.thirdLevel ===""){
+                    $scope.disableFourthLevel = true;
+                }
+                else{
+                    $scope.disableFourthLevel = false;
+                }
                 break;
             case 'level4':
                 $scope.fourthLevelKey = $scope.entitiesModel.fourthLevel;
@@ -86,6 +108,7 @@ app.controller('personsCtrl', function ($log, $scope, $rootScope, $location, con
         //$scope.userForm
         if (selectedUser) {
             $scope.userForm.name = selectedUser.name;
+            $scope.userForm.role = selectedUser.role;
             $scope.userForm.title = selectedUser.title;
             $scope.userForm.position = selectedUser.position;
             $scope.userForm.mobile = selectedUser.mobile;
@@ -147,7 +170,10 @@ app.controller('personsCtrl', function ($log, $scope, $rootScope, $location, con
             }
         }
         $scope.selectedFaculty = $scope.selectedUniversity.children[$scope.userForm.entityl2];
+        
+        if($scope.selectedUniversity.children[$scope.userForm.entityl2]){
         $scope.selectedSector = $scope.selectedUniversity.children[$scope.userForm.entityl2].children[$scope.userForm.entityl3];
+        }
     };
     $scope.submitUserForm = function (userForm, userAuthorotiesModel, valid) {
         if(valid){
@@ -174,6 +200,7 @@ app.controller('personsCtrl', function ($log, $scope, $rootScope, $location, con
       form.email1 = userForm.email1? userForm.email1 : "";
       form.email2 = userForm.email2? userForm.email2 : "";
       form._id = userForm._id? userForm._id : "";
+      form.role = userForm.role;
       form.entityl1 = userForm.entityl1? userForm.entityl1 : "";
       form.entityl2 = userForm.entityl2? userForm.entityl2 : "";
       form.entityl3 = userForm.entityl3? userForm.entityl3 : "";

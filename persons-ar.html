@@ -122,11 +122,11 @@
                     <div class="panel-body height-70-vh">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label> الجامعة </label>
-                                <select name="select" class="form-control" ng-change="onAssociationSelected('level1')"
+                                    <label>المستوى الأول</label>
+                                    <select name="select" class="form-control" ng-change="onAssociationSelected('level1')"
                                         ng-model="entitiesModel.firstLevel">
-                                    <option value="" disabled>اختر الجامعة</option>
-                                    <option value="{{$index}}" ng-repeat="association in associations">
+                                        <option value="" >جميع الجهات</option>
+                                        <option value="{{$index}}" ng-repeat="association in associations">
                                         {{association.name}}
                                     </option>
 
@@ -135,11 +135,11 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label> الكلية </label>
-                                <select name="select" class="form-control" ng-model="entitiesModel.secondLevel"
-                                        ng-change="onAssociationSelected('level2')">
-                                    <option value="" disabled>اختر الكلية</option>
-                                    <option value="{{key}}"
+                                    <label>المستوى الثاني</label>                                    
+                                    <select name="select" class="form-control" ng-model="entitiesModel.secondLevel"
+                                        ng-change="onAssociationSelected('level2')" ng-disabled="disableSecondLevel">
+                                        <option value="">جميع الجهات</option>
+                                        <option value="{{key}}"
                                             ng-repeat="(key, value) in selectedFirstLevelObject.children">
                                         {{value.name}}
                                     </option>
@@ -148,11 +148,11 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label> الوكالة </label>
-                                <select name="select" class="form-control" ng-model="entitiesModel.thirdLevel"
-                                        ng-change="onAssociationSelected('level3')">
-                                    <option value=""> جميع الوكالات</option>
-                                    <option value="{{key}}"
+                                    <label> المستوى الثالث </label>
+                                    <select name="select" class="form-control" ng-model="entitiesModel.thirdLevel"
+                                        ng-change="onAssociationSelected('level3')" ng-disabled="disablethirdLevel">
+                                        <option value=""> جميع الجهات</option>
+                                        <option value="{{key}}"
                                             ng-repeat="(key, value) in selectedSecondLevelObject.children">
                                         {{value.name}}
                                     </option>
@@ -162,15 +162,16 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label> القسم </label>
-                                <select name="select" class="form-control" ng-model="entitiesModel.fourthLevel"
-                                        ng-change="onAssociationSelected('level4')">
-                                    <option value=""> جميع الأقسام</option>
-                                    <option value="{{key}}"
+                                    <label> المستوى الرابع </label>
+                                    <select name="select" class="form-control" ng-model="entitiesModel.fourthLevel"
+                                        ng-change="onAssociationSelected('level4')" ng-disabled="disableFourthLevel">
+                                        <option value=""> جميع الجهات</option>
+                                        <option value="{{key}}"
                                             ng-repeat="(key, value) in selectedThirdLevelObject.children">{{value.name}}
                                     </option>
 
-                                </select></div>
+                                </select>
+                            </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
@@ -236,6 +237,18 @@
                                 <input type="text" class="form-control" ng-model="userForm._id"
                                        placeholder="اسم المستخدم" required >
                             </div>
+                            <div class="form-group">
+                                    <label> نوع المستخدم </label>
+                                    <select name="select" class="form-control" type="text" class="form-control" ng-model="userForm.role">
+                                           <option value="user">
+                                               مستخدم 
+                                           </option>
+                                           <option value="admin">
+                                                مدير للنظام 
+                                            </option>
+                                            
+                                        </select>
+                                </div>
                             <!--<div class="form-group">-->
                             <!--<label> تغيير كلمة السر </label>-->
                             <!--<input type="password" class="form-control" placeholder="كلمة السر">-->
@@ -243,20 +256,22 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label> الجامعة / الجهة </label>
-                                <select name="select" class="form-control" ng-model="userForm.entityl1" required
+                                    <label> المستوى الأول </label>
+                                    <select name="select" class="form-control" ng-model="userForm.entityl1" required
                                         ng-change="onEntitySelected('level1')">
-                                    <option value="" disabled>اختر الجامعة</option>
+                                    <option value="" disabled>اختر المستوى الأول</option>
                                     <option value="{{association._id}}" ng-repeat="association in associations">
                                         {{association.name}}
                                     </option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label> الكلية </label>
-                                <select name="select" class="form-control" ng-model="userForm.entityl2" 
+                                    <label> المستوى الثاني </label>
+                                    <select name="select" class="form-control" ng-model="userForm.entityl2" 
                                         ng-change="onEntitySelected('level2')">
-                                    <option value="" disabled>اختر الكلية</option>
+                                    <option value="" >
+                                        غير محدد
+                                    </option>
                                     <option value="{{key}}"
                                             ng-repeat="(key, value) in selectedUniversity.children">
                                         {{value.name}}
@@ -264,21 +279,25 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label> الوكالات </label>
-                                <select name="select" class="form-control" ng-model="userForm.entityl3" 
+                                    <label> المستوى الثالث </label>
+                                    <select name="select" class="form-control" ng-model="userForm.entityl3" 
                                         ng-change="onEntitySelected('level3')">
-                                    <option disabled value="">اختر وكالة</option>
-                                    <option value="{{key}}"
+                                        <option value="" >
+                                                غير محدد
+                                            </option> 
+                                       <option value="{{key}}"
                                             ng-repeat="(key, value) in selectedFaculty.children">
                                         {{value.name}}
                                     </option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label> الأقسام </label>
-                                <select name="select" class="form-control" ng-model="userForm.entityl4" 
+                                    <label> المستوى الرابع </label>
+                                    <select name="select" class="form-control" ng-model="userForm.entityl4" 
                                         ng-change="onEntitySelected('level4')">
-                                    <option disabled value=""> اختر قسما</option>
+                                        <option value = "" >
+                                                غير محدد
+                                            </option>
                                     <option value="{{key}}"
                                             ng-repeat="(key, value) in selectedSector.children">{{value.name}}
                                     </option>

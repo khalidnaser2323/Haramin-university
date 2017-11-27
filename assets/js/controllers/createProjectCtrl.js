@@ -39,21 +39,42 @@ app.controller('createProjectCtrl', function ($log, $scope, $rootScope, $locatio
     $scope.onAssociationSelected = function (entityLevel) {
         switch (entityLevel) {
             case 'level1':
+            debugger;
                 $scope.selectedFirstLevelObject = $scope.associations[parseInt($scope.entitiesModel.firstLevel)];
                 $scope.entitiesModel.secondLevel = '';
                 $scope.entitiesModel.thirdLevel = '';
                 $scope.entitiesModel.fourthLevel = '';
-
+                if($scope.entitiesModel.firstLevel ===""){
+                    $scope.disableSecondLevel = true;
+                    $scope.disablethirdLevel = true;
+                    $scope.disableFourthLevel = true;
+                }
+                else{
+                    $scope.disableSecondLevel = false;
+                }
 
                 break;
             case 'level2':
                 $scope.selectedSecondLevelObject = $scope.selectedFirstLevelObject.children[$scope.entitiesModel.secondLevel];
                 $scope.entitiesModel.thirdLevel = '';
                 $scope.entitiesModel.fourthLevel = '';
+                if($scope.entitiesModel.secondLevel ===""){
+                    $scope.disablethirdLevel = true;
+                    $scope.disableFourthLevel = true;
+                }
+                else{
+                    $scope.disablethirdLevel = false;
+                }
                 break;
             case 'level3':
                 $scope.selectedThirdLevelObject = $scope.selectedFirstLevelObject.children[$scope.entitiesModel.secondLevel].children[$scope.entitiesModel.thirdLevel];
                 $scope.entitiesModel.fourthLevel = '';
+                if($scope.entitiesModel.thirdLevel ===""){
+                    $scope.disableFourthLevel = true;
+                }
+                else{
+                    $scope.disableFourthLevel = false;
+                }
                 break;
             case 'level4':
                 $scope.fourthLevelKey = $scope.entitiesModel.fourthLevel;
@@ -75,6 +96,12 @@ app.controller('createProjectCtrl', function ($log, $scope, $rootScope, $locatio
     $scope.onStrategicGoalSelected = function () {
         $scope.selectedStrategicGoal = $scope.strategicGoals[$scope.goalsModel.strategicGoal];
         $scope.goalsModel.secondaryGoal = '';
+        if($scope.goalsModel.strategicGoal === ""){
+            $scope.disableSecondaryGoal = true;
+        }
+        else{
+            $scope.disableSecondaryGoal = false;
+        }
         $scope.updateFilterationModel();
         $scope.renderPrograms($scope.filterationModel);
     };
@@ -169,15 +196,36 @@ app.controller('createProjectCtrl', function ($log, $scope, $rootScope, $locatio
                 $scope.userFilterEntitiesModel.secondLevel = '';
                 $scope.userFilterEntitiesModel.thirdLevel = '';
                 $scope.userFilterEntitiesModel.fourthLevel = '';
+                if($scope.userFilterEntitiesModel.firstLevel === ""){
+                    $scope.disableSecondLevelEntity = true;
+                    $scope.disableThirdLevelEntity = true;
+                    $scope.disableFourthLevelEntity = true;
+                }
+                else{
+                    $scope.disableSecondLevelEntity = false;
+                }
                 break;
             case 'level2':
                 $scope.selectedSecondLevelEntity = $scope.selectedFirstLevelEntity.children[$scope.userFilterEntitiesModel.secondLevel];
                 $scope.userFilterEntitiesModel.thirdLevel = '';
                 $scope.userFilterEntitiesModel.fourthLevel = '';
+                if($scope.userFilterEntitiesModel.secondLevel === ""){
+                    $scope.disableThirdLevelEntity = true;
+                    $scope.disableFourthLevelEntity = true;
+                }
+                else{
+                    $scope.disableThirdLevelEntity = false;
+                }
                 break;
             case 'level3':
                 $scope.selectedThirdLevelEntity = $scope.selectedFirstLevelEntity.children[$scope.userFilterEntitiesModel.secondLevel].children[$scope.userFilterEntitiesModel.thirdLevel];
                 $scope.userFilterEntitiesModel.fourthLevel = '';
+                if($scope.userFilterEntitiesModel.thirdLevel === ""){
+                    $scope.disableFourthLevelEntity = true;
+                }
+                else{
+                    $scope.disableFourthLevelEntity = false;
+                }
                 break;
             case 'level4':
                 //$scope.fourthLevelKey = $scope.userFilterEntitiesModel.fourthLevel;
