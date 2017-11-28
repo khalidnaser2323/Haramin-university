@@ -4192,8 +4192,8 @@ sidebar-xs .sidebar-user-material > .category-content {
 
 }
 .height-70-vh{
-    max-height: 70vh;
-    height: 70vh;
+    max-height: 75vh;
+    height: 75vh;
     overflow: auto;
 }
 .height-45-vh{

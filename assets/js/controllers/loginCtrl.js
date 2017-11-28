@@ -6,7 +6,7 @@
  */
 app.controller('loginCtrl', function ($log, $scope, $rootScope, $location, connector) {
 
-    console.log("Welcome to home screen");
+    console.log("Welcome to login screen");
     $rootScope.loginPage = true;
     $scope.login = function () {
         //window.localStorage.setItem('userLoggedIn','1');

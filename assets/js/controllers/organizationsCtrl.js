@@ -16,6 +16,7 @@ app.controller('organizationsCtrl', function ($log, $scope, $rootScope, $locatio
     $scope.showSecondLevel = false;
     $scope.showThirdLevel = false;
     $scope.showFourthLevel = false;
+    $scope.addNewEntity = true;
     $scope.renderEntities = function () {
         user.getEntities().then(function (entities) {
 
@@ -47,9 +48,9 @@ app.controller('organizationsCtrl', function ($log, $scope, $rootScope, $locatio
                 $scope.firstLevelIndex = index;
                 $scope.firstLevelModel = selected.name;
                 $scope.secondLevelModel = '';
-                $scope.showSecondLevel = true;
-                $scope.showThirdLevel = false;
-                $scope.showFourthLevel = false;
+                delete $scope.selectedSecondLevelObject;
+                delete $scope.selectedThirdLevelObject;
+                $scope.addNewEntity = false;
                 break;
             case 'level2':
                 $scope.selectedSecondLevelObject = selected;
@@ -57,8 +58,7 @@ app.controller('organizationsCtrl', function ($log, $scope, $rootScope, $locatio
                 $scope.secondLevelModel = selected.name;
                 $scope.secondLevelKey = key;
                 $scope.thirdLevelModel = '';
-                $scope.showThirdLevel = true;
-                $scope.showFourthLevel = false;
+                delete $scope.selectedThirdLevelObject;
                 break;
             case 'level3':
                 $scope.selectedThirdLevelObject = selected;
@@ -78,49 +78,57 @@ app.controller('organizationsCtrl', function ($log, $scope, $rootScope, $locatio
     $scope.addEntry = function (type, valid) {
         switch (type) {
             case 'level1':
-                if (valid) {
-                    user.addEntity($scope.firstLevelModel).then(function (resolved) {
-                        $scope.firstLevelModel = '';
-                        $scope.renderEntities();
+                // if (valid) {
+                $scope.firstLevelModel = '';
+                $scope.addNewEntity = true;
+                // user.addEntity($scope.firstLevelModel).then(function (resolved) {
+                //     $scope.firstLevelModel = '';
+                //     $scope.renderEntities();
 
-                    });
-                }
+                // });
+                // }
                 break;
             case 'level2':
-                if (valid) {
-                    var timestampString = new Date().getTime() + '';
-                    var entityObject = angular.copy($scope.selectedFirstLevelObject);
-                    entityObject.children[timestampString] = {"name": $scope.secondLevelModel, "children": {}};
-                    user.updateEntity(entityObject).then(function (resolved) {
-                        $scope.secondLevelModel = '';
-                        $scope.renderEntities();
-                    });
-                }
+                $scope.secondLevelModel = '';
+                delete $scope.secondLevelKey;
+                // if (valid) {
+                //     var timestampString = new Date().getTime() + '';
+                //     var entityObject = angular.copy($scope.selectedFirstLevelObject);
+                //     entityObject.children[timestampString] = { "name": $scope.secondLevelModel, "children": {} };
+                //     user.updateEntity(entityObject).then(function (resolved) {
+                //         $scope.secondLevelModel = '';
+                //         $scope.renderEntities();
+                //     });
+                // }
                 break;
             case 'level3':
-                if (valid) {
-                    var timestampString = new Date().getTime() + '';
-                    var entityObject = angular.copy($scope.selectedFirstLevelObject);
-                    entityObject.children[$scope.secondLevelKey].children[timestampString] = {
-                        "name": $scope.thirdLevelModel,
-                        "children": {}
-                    };
-                    user.updateEntity(entityObject).then(function (resolved) {
-                        $scope.thirdLevelModel = '';
-                        $scope.renderEntities();
-                    });
-                }
+                $scope.thirdLevelModel = '';
+                delete $scope.thirdLevelKey;
+                // if (valid) {
+                //     var timestampString = new Date().getTime() + '';
+                //     var entityObject = angular.copy($scope.selectedFirstLevelObject);
+                //     entityObject.children[$scope.secondLevelKey].children[timestampString] = {
+                //         "name": $scope.thirdLevelModel,
+                //         "children": {}
+                //     };
+                //     user.updateEntity(entityObject).then(function (resolved) {
+                //         $scope.thirdLevelModel = '';
+                //         $scope.renderEntities();
+                //     });
+                // }
                 break;
             case 'level4':
-                if (valid) {
-                    var timestampString = new Date().getTime() + '';
-                    var entityObject = angular.copy($scope.selectedFirstLevelObject);
-                    entityObject.children[$scope.secondLevelKey].children[$scope.thirdLevelKey].children[timestampString] = {"name": $scope.fourthLevelModel};
-                    user.updateEntity(entityObject).then(function (resolved) {
-                        $scope.fourthLevelModel = '';
-                        $scope.renderEntities();
-                    });
-                }
+                $scope.fourthLevelModel = '';
+                delete $scope.fourthLevelKey;
+                // if (valid) {
+                //     var timestampString = new Date().getTime() + '';
+                //     var entityObject = angular.copy($scope.selectedFirstLevelObject);
+                //     entityObject.children[$scope.secondLevelKey].children[$scope.thirdLevelKey].children[timestampString] = { "name": $scope.fourthLevelModel };
+                //     user.updateEntity(entityObject).then(function (resolved) {
+                //         $scope.fourthLevelModel = '';
+                //         $scope.renderEntities();
+                //     });
+                // }
                 break;
         }
     };
@@ -128,9 +136,8 @@ app.controller('organizationsCtrl', function ($log, $scope, $rootScope, $locatio
         switch (type) {
             case 'level1':
                 user.deleteEntity($scope.selectedFirstLevelObject._id).then(function (resolved) {
-                    $scope.showSecondLevel = false;
-                    $scope.showThirdLevel = false;
-                    $scope.showFourthLevel = false;
+                    delete $scope.selectedSecondLevelObject;
+                    delete $scope.selectedThirdLevelObject;
                     $scope.renderEntities();
                 });
                 break;
@@ -138,15 +145,14 @@ app.controller('organizationsCtrl', function ($log, $scope, $rootScope, $locatio
                 var entityObject = angular.copy($scope.selectedFirstLevelObject);
                 delete entityObject.children[$scope.secondLevelKey];
                 user.updateEntity(entityObject).then(function (resolved) {
-                    $scope.showThirdLevel = false;
-                    $scope.showFourthLevel = false;
+                    delete $scope.selectedThirdLevelObject;
                     $scope.renderEntities();
                 });
 
                 break;
             case 'level3':
                 var entityObject = angular.copy($scope.selectedFirstLevelObject);
-                delete  entityObject.children[$scope.secondLevelKey].children[$scope.thirdLevelKey];
+                delete entityObject.children[$scope.secondLevelKey].children[$scope.thirdLevelKey];
                 user.updateEntity(entityObject).then(function (resolved) {
                     $scope.showFourthLevel = false;
                     $scope.renderEntities();
@@ -171,43 +177,88 @@ app.controller('organizationsCtrl', function ($log, $scope, $rootScope, $locatio
         switch (type) {
             case 'level1':
                 if (valid) {
-                    var entityObject = angular.copy($scope.selectedFirstLevelObject);
-                    entityObject.name = $scope.firstLevelModel;
-                    user.updateEntity(entityObject).then(function (resolved) {
-                        $scope.firstLevelModel = '';
-                        $scope.renderEntities();
-                    });
+                    if ($scope.addNewEntity == true) {
+                        user.addEntity($scope.firstLevelModel).then(function (resolved) {
+                            $scope.firstLevelModel = '';
+                            $scope.renderEntities();
+
+                        });
+                    }
+                    else {
+                        var entityObject = angular.copy($scope.selectedFirstLevelObject);
+                        entityObject.name = $scope.firstLevelModel;
+                        user.updateEntity(entityObject).then(function (resolved) {
+                            $scope.firstLevelModel = '';
+                            $scope.renderEntities();
+                        });
+                    }
                 }
                 break;
             case 'level2':
                 if (valid) {
-                    var entityObject = angular.copy($scope.selectedFirstLevelObject);
-                    entityObject.children[$scope.secondLevelKey].name = $scope.secondLevelModel;
-                    user.updateEntity(entityObject).then(function (resolved) {
-                        $scope.secondLevelModel = '';
-                        $scope.renderEntities();
-                    });
+                    if ($scope.secondLevelKey == undefined) {
+                        var timestampString = new Date().getTime() + '';
+                        var entityObject = angular.copy($scope.selectedFirstLevelObject);
+                        entityObject.children[timestampString] = { "name": $scope.secondLevelModel, "children": {} };
+                        user.updateEntity(entityObject).then(function (resolved) {
+                            $scope.secondLevelModel = '';
+                            $scope.renderEntities();
+                        });
+                    }
+                    else {
+                        var entityObject = angular.copy($scope.selectedFirstLevelObject);
+                        entityObject.children[$scope.secondLevelKey].name = $scope.secondLevelModel;
+                        user.updateEntity(entityObject).then(function (resolved) {
+                            $scope.secondLevelModel = '';
+                            $scope.renderEntities();
+                        });
+                    }
                 }
                 break;
             case 'level3':
                 if (valid) {
-                    var entityObject = angular.copy($scope.selectedFirstLevelObject);
-                    entityObject.children[$scope.secondLevelKey].children[$scope.thirdLevelKey].name = $scope.thirdLevelModel;
-                    user.updateEntity(entityObject).then(function (resolved) {
-                        $scope.thirdLevelModel = '';
-                        $scope.renderEntities();
-                    });
+                    if ($scope.thirdLevelKey == undefined) {
+                        var timestampString = new Date().getTime() + '';
+                        var entityObject = angular.copy($scope.selectedFirstLevelObject);
+                        entityObject.children[$scope.secondLevelKey].children[timestampString] = {
+                            "name": $scope.thirdLevelModel,
+                            "children": {}
+                        };
+                        user.updateEntity(entityObject).then(function (resolved) {
+                            $scope.thirdLevelModel = '';
+                            $scope.renderEntities();
+                        });
+                    }
+                    else {
+                        var entityObject = angular.copy($scope.selectedFirstLevelObject);
+                        entityObject.children[$scope.secondLevelKey].children[$scope.thirdLevelKey].name = $scope.thirdLevelModel;
+                        user.updateEntity(entityObject).then(function (resolved) {
+                            $scope.thirdLevelModel = '';
+                            $scope.renderEntities();
+                        });
+                    }
                 }
                 break;
 
             case 'level4':
                 if (valid) {
-                    var entityObject = angular.copy($scope.selectedFirstLevelObject);
-                    entityObject.children[$scope.secondLevelKey].children[$scope.thirdLevelKey].children[$scope.fourthLevelKey].name = $scope.fourthLevelModel;
-                    user.updateEntity(entityObject).then(function (resolved) {
-                        $scope.fourthLevelModel = '';
-                        $scope.renderEntities();
-                    });
+                    if ($scope.fourthLevelKey == undefined) {
+                        var timestampString = new Date().getTime() + '';
+                        var entityObject = angular.copy($scope.selectedFirstLevelObject);
+                        entityObject.children[$scope.secondLevelKey].children[$scope.thirdLevelKey].children[timestampString] = { "name": $scope.fourthLevelModel };
+                        user.updateEntity(entityObject).then(function (resolved) {
+                            $scope.fourthLevelModel = '';
+                            $scope.renderEntities();
+                        });
+                    }
+                    else {
+                        var entityObject = angular.copy($scope.selectedFirstLevelObject);
+                        entityObject.children[$scope.secondLevelKey].children[$scope.thirdLevelKey].children[$scope.fourthLevelKey].name = $scope.fourthLevelModel;
+                        user.updateEntity(entityObject).then(function (resolved) {
+                            $scope.fourthLevelModel = '';
+                            $scope.renderEntities();
+                        });
+                    }
                 }
                 break;
         }

@@ -37,12 +37,12 @@ app.controller('personsCtrl', function ($log, $scope, $rootScope, $location, con
                 $scope.entitiesModel.secondLevel = '';
                 $scope.entitiesModel.thirdLevel = '';
                 $scope.entitiesModel.fourthLevel = '';
-                if($scope.entitiesModel.firstLevel ===""){
+                if ($scope.entitiesModel.firstLevel === "") {
                     $scope.disableSecondLevel = true;
                     $scope.disablethirdLevel = true;
                     $scope.disableFourthLevel = true;
                 }
-                else{
+                else {
                     $scope.disableSecondLevel = false;
                 }
 
@@ -52,21 +52,21 @@ app.controller('personsCtrl', function ($log, $scope, $rootScope, $location, con
                 $scope.selectedSecondLevelObject = $scope.selectedFirstLevelObject.children[$scope.entitiesModel.secondLevel];
                 $scope.entitiesModel.thirdLevel = '';
                 $scope.entitiesModel.fourthLevel = '';
-                if($scope.entitiesModel.secondLevel ===""){
+                if ($scope.entitiesModel.secondLevel === "") {
                     $scope.disablethirdLevel = true;
                     $scope.disableFourthLevel = true;
                 }
-                else{
+                else {
                     $scope.disablethirdLevel = false;
                 }
                 break;
             case 'level3':
                 $scope.selectedThirdLevelObject = $scope.selectedFirstLevelObject.children[$scope.entitiesModel.secondLevel].children[$scope.entitiesModel.thirdLevel];
                 $scope.entitiesModel.fourthLevel = '';
-                if($scope.entitiesModel.thirdLevel ===""){
+                if ($scope.entitiesModel.thirdLevel === "") {
                     $scope.disableFourthLevel = true;
                 }
-                else{
+                else {
                     $scope.disableFourthLevel = false;
                 }
                 break;
@@ -100,6 +100,7 @@ app.controller('personsCtrl', function ($log, $scope, $rootScope, $location, con
         if ($scope.selectedUser) {
             user.deleteUser($scope.selectedUser._id == undefined ? "" : $scope.selectedUser._id).then(function (resolved) {
                 $scope.userForm = {};
+                delete $scope.selectedUser;
                 $scope.renderUsers();
             });
         }
@@ -170,43 +171,48 @@ app.controller('personsCtrl', function ($log, $scope, $rootScope, $location, con
             }
         }
         $scope.selectedFaculty = $scope.selectedUniversity.children[$scope.userForm.entityl2];
-        
-        if($scope.selectedUniversity.children[$scope.userForm.entityl2]){
-        $scope.selectedSector = $scope.selectedUniversity.children[$scope.userForm.entityl2].children[$scope.userForm.entityl3];
+
+        if ($scope.selectedUniversity.children[$scope.userForm.entityl2]) {
+            $scope.selectedSector = $scope.selectedUniversity.children[$scope.userForm.entityl2].children[$scope.userForm.entityl3];
         }
     };
     $scope.submitUserForm = function (userForm, userAuthorotiesModel, valid) {
-        if(valid){
-        var newForm = $scope.initializeUserForm(userForm);
-        newForm = $scope.bindUserAuthorotiesWithForm(newForm, userAuthorotiesModel);
-        $log.debug('submitted form');
-        $log.debug(newForm);
-        user.addUser(newForm).then(function (resolved) {
-            $scope.renderUsers();
-        });
-    }else{
-        window.alert("من فضلك قم بإدخال الاسم والجهة واسم المستخدم");
-    }
+        $scope.userForm = {};
+        $scope.userForm.role = "user";       
+        $scope.setAuthoroties();
+        delete $scope.selectedUser;
+
+        //     if(valid){
+        //     var newForm = $scope.initializeUserForm(userForm);
+        //     newForm = $scope.bindUserAuthorotiesWithForm(newForm, userAuthorotiesModel);
+        //     $log.debug('submitted form');
+        //     $log.debug(newForm);
+        //     user.addUser(newForm).then(function (resolved) {
+        //         $scope.renderUsers();
+        //     });
+        // }else{
+        //     window.alert("من فضلك قم بإدخال الاسم والجهة واسم المستخدم");
+        // }
 
     };
-    $scope.initializeUserForm = function(userForm){
-      var form = {};
-      form.name = userForm.name? userForm.name : "";
-      form.title = userForm.title? userForm.title : "";
-      form.position = userForm.position? userForm.position : "";
-      form.mobile = userForm.mobile? userForm.mobile : "";
-      form.whatsapp = userForm.whatsapp? userForm.whatsapp : "";
-      form.telephone = userForm.telephone? userForm.telephone : "";
-      form.email1 = userForm.email1? userForm.email1 : "";
-      form.email2 = userForm.email2? userForm.email2 : "";
-      form._id = userForm._id? userForm._id : "";
-      form.role = userForm.role;
-      form.entityl1 = userForm.entityl1? userForm.entityl1 : "";
-      form.entityl2 = userForm.entityl2? userForm.entityl2 : "";
-      form.entityl3 = userForm.entityl3? userForm.entityl3 : "";
-      form.entityl4 = userForm.entityl4? userForm.entityl4 : "";
-      return form;
-      
+    $scope.initializeUserForm = function (userForm) {
+        var form = {};
+        form.name = userForm.name ? userForm.name : "";
+        form.title = userForm.title ? userForm.title : "";
+        form.position = userForm.position ? userForm.position : "";
+        form.mobile = userForm.mobile ? userForm.mobile : "";
+        form.whatsapp = userForm.whatsapp ? userForm.whatsapp : "";
+        form.telephone = userForm.telephone ? userForm.telephone : "";
+        form.email1 = userForm.email1 ? userForm.email1 : "";
+        form.email2 = userForm.email2 ? userForm.email2 : "";
+        form._id = userForm._id ? userForm._id : "";
+        form.role = userForm.role;
+        form.entityl1 = userForm.entityl1 ? userForm.entityl1 : "";
+        form.entityl2 = userForm.entityl2 ? userForm.entityl2 : "";
+        form.entityl3 = userForm.entityl3 ? userForm.entityl3 : "";
+        form.entityl4 = userForm.entityl4 ? userForm.entityl4 : "";
+        return form;
+
     }
     $scope.bindUserAuthorotiesWithForm = function (userForm, userAuthorotiesModel) {
         userAuthorotiesModel.authTask_add = userAuthorotiesModel.authTask_add ? userAuthorotiesModel.authTask_add : 0;
@@ -400,16 +406,28 @@ app.controller('personsCtrl', function ($log, $scope, $rootScope, $location, con
     };
 
     $scope.updateUser = function (userForm, userAuthorotiesModel, valid) {
-        if(valid){
-        var newForm = $scope.initializeUserForm(userForm);
-        newForm = $scope.bindUserAuthorotiesWithForm(newForm, userAuthorotiesModel);
-        $log.debug('submitted form');
-        $log.debug(newForm);
-        user.updateUser(newForm).then(function (resolved) {
-            $scope.renderUsers();
-        });
-    }else{
-        window.alert("من فضلك قم بإدخال الاسم والجهة واسم المستخدم");
-    }
+        if (valid) {
+            if ($scope.selectedUser === undefined) {
+                var newForm = $scope.initializeUserForm(userForm);
+                newForm = $scope.bindUserAuthorotiesWithForm(newForm, userAuthorotiesModel);
+                $log.debug('submitted form');
+                $log.debug(newForm);
+                user.addUser(newForm).then(function (resolved) {
+                    $scope.renderUsers();
+                });
+
+            }
+            else {
+                var newForm = $scope.initializeUserForm(userForm);
+                newForm = $scope.bindUserAuthorotiesWithForm(newForm, userAuthorotiesModel);
+                $log.debug('submitted form');
+                $log.debug(newForm);
+                user.updateUser(newForm).then(function (resolved) {
+                    $scope.renderUsers();
+                });
+            }
+        } else {
+            window.alert("من فضلك قم بإدخال الاسم والجهة واسم المستخدم");
+        }
     };
 });
