@@ -120,7 +120,7 @@
             <form>
                 <div class="panel panel-flat">
                     <div class="panel-body height-70-vh">
-                        <div class="col-md-12">
+                        <div class="">
                             <div class="form-group">
                                     <label>المستوى الأول</label>
                                     <select name="select" class="form-control" ng-change="onAssociationSelected('level1')"
@@ -133,7 +133,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="">
                             <div class="form-group">
                                     <label>المستوى الثاني</label>                                    
                                     <select name="select" class="form-control" ng-model="entitiesModel.secondLevel"
@@ -146,7 +146,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="">
                             <div class="form-group">
                                     <label> المستوى الثالث </label>
                                     <select name="select" class="form-control" ng-model="entitiesModel.thirdLevel"
@@ -160,7 +160,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="">
                             <div class="form-group">
                                     <label> المستوى الرابع </label>
                                     <select name="select" class="form-control" ng-model="entitiesModel.fourthLevel"
@@ -173,7 +173,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="">
                             <div class="form-group">
                                 <select multiple="multiple" class="form-control height-300">
                                     <option ng-click="onUserClicked(user)" ng-repeat="user in users">{{user.name}}
@@ -305,7 +305,8 @@
                             </div>
                             <div class="form-group">
                                 <label> الصلاحيات </label>
-                                <table class="table table-bordered table-striped">
+                                <div class="table-responsive">
+                                <table class="table table-bordered table-striped ">
                                     <thead>
                                     <tr>
                                         <th></th>
@@ -512,6 +513,7 @@
                                     </tr>
                                     </tbody>
                                 </table>
+                            </div>
                             </div>
                             <div class="text-right">
                                 <!-- <button type="submit" class="btn bg-primary-400"> جديد</button> -->

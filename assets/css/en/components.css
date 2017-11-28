@@ -151,7 +151,7 @@ a.badge,
   .sidebar {
     display: table-cell;
     vertical-align: top;
-    width: 230px;
+    width: 220px;
   }
 }
 .sidebar-main {
@@ -764,11 +764,11 @@ a.badge,
     display: none;
     position: absolute;
     top: 0;
-    right: -260px;
-    background-color: #26A69A;
-    border: 1px solid #26A69A;
+    right: -150px;
+    background-color: #335d48;
+    border: 1px solid #335d48;
     padding: 11px 20px;
-    width: 260px;
+    width: 150px;
     text-align: left;
     color: #fff;
     cursor: pointer;
@@ -2804,7 +2804,7 @@ sidebar-xs .sidebar-user-material > .category-content {
 
 /************** checkbox and radio ****************/
 .checkbox {
-    padding-left: 20px;
+    padding-left: 30px;
 }
 
     .checkbox label {

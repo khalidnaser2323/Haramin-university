@@ -156,7 +156,7 @@ a.badge,
     .sidebar {
         display: table-cell;
         vertical-align: top;
-        width: 230px;
+        width: 220px;
     }
 }
 
@@ -904,11 +904,11 @@ a.badge,
                 display: none;
                 position: absolute;
                 top: 0;
-                left: -260px;
-                background-color: #26A69A;
-                border: 1px solid #26A69A;
+                left: -150px;
+                background-color: #335d48;
+                border: 1px solid #335d48;
                 padding: 11px 20px;
-                width: 260px;
+                width: 150px;
                 text-align: right;
                 color: #fff;
                 cursor: pointer;
@@ -1382,7 +1382,7 @@ body[class*=navbar-bottom] .content {
 .footer {
     position: absolute;
     bottom: 30px;
-    left: 4px;
+    left: 30px;
 
 }
 .login-footer.footer{
@@ -3297,7 +3297,7 @@ sidebar-xs .sidebar-user-material > .category-content {
 
 /************** checkbox and radio ****************/
 .checkbox {
-    padding-right: 20px;
+    padding-right: 30px;
 }
 
     .checkbox label {
