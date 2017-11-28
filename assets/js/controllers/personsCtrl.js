@@ -178,7 +178,7 @@ app.controller('personsCtrl', function ($log, $scope, $rootScope, $location, con
     };
     $scope.submitUserForm = function (userForm, userAuthorotiesModel, valid) {
         $scope.userForm = {};
-        $scope.userForm.role = "user";       
+        $scope.userForm.role = "user";
         $scope.setAuthoroties();
         delete $scope.selectedUser;
 
@@ -215,40 +215,41 @@ app.controller('personsCtrl', function ($log, $scope, $rootScope, $location, con
 
     }
     $scope.bindUserAuthorotiesWithForm = function (userForm, userAuthorotiesModel) {
+        userAuthorotiesModel.authTask_show = userAuthorotiesModel.authTask_show ? userAuthorotiesModel.authTask_show : 0;
         userAuthorotiesModel.authTask_add = userAuthorotiesModel.authTask_add ? userAuthorotiesModel.authTask_add : 0;
         userAuthorotiesModel.authTask_edit = userAuthorotiesModel.authTask_edit ? userAuthorotiesModel.authTask_edit : 0;
         userAuthorotiesModel.authTask_delete = userAuthorotiesModel.authTask_delete ? userAuthorotiesModel.authTask_delete : 0;
-        userForm.authTask = userAuthorotiesModel.authTask_add + userAuthorotiesModel.authTask_edit + userAuthorotiesModel.authTask_delete;
+        userForm.authTask = userAuthorotiesModel.authTask_show + userAuthorotiesModel.authTask_add + userAuthorotiesModel.authTask_edit + userAuthorotiesModel.authTask_delete;
 
-
+        userAuthorotiesModel.authProject_show = userAuthorotiesModel.authProject_show ? userAuthorotiesModel.authProject_show : 0;
         userAuthorotiesModel.authProject_add = userAuthorotiesModel.authProject_add ? userAuthorotiesModel.authProject_add : 0;
         userAuthorotiesModel.authProject_edit = userAuthorotiesModel.authProject_edit ? userAuthorotiesModel.authProject_edit : 0;
         userAuthorotiesModel.authProject_delete = userAuthorotiesModel.authProject_delete ? userAuthorotiesModel.authProject_delete : 0;
-        userForm.authProject = userAuthorotiesModel.authProject_add + userAuthorotiesModel.authProject_edit + userAuthorotiesModel.authProject_delete;
+        userForm.authProject = userAuthorotiesModel.authProject_show + userAuthorotiesModel.authProject_add + userAuthorotiesModel.authProject_edit + userAuthorotiesModel.authProject_delete;
 
-
+        userAuthorotiesModel.authProgram_show = userAuthorotiesModel.authProgram_show ? userAuthorotiesModel.authProgram_show : 0;
         userAuthorotiesModel.authProgram_add = userAuthorotiesModel.authProgram_add ? userAuthorotiesModel.authProgram_add : 0;
         userAuthorotiesModel.authProgram_edit = userAuthorotiesModel.authProgram_edit ? userAuthorotiesModel.authProgram_edit : 0;
         userAuthorotiesModel.authProgram_delete = userAuthorotiesModel.authProgram_delete ? userAuthorotiesModel.authProgram_delete : 0;
-        userForm.authProgram = userAuthorotiesModel.authProgram_add + userAuthorotiesModel.authProgram_edit + userAuthorotiesModel.authProgram_delete;
+        userForm.authProgram = userAuthorotiesModel.authProgram_show + userAuthorotiesModel.authProgram_add + userAuthorotiesModel.authProgram_edit + userAuthorotiesModel.authProgram_delete;
 
-
+        userAuthorotiesModel.authGoals_show = userAuthorotiesModel.authGoals_show ? userAuthorotiesModel.authGoals_show : 0;
         userAuthorotiesModel.authGoals_add = userAuthorotiesModel.authGoals_add ? userAuthorotiesModel.authGoals_add : 0;
         userAuthorotiesModel.authGoals_edit = userAuthorotiesModel.authGoals_edit ? userAuthorotiesModel.authGoals_edit : 0;
         userAuthorotiesModel.authGoals_delete = userAuthorotiesModel.authGoals_delete ? userAuthorotiesModel.authGoals_delete : 0;
-        userForm.authGoals = userAuthorotiesModel.authGoals_add + userAuthorotiesModel.authGoals_edit + userAuthorotiesModel.authGoals_delete;
+        userForm.authGoals = userAuthorotiesModel.authGoals_show + userAuthorotiesModel.authGoals_add + userAuthorotiesModel.authGoals_edit + userAuthorotiesModel.authGoals_delete;
 
-
+        userAuthorotiesModel.authUsers_show = userAuthorotiesModel.authUsers_show ? userAuthorotiesModel.authUsers_show : 0;
         userAuthorotiesModel.authUsers_add = userAuthorotiesModel.authUsers_add ? userAuthorotiesModel.authUsers_add : 0;
         userAuthorotiesModel.authUsers_edit = userAuthorotiesModel.authUsers_edit ? userAuthorotiesModel.authUsers_edit : 0;
         userAuthorotiesModel.authUsers_delete = userAuthorotiesModel.authUsers_delete ? userAuthorotiesModel.authUsers_delete : 0;
-        userForm.authUsers = userAuthorotiesModel.authUsers_add + userAuthorotiesModel.authUsers_edit + userAuthorotiesModel.authUsers_delete;
+        userForm.authUsers = userAuthorotiesModel.authUsers_show + userAuthorotiesModel.authUsers_add + userAuthorotiesModel.authUsers_edit + userAuthorotiesModel.authUsers_delete;
 
-
+        userAuthorotiesModel.authEntities_show = userAuthorotiesModel.authEntities_show ? userAuthorotiesModel.authEntities_show : 0;
         userAuthorotiesModel.authEntities_add = userAuthorotiesModel.authEntities_add ? userAuthorotiesModel.authEntities_add : 0;
         userAuthorotiesModel.authEntities_edit = userAuthorotiesModel.authEntities_edit ? userAuthorotiesModel.authEntities_edit : 0;
         userAuthorotiesModel.authEntities_delete = userAuthorotiesModel.authEntities_delete ? userAuthorotiesModel.authEntities_delete : 0;
-        userForm.authEntities = userAuthorotiesModel.authEntities_add + userAuthorotiesModel.authEntities_edit + userAuthorotiesModel.authEntities_delete;
+        userForm.authEntities = userAuthorotiesModel.authEntities_show + userAuthorotiesModel.authEntities_add + userAuthorotiesModel.authEntities_edit + userAuthorotiesModel.authEntities_delete;
 
         return userForm;
 
@@ -279,6 +280,12 @@ app.controller('personsCtrl', function ($log, $scope, $rootScope, $location, con
             $scope.userAuthorotiesModel.authTask_add = 0;
         }
 
+        if ($scope.userForm.authTask & 8) {
+            $scope.userAuthorotiesModel.authTask_show = 8;
+        }
+        else{
+            $scope.userAuthorotiesModel.authTask_show = 0;
+        }
 
         if ($scope.userForm.authProject & 1) {
             $log.debug('project delete enabled');
@@ -302,6 +309,13 @@ app.controller('personsCtrl', function ($log, $scope, $rootScope, $location, con
         }
         else {
             $scope.userAuthorotiesModel.authProject_add = 0;
+        }
+
+        if ($scope.userForm.authProject & 8) {
+            $scope.userAuthorotiesModel.authProject_show = 8;
+        }
+        else{
+            $scope.userAuthorotiesModel.authProject_show = 0;
         }
 
 
@@ -328,6 +342,13 @@ app.controller('personsCtrl', function ($log, $scope, $rootScope, $location, con
         else {
             $scope.userAuthorotiesModel.authProgram_add = 0;
         }
+        
+        if ($scope.userForm.authProgram & 8) {
+            $scope.userAuthorotiesModel.authProgram_show = 8;
+        }
+        else{
+            $scope.userAuthorotiesModel.authProgram_show = 0;
+        }
 
 
         if ($scope.userForm.authGoals & 1) {
@@ -352,6 +373,13 @@ app.controller('personsCtrl', function ($log, $scope, $rootScope, $location, con
         }
         else {
             $scope.userAuthorotiesModel.authGoals_add = 0;
+        }
+        
+        if ($scope.userForm.authGoals & 8) {
+            $scope.userAuthorotiesModel.authGoals_show = 8;
+        }
+        else{
+            $scope.userAuthorotiesModel.authGoals_show = 0;
         }
 
 
@@ -379,6 +407,13 @@ app.controller('personsCtrl', function ($log, $scope, $rootScope, $location, con
             $scope.userAuthorotiesModel.authUsers_add = 0;
         }
 
+        if ($scope.userForm.authUsers & 8) {
+            $scope.userAuthorotiesModel.authUsers_show = 8;
+        }
+        else{
+            $scope.userAuthorotiesModel.authUsers_show = 0;
+        }
+
 
         if ($scope.userForm.authEntities & 1) {
             $log.debug('etities delete enabled');
@@ -401,6 +436,12 @@ app.controller('personsCtrl', function ($log, $scope, $rootScope, $location, con
         }
         else {
             $scope.userAuthorotiesModel.authEntities_add = 0;
+        }
+        if ($scope.userForm.authEntities & 8) {
+            $scope.userAuthorotiesModel.authEntities_show = 8;
+        }
+        else{
+            $scope.userAuthorotiesModel.authEntities_show = 0;
         }
 
     };
