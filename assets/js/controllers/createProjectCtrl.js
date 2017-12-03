@@ -243,7 +243,7 @@ app.controller('createProjectCtrl', function ($log, $scope, $rootScope, $locatio
             delete $scope.selectedProject;
             internalTeamSelect.val([]).trigger('change');
             externalTeamSelect.val([]).trigger('change');
-            $scope.renderProjects();
+            $scope.filterProjects();
         });
     };
     $scope.addNewProject = function (newProjectObject, valid, form) {
@@ -307,7 +307,7 @@ app.controller('createProjectCtrl', function ($log, $scope, $rootScope, $locatio
                 $log.debug("Submit program form");
                 $log.debug(submittedForm);
                 user.addProject(submittedForm).then(function (resolved) {
-                    $scope.renderProjects();
+                    $scope.filterProjects();
                 });
             }
             else {
@@ -329,7 +329,7 @@ app.controller('createProjectCtrl', function ($log, $scope, $rootScope, $locatio
                 $log.debug(submittedForm);
 
                 user.editProject(submittedForm).then(function (resolved) {
-                    $scope.renderProjects();
+                    $scope.filterProjects();
                 });
             }
         }

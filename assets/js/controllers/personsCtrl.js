@@ -101,7 +101,7 @@ app.controller('personsCtrl', function ($log, $scope, $rootScope, $location, con
             user.deleteUser($scope.selectedUser._id == undefined ? "" : $scope.selectedUser._id).then(function (resolved) {
                 $scope.userForm = {};
                 delete $scope.selectedUser;
-                $scope.renderUsers();
+                $scope.renderUsers($scope.filterationModel);
             });
         }
     };
@@ -454,7 +454,7 @@ app.controller('personsCtrl', function ($log, $scope, $rootScope, $location, con
                 $log.debug('submitted form');
                 $log.debug(newForm);
                 user.addUser(newForm).then(function (resolved) {
-                    $scope.renderUsers();
+                    $scope.renderUsers($scope.filterationModel);
                 });
 
             }
@@ -464,7 +464,7 @@ app.controller('personsCtrl', function ($log, $scope, $rootScope, $location, con
                 $log.debug('submitted form');
                 $log.debug(newForm);
                 user.updateUser(newForm).then(function (resolved) {
-                    $scope.renderUsers();
+                    $scope.renderUsers($scope.filterationModel);
                 });
             }
         } else {

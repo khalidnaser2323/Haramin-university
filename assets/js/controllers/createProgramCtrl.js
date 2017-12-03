@@ -33,7 +33,7 @@ app.controller('createProgramCtrl', function ($log, $scope, $rootScope, $locatio
     $scope.renderEntities = function () {
         user.getEntities().then(function (entities) {
             $scope.associations = entities;
-            $scope.selectableEntities = entities;
+            // $scope.selectableEntities = entities;
             //$scope.selectableEntitiesSecondLevel = entities
 
             $scope.ets = [];
@@ -251,7 +251,7 @@ app.controller('createProgramCtrl', function ($log, $scope, $rootScope, $locatio
             delete $scope.selectedProgram;
             internalTeamSelect.val([]).trigger('change');
             externalTeamSelect.val([]).trigger('change');
-            $scope.renderPrograms();
+            $scope.renderPrograms($scope.filterationModel);
         });
     };
     $scope.createNewProgram = function (newProgramForm, valid, form) {
@@ -341,7 +341,7 @@ app.controller('createProgramCtrl', function ($log, $scope, $rootScope, $locatio
                 $log.debug("Submit program form");
                 $log.debug(submittedForm);
                 user.addProgram(submittedForm).then(function (resolved) {
-                    $scope.renderPrograms();
+                    $scope.renderPrograms($scope.filterationModel);
                 });
             }
             else{
@@ -380,12 +380,13 @@ app.controller('createProgramCtrl', function ($log, $scope, $rootScope, $locatio
             $log.debug("Submit program form");
             $log.debug(submittedForm);
             user.editProgram(submittedForm).then(function (resolved) {
-                $scope.renderPrograms();
+                $scope.renderPrograms($scope.filterationModel);
             });
         }
         }
         else {
-            window.alert("من فضلك تأكد من إكمال البيانات المطلوبة");
+            $.alert("من فضلك تأكد من إكمال البيانات المطلوبة");
+          
         }
     };
 
