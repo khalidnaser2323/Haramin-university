@@ -334,7 +334,7 @@ app.controller('createProjectCtrl', function ($log, $scope, $rootScope, $locatio
             }
         }
         else {
-            window.alert("من فضلك تأكد من إكمال البيانات المطلوبة");
+            $.alert("من فضلك تأكد من إكمال البيانات المطلوبة");
         }
 
     };

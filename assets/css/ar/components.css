@@ -4252,3 +4252,6 @@ sidebar-xs .sidebar-user-material > .category-content {
 .action-icon{
     margin: 0 3px;
   }
+.fa:active{
+    font-size: 2.5em;
+  }

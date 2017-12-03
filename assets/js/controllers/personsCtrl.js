@@ -468,7 +468,7 @@ app.controller('personsCtrl', function ($log, $scope, $rootScope, $location, con
                 });
             }
         } else {
-            window.alert("من فضلك قم بإدخال الاسم والجهة واسم المستخدم");
+            $.alert("من فضلك قم بإدخال الاسم والجهة واسم المستخدم");
         }
     };
 });
