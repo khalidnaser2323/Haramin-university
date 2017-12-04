@@ -156,7 +156,7 @@ a.badge,
     .sidebar {
         display: table-cell;
         vertical-align: top;
-        width: 220px;
+        width: 170px;
     }
 }
 
@@ -2880,7 +2880,7 @@ sidebar-xs .sidebar-user-material > .category-content {
 }
 
 .pattern-bg {
-    background-image: url(../../images/pattern.png);
+    background-image: url(../../images/Pattern.png);
 }
 
 
@@ -4253,7 +4253,9 @@ sidebar-xs .sidebar-user-material > .category-content {
     margin: 0 3px;
   }
 .fa:active{
-    font-size: 2.5em;
+    /* font-size: 2.5em; */
+    /* background-color: grey; */
+    z-index: 50;
   }
 .home-editor-enabled{
     font-size: 1.7em;

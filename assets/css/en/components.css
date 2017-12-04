@@ -151,7 +151,7 @@ a.badge,
   .sidebar {
     display: table-cell;
     vertical-align: top;
-    width: 220px;
+    width: 170px;
   }
 }
 .sidebar-main {
@@ -2388,7 +2388,7 @@ sidebar-xs .sidebar-user-material > .category-content {
     display: none;
 }
 .pattern-bg{
-    background-image:url(../../images/pattern.png)
+    background-image:url(../../images/Pattern.png)
 }
 
 /* ------------------------------------------------------------------------------
@@ -3150,6 +3150,9 @@ sidebar-xs .sidebar-user-material > .category-content {
 }
 .fa:active{
   font-size: 2.5em;
+  /* background-color: black; */
+  
+    
 }
 .home-editor-enabled{
   font-size: 1.7em;

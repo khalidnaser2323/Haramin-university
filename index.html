@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="en" dir="rtl">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,7 +15,7 @@
     <link href="assets/css/ar/components.css" rel="stylesheet" type="text/css">
     <link href="assets/css/ar/colors.css" rel="stylesheet" type="text/css">
     <link href="assets/css/jquery-confirm.min.css" rel="stylesheet" type="text/css">
-    
+
     <!-- /global stylesheets -->
 
     <!--angular base-->
@@ -39,8 +40,8 @@
     <script defer type="text/javascript" src="assets/js/plugins/forms/selects/select2.min.js"></script>
     <!-- <script defer type="text/javascript" src="assets/js/pages/form_select2.js"></script> -->
     <script type="text/javascript" src="assets/js/plugins/forms/styling/uniform.min.js"></script>
-    <script type="text/javascript" src="assets/js/plugins/forms/styling/switchery.min.js"></script>   
-    <script type="text/javascript" src="assets/js/plugins/forms/styling/switch.min.js"></script>    
+    <script type="text/javascript" src="assets/js/plugins/forms/styling/switchery.min.js"></script>
+    <script type="text/javascript" src="assets/js/plugins/forms/styling/switch.min.js"></script>
     <script type="text/javascript" src="assets/js/plugins/ui/nicescroll.min.js"></script>
     <script type="text/javascript" src="assets/js/pages/form_checkboxes_radios.js"></script>
     <script type="text/javascript" src="assets/js/pages/layout_fixed_custom.js"></script>
@@ -93,115 +94,161 @@
     <script type="text/javascript" src="assets/js/controllers/loginCtrl.js"></script>
     <script type="text/javascript" src="assets/js/controllers/addGoalsCtrl.js"></script>
     <script type="text/javascript" src="assets/js/controllers/reportsCtrl.js"></script>
-    
-    
+
+
     <!--controllers-->
 </head>
+
 <body ng-class="loginPage? 'login-container':'navbar-top'" ng-app="myApp">
-<!-- Main navbar -->
-<div class="navbar navbar-inverse navbar-fixed-top" ng-show="!loginPage">
-    <div class="navbar-header">
-        <ul class="nav navbar-nav pull-right visible-xs-block">
-            <li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
-            <li><a class="sidebar-mobile-main-toggle"><i class="icon-paragraph-justify3"></i></a></li>
-        </ul>
-    </div>
-    <div class="navbar-collapse collapse" id="navbar-mobile">
-        <ul class="nav navbar-nav">
-            <li><a class="sidebar-control sidebar-main-toggle hidden-xs"><i class="icon-paragraph-justify3"></i></a>
-            </li>
-            <li><a> نظام توثيق ومتابعة المشاريع والمهام الإستراتيجية | جامعة الحرمين </a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
+    <!-- Main navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top" ng-show="!loginPage">
+        <div class="navbar-header">
+            <ul class="nav navbar-nav pull-right visible-xs-block">
+                <li>
+                    <a data-toggle="collapse" data-target="#navbar-mobile">
+                        <i class="icon-tree5"></i>
+                    </a>
+                </li>
+                <li>
+                    <a class="sidebar-mobile-main-toggle">
+                        <i class="icon-paragraph-justify3"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-mobile">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a class="sidebar-control sidebar-main-toggle hidden-xs">
+                        <i class="icon-paragraph-justify3"></i>
+                    </a>
+                </li>
+                <li>
+                    <a> نظام توثيق ومتابعة المشاريع والمهام الإستراتيجية | جامعة الحرمين </a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
 
-            <li class="dropdown language-switch">
-                <a class="dropdown-toggle" data-toggle="dropdown">
-                    <img src="assets/images/flags/sa.png" class="position-left" alt="">
-                    العربية
-                    <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a class="english-font" href="index-ar.html"><img src="assets/images/flags/gb.png" alt="">
-                        English </a></li>
-                </ul>
-            </li>
-            <li><a href="#"><i class="icon-switch2"></i> تسجيل خروج </a></li>
-        </ul>
+                <li class="dropdown language-switch">
+                    <a class="dropdown-toggle" data-toggle="dropdown">
+                        <img src="assets/images/flags/sa.png" class="position-left" alt=""> العربية
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="english-font" href="index-ar.html">
+                                <img src="assets/images/flags/gb.png" alt=""> English </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="icon-switch2"></i> تسجيل خروج </a>
+                </li>
+            </ul>
+        </div>
     </div>
-</div>
-<!-- /main navbar -->
-<!-- Page container -->
-<div class="page-container">
-    <!-- Page content -->
-    <div class="page-content">
-        <!-- Main sidebar -->
-        <div class="sidebar sidebar-main" ng-if="!loginPage">
-            <div class="sidebar-content">
+    <!-- /main navbar -->
+    <!-- Page container -->
+    <div class="page-container">
+        <!-- Page content -->
+        <div class="page-content">
+            <!-- Main sidebar -->
+            <div class="sidebar sidebar-main" ng-if="!loginPage">
+                <div class="sidebar-content">
 
-                <!-- User menu -->
-                <div class="sidebar-user-material">
-                    <div class="category-content">
-                        <div class="sidebar-user-material-content">
-                            <a href="#"><img src="assets/images/logo.jpg" class="img-responsive" alt=""></a>
+                    <!-- User menu -->
+                    <div class="sidebar-user-material">
+                        <div class="category-content">
+                            <div class="sidebar-user-material-content">
+                                <a href="#">
+                                    <img src="assets/images/logo.jpg" class="img-responsive" alt="">
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!-- /user menu -->
-                <!-- Main navigation -->
-                <div class="sidebar-category sidebar-category-visible">
-                    <div class="category-content no-padding">
-                        <ul class="navigation navigation-main navigation-accordion">
-                            <!-- Main -->
-                            <li class="nav-list-item" id="home"><a ng-click="navigateToPage('home')"><i
-                                    class="icon-home4"></i>
-                                <span> الرئيسية</span></a></li>
-                            <li class="nav-list-item" id="personal"><a ng-click="navigateToPage('personal')"><i
+                    <!-- /user menu -->
+                    <!-- Main navigation -->
+                    <div class="sidebar-category sidebar-category-visible">
+                        <div class="category-content no-padding">
+                            <ul class="navigation navigation-main navigation-accordion">
+                                <!-- Main -->
+                                <li class="nav-list-item" id="home">
+                                    <a ng-click="navigateToPage('home')">
+                                        <i class="icon-home4"></i>
+                                        <span> الرؤية والرسالة</span>
+                                    </a>
+                                </li>
+                                <li class="nav-list-item" id="targets">
+                                    <a ng-click="navigateToPage('targets')">
+                                        <i class="icon-target"></i>
+                                        <span> الأهداف </span>
+                                    </a>
+                                </li>
+                                <li class="nav-list-item" id="programs">
+                                    <a ng-click="navigateToPage('programs')">
+                                        <i class="icon-stack"></i>
+                                        <span> البرامج</span>
+                                    </a>
+                                </li>
+                                <li class="nav-list-item" id="projects">
+                                    <a ng-click="navigateToPage('projects')">
+                                        <i class="icon-stack2"></i>
+                                        <span> المشاريع </span>
+                                    </a>
+                                </li>
+                                <!-- <li class="nav-list-item" id="personal"><a ng-click="navigateToPage('personal')"><i
                                     class="icon-profile"></i> <span> الصفحة الشخصية </span></a>
-                            </li>
-                            <li class="nav-list-item" id="tasks"><a ng-click="navigateToPage('tasks')"><i
-                                    class="icon-clipboard2"></i>
-                                <span> المهام </span></a></li>
-                            <li class="nav-list-item" id="projects"><a ng-click="navigateToPage('projects')"><i
-                                    class="icon-stack2"></i>
-                                <span> المشاريع </span></a></li>
-                            <li class="nav-list-item" id="programs"><a ng-click="navigateToPage('programs')"><i
-                                    class="icon-stack"></i>
-                                <span> البرامج</span></a></li>
-                            <li class="nav-list-item" id="targets"><a ng-click="navigateToPage('targets')"><i
-                                    class="icon-target"></i>
-                                <span> الأهداف </span></a></li>
-                            <li class="nav-list-item" id="persons"><a ng-click="navigateToPage('persons')"><i
-                                    class="icon-users"></i> <span> الأشخاص</span></a>
-                            </li>
-                            <li class="nav-list-item" id="organizations"><a
-                                    ng-click="navigateToPage('organizations')"><i class="icon-office"></i>
-                                <span> الجهات </span></a></li>
-                            <!-- <li class="nav-list-item" id="charts"><a ng-click="navigateToPage('charts')"><i
+                            </li> -->
+
+                                <li class="nav-list-item" id="tasks">
+                                    <a ng-click="navigateToPage('tasks')">
+                                        <i class="icon-clipboard2"></i>
+                                        <span> المهام </span>
+                                    </a>
+                                </li>
+
+                                <li class="nav-list-item" id="organizations">
+                                    <a ng-click="navigateToPage('organizations')">
+                                        <i class="icon-office"></i>
+                                        <span> الجهات </span>
+                                    </a>
+                                </li>
+
+                                <li class="nav-list-item" id="persons">
+                                    <a ng-click="navigateToPage('persons')">
+                                        <i class="icon-users"></i>
+                                        <span> الأشخاص</span>
+                                    </a>
+                                </li>
+
+                                <!-- <li class="nav-list-item" id="charts"><a ng-click="navigateToPage('charts')"><i
                                     class="icon-server"></i> <span>الخرائط</span></a>
                             </li> -->
-                            <li class="nav-list-item" id="reports"><a ng-click="navigateToPage('reports')"><i
-                                    class="icon-file-text2"></i>
-                                <span> التقارير</span></a></li>
-                            <!-- /main -->
-                        </ul>
+                                <li class="nav-list-item" id="reports">
+                                    <a ng-click="navigateToPage('reports')">
+                                        <i class="icon-file-text2"></i>
+                                        <span> التقارير</span>
+                                    </a>
+                                </li>
+                                <!-- /main -->
+                            </ul>
+                        </div>
                     </div>
+                    <!-- /main navigation -->
                 </div>
-                <!-- /main navigation -->
             </div>
-        </div>
-        <!-- /main sidebar -->
-        <!-- Main content -->
-        <div class="content-wrapper " ng-class="loginPage? '' : 'pattern-bg'">
-            <ui-view></ui-view>
+            <!-- /main sidebar -->
+            <!-- Main content -->
+            <div class="content-wrapper " ng-class="loginPage? '' : 'pattern-bg'">
+                <ui-view></ui-view>
 
+            </div>
+            <!-- /main content -->
         </div>
-        <!-- /main content -->
+        <!-- /page content -->
     </div>
-    <!-- /page content -->
-</div>
-<!-- /page container -->
+    <!-- /page container -->
 </body>
+
 </html>
-
-
-
