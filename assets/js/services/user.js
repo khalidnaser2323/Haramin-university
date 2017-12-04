@@ -353,5 +353,6 @@ app.factory('user', function ($q, $rootScope, $log, $timeout, connector) {
         }
 
 
+
     };
 });

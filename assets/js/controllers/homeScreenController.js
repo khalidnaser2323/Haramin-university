@@ -9,6 +9,11 @@ app.controller('homeScreenController', function ($log, $scope, $rootScope, $loca
     //    console.log("Resolved to controller");
     //    console.log(resolved);
     //});
-
-
+$scope.editEnabled = false;
+$scope.enableEdit = function(){
+    $scope.editEnabled = true;
+};
+$scope.disableEdit = function(){
+    $scope.editEnabled = false;
+};
 });

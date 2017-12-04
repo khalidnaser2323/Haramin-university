@@ -102,36 +102,36 @@
 <!--&lt;!&ndash; /main sidebar &ndash;&gt;-->
 <!--&lt;!&ndash; Main content &ndash;&gt;-->
 <!--<div class="content-wrapper pattern-bg">-->
-                <!-- Content area -->
-                <div class="content">
-                    <div class="">
-                        <div class="page-header-content">
-                            <div class="page-title">
-                                <h3><span class="text-semibold"> تعريف الأهداف </span></h3>
+<!-- Content area -->
+<div class="content">
+    <div class="">
+        <div class="page-header-content">
+            <div class="page-title">
+                <h3>
+                    <span class="text-semibold"> تعريف الأهداف </span>
+                </h3>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <form name="strategicGoalForm">
+                <div class="panel panel-flat">
+                    <div class="panel-body height-70-vh">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label> الأهداف الرئيسية </label>
+                                <select multiple="multiple" class="form-control height-45-vh">
+                                    <option ng-repeat="mainGoal in strategicGoals" ng-click="onStrategicGoalSelected(mainGoal,$index)">
+                                        {{mainGoal.name}}
+                                    </option>
+                                </select>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <form name="strategicGoalForm">
-                                <div class="panel panel-flat">
-                                    <div class="panel-body height-70-vh">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label> الأهداف الرئيسية </label>
-                                                <select multiple="multiple" class="form-control height-45-vh">
-                                                    <option ng-repeat="mainGoal in strategicGoals"
-                                                            ng-click="onStrategicGoalSelected(mainGoal,$index)">
-                                                        {{mainGoal.name}}
-                                                    </option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <textarea rows="3" class="form-control" placeholder=""
-                                                       ng-model="strategicGoalModel" required></textarea>
-                                            </div>
-                                            <div class="text-right">
-                                                <!-- <button type="button"
+                            <div class="form-group">
+                                <textarea rows="3" class="form-control" placeholder="" ng-model="strategicGoalModel" required></textarea>
+                            </div>
+                            <div class="text-right">
+                                <!-- <button type="button"
                                                         ng-click="addStrategicGoal(strategicGoalForm.$valid)"
                                                         class="btn bg-primary-400"> إضافة
                                                 </button>
@@ -142,36 +142,34 @@
                                                 <button type="button" ng-click="deleteStrategicGoal()"
                                                         class="btn bg-danger-400"> حذف
                                                 </button> -->
-                                                <i class="fa fa-plus fa-2x text-green action-icon" ng-click="addStrategicGoal(strategicGoalForm.$valid)" aria-hidden="true"></i>                                                                                                                                            
-                                                <i class="fa fa-floppy-o fa-2x action-icon" ng-click="editStrategicGoal(strategicGoalForm.$valid)" aria-hidden="true"></i>                                            
-                                                <i class="fa fa-times fa-2x text-danger action-icon" ng-click="deleteStrategicGoal()" aria-hidden="true"></i>
-                                              
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
+                                <i class="fa fa-plus fa-2x text-green action-icon" ng-click="addStrategicGoal(strategicGoalForm.$valid)" aria-hidden="true"></i>
+                                <i class="fa fa-floppy-o fa-2x action-icon" ng-click="editStrategicGoal(strategicGoalForm.$valid)" aria-hidden="true"></i>
+                                <i class="fa fa-times fa-2x text-danger action-icon" ng-click="deleteStrategicGoal()" aria-hidden="true"></i>
+
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <form name="secondaryGoalForm">
-                                <div class="panel panel-flat">
-                                    <div class="panel-body height-70-vh">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label> الأهداف الفرعية </label>
-                                                <select multiple="multiple" class="form-control height-45-vh">
-                                                    <option ng-repeat="(key, value) in selectedStrategicGoal.subgoals"
-                                                            ng-click="onSecondaryGoalSelected(key,$index,value)">
-                                                        {{value.name}}
-                                                    </option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <textarea rows="3" class="form-control" placeholder=""
-                                                       ng-model="secondaryGoalModel" required></textarea>
-                                            </div>
-                                            <div class="text-right">
-                                                <!-- <button ng-click="addSecondaryGoal(secondaryGoalForm.$valid)"
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <form name="secondaryGoalForm">
+                <div class="panel panel-flat">
+                    <div class="panel-body height-70-vh">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label> الأهداف الفرعية </label>
+                                <select multiple="multiple" class="form-control height-45-vh">
+                                    <option ng-repeat="(key, value) in selectedStrategicGoal.subgoals" ng-click="onSecondaryGoalSelected(key,$index,value)">
+                                        {{value.name}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <textarea rows="3" class="form-control" placeholder="" ng-model="secondaryGoalModel" required></textarea>
+                            </div>
+                            <div class="text-right">
+                                <!-- <button ng-click="addSecondaryGoal(secondaryGoalForm.$valid)"
                                                         type="submit" class="btn bg-primary-400"> إضافة
                                                 </button>
                                                 <button ng-click="editSecondaryGoal(secondaryGoalForm.$valid)"
@@ -180,31 +178,31 @@
                                                 <button ng-click="deleteSecondaryGoal()" type="button"
                                                         class="btn bg-danger-400"> حذف
                                                 </button> -->
-                                                <i class="fa fa-plus fa-2x text-green action-icon" ng-click="addSecondaryGoal(secondaryGoalForm.$valid)" aria-hidden="true"></i>                                                                                                                                            
-                                                <i class="fa fa-floppy-o fa-2x action-icon" ng-click="editSecondaryGoal(secondaryGoalForm.$valid)" aria-hidden="true"></i>                                            
-                                                <i class="fa fa-times fa-2x text-danger action-icon" ng-click="deleteSecondaryGoal()" aria-hidden="true"></i>
-                                              
-                                        </div>
-                                        </div>
+                                <i class="fa fa-plus fa-2x text-green action-icon" ng-click="addSecondaryGoal(secondaryGoalForm.$valid)" aria-hidden="true"></i>
+                                <i class="fa fa-floppy-o fa-2x action-icon" ng-click="editSecondaryGoal(secondaryGoalForm.$valid)" aria-hidden="true"></i>
+                                <i class="fa fa-times fa-2x text-danger action-icon" ng-click="deleteSecondaryGoal()" aria-hidden="true"></i>
 
-
-                                    </div>
-                                </div>
-                            </form>
+                            </div>
                         </div>
+
+
                     </div>
-                    <!-- Footer -->
-                    <div class="footer text-muted">
-                        &copy; 2017. كلية المسجد النبوي - </a> جميع الحقوق محفوظة.
-                    </div>
-                    <!-- /footer -->
                 </div>
-                <!-- /content area -->
+            </form>
+        </div>
+    </div>
+    <!-- Footer -->
+    <div class="footer text-muted">
+        &copy; 2017. كلية المسجد النبوي - </a> جميع الحقوق محفوظة.
+    </div>
+    <!-- /footer -->
+</div>
+<!-- /content area -->
 <!--</div>-->
-            <!-- /main content -->
+<!-- /main content -->
 <!--</div>-->
-        <!-- /page content -->
+<!-- /page content -->
 <!--</div>-->
-    <!-- /page container -->
+<!-- /page container -->
 <!--</body>-->
 <!--</html>-->
