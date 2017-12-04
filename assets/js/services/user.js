@@ -350,6 +350,44 @@ app.factory('user', function ($q, $rootScope, $log, $timeout, connector) {
                 deferred.reject(rejected);
             });
             return deferred.promise;
+        },
+        'updateHomeContents': function (message, vision, principles) {
+            var $this = this;
+            var deferred = $q.defer();
+            var data =
+                {
+                    "_id": "homeContents",
+                    "data": {
+                        "message": message ? message : "",
+                        "vision": vision ? vision : "",
+                        "principles": principles ? principles : ""
+                    }
+                }
+            connector.send(data, '/global', 'PUT', null).then(function (resolved) {
+                $log.debug('edit Project response');
+                $log.debug(resolved.data);
+                if (resolved.data.message === "OK") {
+                    deferred.resolve(resolved.data);
+                }
+            }, function (rejected) {
+                $log.debug(rejected);
+                deferred.reject(rejected);
+            });
+            return deferred.promise;
+        },
+        'getHomeContents': function () {
+            var $this = this;
+            var deferred = $q.defer();
+            connector.send(undefined, '/global/list', 'POST', null).then(function (resolved) {
+                $log.debug('get home contents response');
+                $log.debug(resolved.data);
+                deferred.resolve(resolved.data);
+
+            }, function (rejected) {
+                $log.debug(rejected);
+                deferred.reject(rejected);
+            });
+            return deferred.promise;
         }
 
 

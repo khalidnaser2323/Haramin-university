@@ -28,7 +28,7 @@ app.controller('targetsCtrl', function ($log, $scope, $rootScope, $location, use
     $scope.addStrategicGoal = function (valid) {
         $scope.strategicGoalModel = "";
         delete $scope.selectedStrategicGoal;
-        
+
         // if (valid) {
         //     user.addGoal($scope.strategicGoalModel).then(function (resolved) {
         //         debugger;
@@ -49,8 +49,8 @@ app.controller('targetsCtrl', function ($log, $scope, $rootScope, $location, use
         $scope.secondaryGoalModel = '';
     };
     $scope.addSecondaryGoal = function (valid) {
-       delete $scope.selectedSecondaryObjectKey;
-       $scope.secondaryGoalModel = "";
+        delete $scope.selectedSecondaryObjectKey;
+        $scope.secondaryGoalModel = "";
         // if (valid) {
         //     var timestampString = new Date().getTime() + '';
         //     var goalObject = angular.copy($scope.selectedStrategicGoal);
@@ -95,27 +95,27 @@ app.controller('targetsCtrl', function ($log, $scope, $rootScope, $location, use
                     $scope.renderGoals();
                 });
             }
-            else{
-                if($scope.selectedStrategicGoal !=undefined){
-                var timestampString = new Date().getTime() + '';
-                var goalObject = angular.copy($scope.selectedStrategicGoal);
-                goalObject.subgoals[timestampString] = {"name": $scope.secondaryGoalModel};
-                user.updateGoal(goalObject).then(function (resolved) {
-                    debugger;
-                    $scope.strategicGoalModel = '';
-                    $scope.secondaryGoalModel = '';
-                    $scope.renderGoals();
-                });
-            }
-            else{
-                window.alert("من فضلك قم باختيار هدف استراتيجي لإضافة الهدف التفصيلي")
-            }
+            else {
+                if ($scope.selectedStrategicGoal != undefined) {
+                    var timestampString = new Date().getTime() + '';
+                    var goalObject = angular.copy($scope.selectedStrategicGoal);
+                    goalObject.subgoals[timestampString] = { "name": $scope.secondaryGoalModel };
+                    user.updateGoal(goalObject).then(function (resolved) {
+                        debugger;
+                        $scope.strategicGoalModel = '';
+                        $scope.secondaryGoalModel = '';
+                        $scope.renderGoals();
+                    });
+                }
+                else {
+                    window.alert("من فضلك قم باختيار هدف استراتيجي لإضافة الهدف التفصيلي")
+                }
             }
         }
     };
     $scope.editStrategicGoal = function (valid) {
         if (valid) {
-            if($scope.selectedStrategicGoal == undefined){
+            if ($scope.selectedStrategicGoal == undefined) {
                 user.addGoal($scope.strategicGoalModel).then(function (resolved) {
                     debugger;
                     $scope.strategicGoalModel = '';
@@ -123,15 +123,15 @@ app.controller('targetsCtrl', function ($log, $scope, $rootScope, $location, use
                     $scope.renderGoals();
                 });
             }
-            else{
-            var goalObject = angular.copy($scope.selectedStrategicGoal);
-            goalObject.name = $scope.strategicGoalModel;
-            user.updateGoal(goalObject).then(function (resolved) {
-                $scope.strategicGoalModel = '';
-                $scope.secondaryGoalModel = '';
-                $scope.renderGoals();
-            });
-        }
+            else {
+                var goalObject = angular.copy($scope.selectedStrategicGoal);
+                goalObject.name = $scope.strategicGoalModel;
+                user.updateGoal(goalObject).then(function (resolved) {
+                    $scope.strategicGoalModel = '';
+                    $scope.secondaryGoalModel = '';
+                    $scope.renderGoals();
+                });
+            }
         }
 
     };
