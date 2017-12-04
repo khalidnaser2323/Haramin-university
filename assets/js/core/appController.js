@@ -60,7 +60,7 @@ app.config(['$locationProvider', '$stateProvider', '$urlRouterProvider', functio
     }).state('reports', {
         url: '/reports',
         templateUrl: 'reports.html',
-        controller: 'homeScreenController'
+        controller: 'reportsCtrl'
     });
 }]);
 
