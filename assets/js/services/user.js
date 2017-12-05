@@ -388,7 +388,69 @@ app.factory('user', function ($q, $rootScope, $log, $timeout, connector) {
                 deferred.reject(rejected);
             });
             return deferred.promise;
+        },
+        'addReport': function (report) {
+            var $this = this;
+            var deferred = $q.defer();
+
+            connector.send(report, '/report', 'POST', null).then(function (resolved) {
+                $log.debug('Add report response');
+                $log.debug(resolved.data);
+                if (resolved.data.message === "OK") {
+                    deferred.resolve(resolved.data);
+                }
+            }, function (rejected) {
+                $log.debug(rejected);
+                deferred.reject(rejected);
+            });
+            return deferred.promise;
+        },
+        'getReports': function () {
+            var $this = this;
+            var deferred = $q.defer();
+            connector.send(undefined, '/report/list', 'POST', null).then(function (resolved) {
+                $log.debug('get reports response');
+                $log.debug(resolved.data);
+                deferred.resolve(resolved.data);
+
+            }, function (rejected) {
+                $log.debug(rejected);
+                deferred.reject(rejected);
+            });
+            return deferred.promise;
+        },
+        'editReport': function (report) {
+            var $this = this;
+            var deferred = $q.defer();
+
+            connector.send(report, '/report', 'PUT', null).then(function (resolved) {
+                $log.debug('edit Report response');
+                $log.debug(resolved.data);
+                if (resolved.data.message === "OK") {
+                    deferred.resolve(resolved.data);
+                }
+            }, function (rejected) {
+                $log.debug(rejected);
+                deferred.reject(rejected);
+            });
+            return deferred.promise;
+        },
+        'deleteReport': function (reportId) {
+            var $this = this;
+            var deferred = $q.defer();
+            connector.send(null, '/report/' + reportId, 'DELETE', null).then(function (resolved) {
+                $log.debug('delete report response');
+                $log.debug(resolved.data);
+                if (resolved.data.message === "OK") {
+                    deferred.resolve(resolved.data);
+                }
+            }, function (rejected) {
+                $log.debug(rejected);
+                deferred.reject(rejected);
+            });
+            return deferred.promise;
         }
+        
 
 
 
