@@ -10,8 +10,8 @@ app.controller('createProgramCtrl', function ($log, $scope, $rootScope, $locatio
     $scope.programForm = {};
     $scope.userFilterEntitiesModel = {};
     $scope.filterationModel = {
-        "entities": {"$elemMatch": {"l1": undefined, "l2": undefined, "l3": undefined, "l4": undefined}},
-        "goals": {"$elemMatch": {"l1": undefined, "l2": undefined}}
+        "entities": { "$elemMatch": { "l1": undefined, "l2": undefined, "l3": undefined, "l4": undefined } },
+        "goals": { "$elemMatch": { "l1": undefined, "l2": undefined } }
     };
     $scope.userFilterationModel = {
         "entityl1": undefined,
@@ -48,7 +48,7 @@ app.controller('createProgramCtrl', function ($log, $scope, $rootScope, $locatio
                             continue;
                         }
                         var el4 = {};
-                        $scope.ets.push({el1: el1, el2: el2, el3: el3, eli2: el2i, eli3: el3i, el4: el4});
+                        $scope.ets.push({ el1: el1, el2: el2, el3: el3, eli2: el2i, eli3: el3i, el4: el4 });
                         for (var el4i in el3.children) {
                             el4[el4i] = el3.children[el4i];
                         }
@@ -66,12 +66,12 @@ app.controller('createProgramCtrl', function ($log, $scope, $rootScope, $locatio
                 $scope.entitiesModel.secondLevel = '';
                 $scope.entitiesModel.thirdLevel = '';
                 $scope.entitiesModel.fourthLevel = '';
-                if($scope.entitiesModel.firstLevel ===""){
+                if ($scope.entitiesModel.firstLevel === "") {
                     $scope.disableSecondLevel = true;
                     $scope.disablethirdLevel = true;
                     $scope.disableFourthLevel = true;
                 }
-                else{
+                else {
                     $scope.disableSecondLevel = false;
                 }
 
@@ -80,21 +80,21 @@ app.controller('createProgramCtrl', function ($log, $scope, $rootScope, $locatio
                 $scope.selectedSecondLevelObject = $scope.selectedFirstLevelObject.children[$scope.entitiesModel.secondLevel];
                 $scope.entitiesModel.thirdLevel = '';
                 $scope.entitiesModel.fourthLevel = '';
-                if($scope.entitiesModel.secondLevel ===""){
+                if ($scope.entitiesModel.secondLevel === "") {
                     $scope.disablethirdLevel = true;
                     $scope.disableFourthLevel = true;
                 }
-                else{
+                else {
                     $scope.disablethirdLevel = false;
                 }
                 break;
             case 'level3':
                 $scope.selectedThirdLevelObject = $scope.selectedFirstLevelObject.children[$scope.entitiesModel.secondLevel].children[$scope.entitiesModel.thirdLevel];
                 $scope.entitiesModel.fourthLevel = '';
-                if($scope.entitiesModel.thirdLevel ===""){
+                if ($scope.entitiesModel.thirdLevel === "") {
                     $scope.disableFourthLevel = true;
                 }
-                else{
+                else {
                     $scope.disableFourthLevel = false;
                 }
                 break;
@@ -119,10 +119,10 @@ app.controller('createProgramCtrl', function ($log, $scope, $rootScope, $locatio
         debugger;
         $scope.selectedStrategicGoal = $scope.strategicGoals[$scope.goalsModel.strategicGoal];
         $scope.goalsModel.secondaryGoal = '';
-        if($scope.goalsModel.strategicGoal === ""){
+        if ($scope.goalsModel.strategicGoal === "") {
             $scope.disableSecondaryGoal = true;
         }
-        else{
+        else {
             $scope.disableSecondaryGoal = false;
         }
         $scope.updateFilterationModel();
@@ -204,12 +204,12 @@ app.controller('createProgramCtrl', function ($log, $scope, $rootScope, $locatio
                 $scope.userFilterEntitiesModel.secondLevel = '';
                 $scope.userFilterEntitiesModel.thirdLevel = '';
                 $scope.userFilterEntitiesModel.fourthLevel = '';
-                if($scope.userFilterEntitiesModel.firstLevel === ""){
+                if ($scope.userFilterEntitiesModel.firstLevel === "") {
                     $scope.disableSecondLevelEntity = true;
                     $scope.disableThirdLevelEntity = true;
                     $scope.disableFourthLevelEntity = true;
                 }
-                else{
+                else {
                     $scope.disableSecondLevelEntity = false;
                 }
                 break;
@@ -217,21 +217,21 @@ app.controller('createProgramCtrl', function ($log, $scope, $rootScope, $locatio
                 $scope.selectedSecondLevelEntity = $scope.selectedFirstLevelEntity.children[$scope.userFilterEntitiesModel.secondLevel];
                 $scope.userFilterEntitiesModel.thirdLevel = '';
                 $scope.userFilterEntitiesModel.fourthLevel = '';
-                if($scope.userFilterEntitiesModel.secondLevel === ""){
+                if ($scope.userFilterEntitiesModel.secondLevel === "") {
                     $scope.disableThirdLevelEntity = true;
                     $scope.disableFourthLevelEntity = true;
                 }
-                else{
+                else {
                     $scope.disableThirdLevelEntity = false;
                 }
                 break;
             case 'level3':
                 $scope.selectedThirdLevelEntity = $scope.selectedFirstLevelEntity.children[$scope.userFilterEntitiesModel.secondLevel].children[$scope.userFilterEntitiesModel.thirdLevel];
                 $scope.userFilterEntitiesModel.fourthLevel = '';
-                if($scope.userFilterEntitiesModel.thirdLevel === ""){
+                if ($scope.userFilterEntitiesModel.thirdLevel === "") {
                     $scope.disableFourthLevelEntity = true;
                 }
-                else{
+                else {
                     $scope.disableFourthLevelEntity = false;
                 }
                 break;
@@ -246,13 +246,37 @@ app.controller('createProgramCtrl', function ($log, $scope, $rootScope, $locatio
 
 
     $scope.deleteProgram = function () {
-        user.deleteProgram($scope.selectedProgram._id).then(function (resolved) {
-            $scope.programForm = {};
-            delete $scope.selectedProgram;
-            internalTeamSelect.val([]).trigger('change');
-            externalTeamSelect.val([]).trigger('change');
-            $scope.renderPrograms($scope.filterationModel);
-        });
+        if ($scope.selectedProgram) {
+            $.confirm({
+                title: '',
+                content: 'تأكيد حذف برنامج؟',
+                buttons: {
+                    confirm: {
+                        text: 'تأكيد',
+                        action: function () {
+                            user.deleteProgram($scope.selectedProgram._id).then(function (resolved) {
+                                $scope.programForm = {};
+                                delete $scope.selectedProgram;
+                                internalTeamSelect.val([]).trigger('change');
+                                externalTeamSelect.val([]).trigger('change');
+                                $scope.renderPrograms($scope.filterationModel);
+                                $.alert("تم حذف البرنامج");
+                            });
+                        }
+                    },
+                    cancel: {
+                        text: 'إلغاء',
+                        action: function () {
+                            console.log("Cancelled");
+                        }
+                    }
+
+                }
+            });
+
+        } else {
+            $.alert("لم يتم اختيار أي برنامج");
+        }
     };
     $scope.createNewProgram = function (newProgramForm, valid, form) {
         $scope.programForm = {};
@@ -305,89 +329,104 @@ app.controller('createProgramCtrl', function ($log, $scope, $rootScope, $locatio
 
     $scope.editProgram = function (programForm, valid) {
         if (valid) {
-            if($scope.selectedProgram == undefined){
-                var submittedForm = angular.copy(programForm);
-                submittedForm._id = new Date().getTime() + '';
-                submittedForm.manager = programForm.manager ? programForm.manager : "";
-                submittedForm.approxCost = programForm.approxCost? programForm.approxCost : 0;
-                submittedForm.datePlannedStart = $rootScope.formatDate(programForm.datePlannedStart);
-                submittedForm.datePlannedEnd = $rootScope.formatDate(programForm.datePlannedEnd);
-                submittedForm.dateActualStart = $rootScope.formatDate(programForm.dateActualStart);
-                submittedForm.dateActualEnd = $rootScope.formatDate(programForm.dateActualEnd);
-                submittedForm.active = programForm.active === "true";
-                submittedForm.entities = [];
-                for (var index in programForm.entities) {
-                    var arr = programForm.entities[index].split('.');
-                    var entityObject = {"l1": undefined, "l2": undefined, "l3": undefined, "l4": undefined};
-                    submittedForm.entities.push(entityObject);
-                    submittedForm.entities[index].l1 = arr[0];
-                    submittedForm.entities[index].l2 = arr[1];
-                    submittedForm.entities[index].l3 = arr[2];
-                    submittedForm.entities[index].l4 = arr[3];
-                }
-                submittedForm.goals = [];
-                for (var index2 in programForm.goals) {
-                    var arr2 = programForm.goals[index2].split('.');
-                    var goalObject = {"l1": undefined, "l2": undefined};
-                    submittedForm.goals.push(goalObject);
-                    submittedForm.goals[index2].l1 = arr2[0];
-                    submittedForm.goals[index2].l2 = arr2[1];
-                }
-                submittedForm.description = programForm.description ? programForm.description : "";
-                submittedForm.strategies = programForm.strategies ? programForm.strategies : "";
-                submittedForm.stages = programForm.stages ? programForm.stages : "";
-                submittedForm.teamInt = programForm.teamInt ? programForm.teamInt : [];
-                submittedForm.teamExt = programForm.teamExt ? programForm.teamExt : [];
-                $log.debug("Submit program form");
-                $log.debug(submittedForm);
-                user.addProgram(submittedForm).then(function (resolved) {
-                    $scope.renderPrograms($scope.filterationModel);
+            if ($scope.selectedProgram == undefined) {
+                $.confirm({
+                    title: '',
+                    content: 'تأكيد إضافة برنامج؟',
+                    buttons: {
+                        confirm:{
+                            text: 'تأكيد',
+                            action: function(){
+                                var submittedForm = $scope.initializeProgramForm(programForm);
+                                submittedForm._id = new Date().getTime() + '';
+                                $log.debug("Submit program form");
+                                $log.debug(submittedForm);
+                                user.addProgram(submittedForm).then(function (resolved) {
+                                    $.alert("تمت إضافة برنامج جديد!");
+                                    $scope.renderPrograms($scope.filterationModel);
+                                });
+                            }
+                        },
+                        cancel:{
+                            text: 'إلغاء',
+                            action: function () {
+                                console.log("Cancelled");
+                            }
+                        }
+                       
+                    }
                 });
+               
             }
-            else{
-            var submittedForm = angular.copy(programForm);
-            submittedForm.manager = programForm.manager ? programForm.manager : "";
-            submittedForm.approxCost = programForm.approxCost? programForm.approxCost : 0;
-            submittedForm.datePlannedStart = $rootScope.formatDate(programForm.datePlannedStart);
-            submittedForm.datePlannedEnd = $rootScope.formatDate(programForm.datePlannedEnd);
-            submittedForm.dateActualStart = $rootScope.formatDate(programForm.dateActualStart);
-            submittedForm.dateActualEnd = $rootScope.formatDate(programForm.dateActualEnd);
-            submittedForm.active = programForm.active === "true";
-            submittedForm.entities = [];
-            for (var index in programForm.entities) {
-                var arr = programForm.entities[index].split('.');
-                var entityObject = {"l1": undefined, "l2": undefined, "l3": undefined, "l4": undefined};
-                submittedForm.entities.push(entityObject);
-                submittedForm.entities[index].l1 = arr[0];
-                submittedForm.entities[index].l2 = arr[1];
-                submittedForm.entities[index].l3 = arr[2];
-                submittedForm.entities[index].l4 = arr[3];
+            else {
+                $.confirm({
+                    title: '',
+                    content: 'تأكيد تعديل برنامج؟',
+                    buttons: {
+                        confirm:{
+                            text: 'تأكيد',
+                            action: function(){
+                                var submittedForm =  $scope.initializeProgramForm(programForm);
+                                submittedForm._id = $scope.selectedProgram._id;
+                                $log.debug("Submit program form");
+                                $log.debug(submittedForm);
+                                user.editProgram(submittedForm).then(function (resolved) {
+                                    $.alert("تم تعديل البرنامج!");                                    
+                                    $scope.renderPrograms($scope.filterationModel);
+                                });
+                            }
+                        },
+                        cancel:{
+                            text: 'إلغاء',
+                            action: function () {
+                                console.log("Cancelled");
+                            }
+                        }
+                       
+                    }
+                });
+              
             }
-            submittedForm.goals = [];
-            for (var index2 in programForm.goals) {
-                var arr2 = programForm.goals[index2].split('.');
-                var goalObject = {"l1": undefined, "l2": undefined};
-                submittedForm.goals.push(goalObject);
-                submittedForm.goals[index2].l1 = arr2[0];
-                submittedForm.goals[index2].l2 = arr2[1];
-            }
-            submittedForm.description = programForm.description ? programForm.description : "";
-            submittedForm.strategies = programForm.strategies ? programForm.strategies : "";
-            submittedForm.stages = programForm.stages ? programForm.stages : "";
-            submittedForm.teamInt = programForm.teamInt ? programForm.teamInt : [];
-            submittedForm.teamExt = programForm.teamExt ? programForm.teamExt : [];
-
-            $log.debug("Submit program form");
-            $log.debug(submittedForm);
-            user.editProgram(submittedForm).then(function (resolved) {
-                $scope.renderPrograms($scope.filterationModel);
-            });
-        }
         }
         else {
             $.alert("من فضلك تأكد من إكمال البيانات المطلوبة");
-          
+
         }
+    };
+    $scope.initializeProgramForm = function (programForm) {
+        var newForm = angular.copy(programForm); 
+        newForm.manager = programForm.manager ? programForm.manager : "";
+        newForm.approxCost = programForm.approxCost ? programForm.approxCost : 0;
+        newForm.datePlannedStart = $rootScope.formatDate(programForm.datePlannedStart);
+        newForm.datePlannedEnd = $rootScope.formatDate(programForm.datePlannedEnd);
+        newForm.dateActualStart = $rootScope.formatDate(programForm.dateActualStart);
+        newForm.dateActualEnd = $rootScope.formatDate(programForm.dateActualEnd);
+        newForm.active = programForm.active === "true";
+        newForm.entities = [];
+        for (var index in programForm.entities) {
+            var arr = programForm.entities[index].split('.');
+            var entityObject = { "l1": undefined, "l2": undefined, "l3": undefined, "l4": undefined };
+            newForm.entities.push(entityObject);
+            newForm.entities[index].l1 = arr[0];
+            newForm.entities[index].l2 = arr[1];
+            newForm.entities[index].l3 = arr[2];
+            newForm.entities[index].l4 = arr[3];
+        }
+        newForm.goals = [];
+        for (var index2 in programForm.goals) {
+            var arr2 = programForm.goals[index2].split('.');
+            var goalObject = { "l1": undefined, "l2": undefined };
+            newForm.goals.push(goalObject);
+            newForm.goals[index2].l1 = arr2[0];
+            newForm.goals[index2].l2 = arr2[1];
+        }
+        newForm.description = programForm.description ? programForm.description : "";
+        newForm.strategies = programForm.strategies ? programForm.strategies : "";
+        newForm.stages = programForm.stages ? programForm.stages : "";
+        newForm.teamInt = programForm.teamInt ? programForm.teamInt : [];
+        newForm.teamExt = programForm.teamExt ? programForm.teamExt : [];
+
+        return newForm;
     };
 
 

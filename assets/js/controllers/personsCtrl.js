@@ -98,11 +98,34 @@ app.controller('personsCtrl', function ($log, $scope, $rootScope, $location, con
     };
     $scope.deleteUser = function () {
         if ($scope.selectedUser) {
-            user.deleteUser($scope.selectedUser._id == undefined ? "" : $scope.selectedUser._id).then(function (resolved) {
-                $scope.userForm = {};
-                delete $scope.selectedUser;
-                $scope.renderUsers($scope.filterationModel);
+            $.confirm({
+                title: '',
+                content: 'تأكيد حذف المستخدم؟',
+                buttons: {
+                    confirm:{
+                        text: 'تأكيد',
+                        action: function(){
+                            user.deleteUser($scope.selectedUser._id == undefined ? "" : $scope.selectedUser._id).then(function (resolved) {
+                                $scope.userForm = {};
+                                delete $scope.selectedUser;
+                                $scope.renderUsers($scope.filterationModel);
+                                $.alert("تم حذف المستخدم");
+                            });
+                        }
+                    },
+                    cancel:{
+                        text: 'إلغاء',
+                        action: function () {
+                            console.log("Cancelled");
+                        }
+                    }
+                   
+                }
             });
+          
+        }
+        else{
+            $.alert("لم يتم اختيار أي مستخدم");
         }
     };
     $scope.fillUserForm = function (selectedUser) {
@@ -449,23 +472,63 @@ app.controller('personsCtrl', function ($log, $scope, $rootScope, $location, con
     $scope.updateUser = function (userForm, userAuthorotiesModel, valid) {
         if (valid) {
             if ($scope.selectedUser === undefined) {
-                var newForm = $scope.initializeUserForm(userForm);
-                newForm = $scope.bindUserAuthorotiesWithForm(newForm, userAuthorotiesModel);
-                $log.debug('submitted form');
-                $log.debug(newForm);
-                user.addUser(newForm).then(function (resolved) {
-                    $scope.renderUsers($scope.filterationModel);
+                $.confirm({
+                    title: '',
+                    content: 'إضافة مستخدم جديد؟',
+                    buttons: {
+                        confirm:{
+                            text: 'تأكيد',
+                            action: function(){
+                                var newForm = $scope.initializeUserForm(userForm);
+                                newForm = $scope.bindUserAuthorotiesWithForm(newForm, userAuthorotiesModel);
+                                $log.debug('submitted form');
+                                $log.debug(newForm);
+                                user.addUser(newForm).then(function (resolved) {
+                                    $.alert("تمت إضافة مستخدم جديد بنجاح!");
+                                    $scope.renderUsers($scope.filterationModel);
+                                });
+                            }
+                        },
+                        cancel:{
+                            text: 'إلغاء',
+                            action: function () {
+                                console.log("Cancelled");
+                            }
+                        }
+                       
+                    }
                 });
+              
 
             }
             else {
-                var newForm = $scope.initializeUserForm(userForm);
-                newForm = $scope.bindUserAuthorotiesWithForm(newForm, userAuthorotiesModel);
-                $log.debug('submitted form');
-                $log.debug(newForm);
-                user.updateUser(newForm).then(function (resolved) {
-                    $scope.renderUsers($scope.filterationModel);
+                $.confirm({
+                    title: '',
+                    content: 'تعديل بيانات المستخدم؟',
+                    buttons: {
+                        confirm:{
+                            text: 'تأكيد',
+                            action: function(){
+                                var newForm = $scope.initializeUserForm(userForm);
+                                newForm = $scope.bindUserAuthorotiesWithForm(newForm, userAuthorotiesModel);
+                                $log.debug('submitted form');
+                                $log.debug(newForm);
+                                user.updateUser(newForm).then(function (resolved) {
+                                    $.alert("تم تعديل بيانات المستخدم بنجاح!");                                    
+                                    $scope.renderUsers($scope.filterationModel);
+                                });
+                            }
+                        },
+                        cancel:{
+                            text: 'إلغاء',
+                            action: function () {
+                                console.log("Cancelled");
+                            }
+                        }
+                       
+                    }
                 });
+               
             }
         } else {
             $.alert("من فضلك قم بإدخال الاسم والجهة واسم المستخدم");

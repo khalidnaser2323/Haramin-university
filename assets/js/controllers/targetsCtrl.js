@@ -40,13 +40,32 @@ app.controller('targetsCtrl', function ($log, $scope, $rootScope, $location, use
 
     };
     $scope.deleteStrategicGoal = function () {
-        //waiting backend implementation
-        user.deleteGoal($scope.selectedStrategicGoal._id).then(function (resloved) {
-            $scope.showSecondaryGoalsColumn = false;
-            $scope.renderGoals();
+        $.confirm({
+            title: '',
+            content: 'تأكيد حذف هدف استراتيجي؟',
+            buttons: {
+                confirm: {
+                    text: 'تأكيد',
+                    action: function () {
+                        user.deleteGoal($scope.selectedStrategicGoal._id).then(function (resloved) {
+                            $.alert("تم حذف هدف رئيسي!");
+                            $scope.showSecondaryGoalsColumn = false;
+                            $scope.renderGoals();
+                        });
+                        $scope.strategicGoalModel = '';
+                        $scope.secondaryGoalModel = '';
+                    }
+                },
+                cancel: {
+                    text: 'إلغاء',
+                    action: function () {
+                        console.log("Cancelled");
+                    }
+                }
+
+            }
         });
-        $scope.strategicGoalModel = '';
-        $scope.secondaryGoalModel = '';
+     
     };
     $scope.addSecondaryGoal = function (valid) {
         delete $scope.selectedSecondaryObjectKey;
@@ -70,67 +89,166 @@ app.controller('targetsCtrl', function ($log, $scope, $rootScope, $location, use
     };
     $scope.deleteSecondaryGoal = function () {
         if ($scope.selectedSecondaryObjectKey) {
-            var goalObject = angular.copy($scope.selectedStrategicGoal);
-            delete goalObject.subgoals[$scope.selectedSecondaryObjectKey];
-            debugger;
-            user.updateGoal(goalObject).then(function (resolved) {
-                debugger;
-                $scope.strategicGoalModel = '';
-                $scope.secondaryGoalModel = '';
-                $scope.renderGoals();
+            $.confirm({
+                title: '',
+                content: 'تأكيد حذف هدف فرعي؟',
+                buttons: {
+                    confirm: {
+                        text: 'تأكيد',
+                        action: function () {
+                            var goalObject = angular.copy($scope.selectedStrategicGoal);
+                            delete goalObject.subgoals[$scope.selectedSecondaryObjectKey];
+                            user.updateGoal(goalObject).then(function (resolved) {
+                                $.alert("تم حذف هدف فرعي بنجاح!");
+                                $scope.strategicGoalModel = '';
+                                $scope.secondaryGoalModel = '';
+                                $scope.renderGoals();
+                            });
+                        }
+                    },
+                    cancel: {
+                        text: 'إلغاء',
+                        action: function () {
+                            console.log("Cancelled");
+                        }
+                    }
+
+                }
             });
+        } else {
+            $.alert("لم يتم اختيار أي هدف فرعي");
         }
 
     };
     $scope.editSecondaryGoal = function (valid) {
         if (valid) {
-            if ($scope.selectedSecondaryObjectKey != undefined) {
-                var goalObject = angular.copy($scope.selectedStrategicGoal);
-                goalObject.subgoals[$scope.selectedSecondaryObjectKey].name = $scope.secondaryGoalModel;
-                debugger;
-                user.updateGoal(goalObject).then(function (resolved) {
-                    debugger;
-                    $scope.strategicGoalModel = '';
-                    $scope.secondaryGoalModel = '';
-                    $scope.renderGoals();
-                });
-            }
-            else {
-                if ($scope.selectedStrategicGoal != undefined) {
-                    var timestampString = new Date().getTime() + '';
-                    var goalObject = angular.copy($scope.selectedStrategicGoal);
-                    goalObject.subgoals[timestampString] = { "name": $scope.secondaryGoalModel };
-                    user.updateGoal(goalObject).then(function (resolved) {
-                        debugger;
-                        $scope.strategicGoalModel = '';
-                        $scope.secondaryGoalModel = '';
-                        $scope.renderGoals();
+            if ($scope.selectedStrategicGoal != undefined) {
+
+                if ($scope.selectedSecondaryObjectKey != undefined) {
+                    $.confirm({
+                        title: '',
+                        content: 'تأكيد تعديل هدف فرعي؟',
+                        buttons: {
+                            confirm: {
+                                text: 'تأكيد',
+                                action: function () {
+                                    var goalObject = angular.copy($scope.selectedStrategicGoal);
+                                    goalObject.subgoals[$scope.selectedSecondaryObjectKey].name = $scope.secondaryGoalModel;
+                                    debugger;
+                                    user.updateGoal(goalObject).then(function (resolved) {
+                                        $.alert("تم تعديل هدف فرعي بنجاح!");
+                                        $scope.strategicGoalModel = '';
+                                        $scope.secondaryGoalModel = '';
+                                        $scope.renderGoals();
+                                    });
+                                }
+                            },
+                            cancel: {
+                                text: 'إلغاء',
+                                action: function () {
+                                    console.log("Cancelled");
+                                }
+                            }
+
+                        }
                     });
+
                 }
                 else {
-                    window.alert("من فضلك قم باختيار هدف استراتيجي لإضافة الهدف التفصيلي")
+                    $.confirm({
+                        title: '',
+                        content: 'تأكيد إضافة هدف فرعي؟',
+                        buttons: {
+                            confirm: {
+                                text: 'تأكيد',
+                                action: function () {
+                                    var timestampString = new Date().getTime() + '';
+                                    var goalObject = angular.copy($scope.selectedStrategicGoal);
+                                    goalObject.subgoals[timestampString] = { "name": $scope.secondaryGoalModel };
+                                    user.updateGoal(goalObject).then(function (resolved) {
+                                        $.alert("تمت إضافة هدف فرعي بنجاح!");
+                                        $scope.strategicGoalModel = '';
+                                        $scope.secondaryGoalModel = '';
+                                        $scope.renderGoals();
+                                    });
+                                }
+                            },
+                            cancel: {
+                                text: 'إلغاء',
+                                action: function () {
+                                    console.log("Cancelled");
+                                }
+                            }
+
+                        }
+                    });
+
                 }
+
+            }
+            else {
+                $.alert("من فضلك قم باختيار هدف استراتيجي لإضافة أو تعديل الهدف التفصيلي")
             }
         }
     };
     $scope.editStrategicGoal = function (valid) {
         if (valid) {
             if ($scope.selectedStrategicGoal == undefined) {
-                user.addGoal($scope.strategicGoalModel).then(function (resolved) {
-                    debugger;
-                    $scope.strategicGoalModel = '';
-                    $scope.secondaryGoalModel = '';
-                    $scope.renderGoals();
+                $.confirm({
+                    title: '',
+                    content: 'تأكيد إضافة هدف استراتيجي؟',
+                    buttons: {
+                        confirm: {
+                            text: 'تأكيد',
+                            action: function () {
+                                user.addGoal($scope.strategicGoalModel).then(function (resolved) {
+                                    $.alert("تمت إضافة هدف استراتيجي بنجاح!");
+                                    $scope.strategicGoalModel = '';
+                                    $scope.secondaryGoalModel = '';
+                                    delete $scope.selectedSecondaryObjectKey;
+                                    $scope.renderGoals();
+                                });
+                            }
+                        },
+                        cancel: {
+                            text: 'إلغاء',
+                            action: function () {
+                                console.log("Cancelled");
+                            }
+                        }
+
+                    }
                 });
+
             }
             else {
-                var goalObject = angular.copy($scope.selectedStrategicGoal);
-                goalObject.name = $scope.strategicGoalModel;
-                user.updateGoal(goalObject).then(function (resolved) {
-                    $scope.strategicGoalModel = '';
-                    $scope.secondaryGoalModel = '';
-                    $scope.renderGoals();
+                $.confirm({
+                    title: '',
+                    content: 'تأكيد تعديل هدف استراتيجي؟',
+                    buttons: {
+                        confirm: {
+                            text: 'تأكيد',
+                            action: function () {
+                                var goalObject = angular.copy($scope.selectedStrategicGoal);
+                                goalObject.name = $scope.strategicGoalModel;
+                                user.updateGoal(goalObject).then(function (resolved) {
+                                    $.alert("تم تعديل هدف استراتيجي بنجاح!");
+                                    $scope.strategicGoalModel = '';
+                                    $scope.secondaryGoalModel = '';
+                                    $scope.renderGoals();
+                                });
+                            }
+                        },
+                        cancel: {
+                            text: 'إلغاء',
+                            action: function () {
+                                console.log("Cancelled");
+                            }
+                        }
+
+                    }
                 });
+
             }
         }
 

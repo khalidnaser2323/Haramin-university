@@ -146,7 +146,6 @@ app.controller('reportsCtrl', function ($log, $timeout, $scope, $rootScope, $loc
     };
     $scope.renderReports = function () {
         user.getReports().then(function (resolvedReports) {
-
             $timeout(function () {
                 //debugger;
                 $scope.reports = resolvedReports;
@@ -169,38 +168,96 @@ app.controller('reportsCtrl', function ($log, $timeout, $scope, $rootScope, $loc
 
     $scope.submitReport = function (report) {
 
-        var submitForm = $scope.initializeReportForm(report);
         if ($scope.selectedReport == undefined) {
-            submitForm._id = new Date().getTime() + '';
-            $log.debug("Submitted report");
-            $log.debug(submitForm);
-            user.addReport(submitForm).then(function (resolved) {
-                $.alert("تمت الإضافة بنجاح");
-                $scope.newReportForm();
-                $scope.renderReports();
+            $.confirm({
+                title: '',
+                content: 'إضافة تقرير جديد؟',
+                buttons: {
+                    confirm: {
+                        text: 'تأكيد',
+                        action: function () {
+                            var submitForm = $scope.initializeReportForm(report);
+                            submitForm._id = new Date().getTime() + '';
+                            $log.debug("Submitted report");
+                            $log.debug(submitForm);
+                            user.addReport(submitForm).then(function (resolved) {
+                                $.alert("تمت الإضافة بنجاح");
+                                $scope.newReportForm();
+                                $scope.renderReports();
+                            });
+                        }
+                    },
+                    cancel: {
+                        text: 'إلغاء',
+                        action: function () {
+                            console.log("Cancelled");
+                        }
+                    }
+
+                }
             });
+
 
         }
         else {
-            submitForm._id = $scope.selectedReport._id;
-            $log.debug("Submitted report");
-            $log.debug(submitForm);
-            user.editReport(submitForm).then(function (resolved) {
-                $.alert("تم التعديل بنجاح");
-                $scope.newReportForm();
-                $scope.renderReports();
-            });
+            $.confirm({
+                title: '',
+                content: 'تعديل التقرير؟',
+                buttons: {
+                    confirm: {
+                        text: 'تأكيد',
+                        action: function () {
+                            var submitForm = $scope.initializeReportForm(report);
+                            submitForm._id = $scope.selectedReport._id;
+                            $log.debug("Submitted report");
+                            $log.debug(submitForm);
+                            user.editReport(submitForm).then(function (resolved) {
+                                $.alert("تم التعديل بنجاح");
+                                $scope.newReportForm();
+                                $scope.renderReports();
+                            });
+                        }
+                    },
+                    cancel: {
+                        text: 'إلغاء',
+                        action: function () {
+                            console.log("Cancelled");
+                        }
+                    }
 
+                }
+            });
         }
 
     };
     $scope.deleteReport = function () {
         if ($scope.selectedReport) {
-            user.deleteReport($scope.selectedReport._id).then(function (resolved) {
-                $.alert("تم الحذف بنجاح");
-                $scope.newReportForm();
-                $scope.renderReports();
+            $.confirm({
+                title: '',
+                content: 'حذف التقرير؟',
+                buttons: {
+                    confirm: {
+                        text: 'تأكيد',
+                        action: function () {
+                            user.deleteReport($scope.selectedReport._id).then(function (resolved) {
+                                $.alert("تم الحذف بنجاح");
+                                $scope.newReportForm();
+                                $scope.renderReports();
+                            });
+                        }
+                    },
+                    cancel: {
+                        text: 'إلغاء',
+                        action: function () {
+                            console.log("Cancelled");
+                        }
+                    }
+
+                }
             });
+          
+        } else {
+            $.alert("لم يتم اختيار أي تقرير");
         }
     };
 

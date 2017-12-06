@@ -143,6 +143,9 @@ app.controller('createProjectCtrl', function ($log, $scope, $rootScope, $locatio
                 $scope.renderProjects(object);
             }
         }
+        else {
+            $scope.renderProjects();
+        }
 
     };
     $scope.setProjectObject = function (object) {
@@ -238,13 +241,38 @@ app.controller('createProjectCtrl', function ($log, $scope, $rootScope, $locatio
 
 
     $scope.deleteProject = function () {
-        user.deleteProject($scope.selectedProject._id).then(function (resolved) {
-            $scope.projectObject = {};
-            delete $scope.selectedProject;
-            internalTeamSelect.val([]).trigger('change');
-            externalTeamSelect.val([]).trigger('change');
-            $scope.filterProjects();
+        if($scope.selectedProject){
+        $.confirm({
+            title: '',
+            content: 'تأكيد حذف المشروع؟',
+            buttons: {
+                confirm:{
+                    text: 'تأكيد',
+                    action: function(){
+                        user.deleteProject($scope.selectedProject._id).then(function (resolved) {
+                            $scope.projectObject = {};
+                            delete $scope.selectedProject;
+                            internalTeamSelect.val([]).trigger('change');
+                            externalTeamSelect.val([]).trigger('change');
+                            $scope.filterProjects();
+                            $.alert("تم حذف المشروع بنجاح")
+                        });
+                    }
+                },
+                cancel:{
+                    text: 'إلغاء',
+                    action: function () {
+                        console.log("Cancelled");
+                    }
+                }
+               
+            }
         });
+    }
+    else{
+        $.alert("لم يتم اختيار أي مشروع");
+    }
+      
     };
     $scope.addNewProject = function (newProjectObject, valid, form) {
         $scope.projectObject = {};
@@ -285,52 +313,82 @@ app.controller('createProjectCtrl', function ($log, $scope, $rootScope, $locatio
         //     window.alert("من فضلك تأكد من إكمال البيانات المطلوبة");
         // }
     };
-
+    $scope.initializeProjectForm = function (projectObject) {
+        var submittedForm = angular.copy(projectObject);
+        submittedForm.manager = projectObject.manager ? projectObject.manager : "";
+        submittedForm.approxCost = projectObject.approxCost ? projectObject.approxCost : 0;
+        submittedForm.teamInt = projectObject.teamInt ? projectObject.teamInt : [];
+        submittedForm.teamExt = projectObject.teamExt ? projectObject.teamExt : [];
+        submittedForm.description = projectObject.description ? projectObject.description : "";
+        submittedForm.stages = projectObject.stages ? projectObject.stages : [];
+        submittedForm.datePlannedStart = $rootScope.formatDate(projectObject.datePlannedStart);
+        submittedForm.datePlannedEnd = $rootScope.formatDate(projectObject.datePlannedEnd);
+        submittedForm.dateActualStart = $rootScope.formatDate(projectObject.dateActualStart);
+        submittedForm.dateActualEnd = $rootScope.formatDate(projectObject.dateActualEnd);
+        submittedForm.active = projectObject.active === "true";
+        submittedForm.outputs = [];
+        submittedForm.outputs[0] = projectObject.outputs ? projectObject.outputs : "";
+        return submittedForm;
+    };
     $scope.editProject = function (projectObject, valid) {
         if (valid) {
             if ($scope.selectedProject == undefined) {
-                var submittedForm = angular.copy(projectObject);
-                submittedForm._id = new Date().getTime() + '';
-                submittedForm.manager = projectObject.manager ? projectObject.manager : "";
-                submittedForm.approxCost = projectObject.approxCost ? projectObject.approxCost : 0;
-                submittedForm.teamInt = projectObject.teamInt ? projectObject.teamInt : [];
-                submittedForm.teamExt = projectObject.teamExt ? projectObject.teamExt : [];
-                submittedForm.description = projectObject.description ? projectObject.description : "";
-                submittedForm.stages = projectObject.stages ? projectObject.stages : [];
-                submittedForm.datePlannedStart = $rootScope.formatDate(projectObject.datePlannedStart);
-                submittedForm.datePlannedEnd = $rootScope.formatDate(projectObject.datePlannedEnd);
-                submittedForm.dateActualStart = $rootScope.formatDate(projectObject.dateActualStart);
-                submittedForm.dateActualEnd = $rootScope.formatDate(projectObject.dateActualEnd);
-                submittedForm.active = projectObject.active === "true";
-                submittedForm.outputs = [];
-                submittedForm.outputs[0] = projectObject.outputs ? projectObject.outputs : "";
-                $log.debug("Submit program form");
-                $log.debug(submittedForm);
-                user.addProject(submittedForm).then(function (resolved) {
-                    $scope.filterProjects();
+                $.confirm({
+                    title: '',
+                    content: 'تأكيد إضافة مشروع؟',
+                    buttons: {
+                        confirm:{
+                            text: 'تأكيد',
+                            action: function(){
+                                var submittedForm = $scope.initializeProjectForm(projectObject);
+                                submittedForm._id = new Date().getTime() + '';
+                                 $log.debug("Submit program form");
+                                 $log.debug(submittedForm);
+                                 user.addProject(submittedForm).then(function (resolved) {
+                                     $scope.filterProjects();
+                                     $.alert("تمت إضافة مشروع بنجاح!");                                     
+                                 });
+                            }
+                        },
+                        cancel:{
+                            text: 'إلغاء',
+                            action: function () {
+                                console.log("Cancelled");
+                            }
+                        }
+                       
+                    }
                 });
+             
             }
             else {
-                var submittedForm = angular.copy(projectObject);
-                submittedForm.manager = projectObject.manager ? projectObject.manager : "";
-                submittedForm.approxCost = projectObject.approxCost ? projectObject.approxCost : 0;
-                submittedForm.teamInt = projectObject.teamInt ? projectObject.teamInt : [];
-                submittedForm.teamExt = projectObject.teamExt ? projectObject.teamExt : [];
-                submittedForm.description = projectObject.description ? projectObject.description : "";
-                submittedForm.stages = projectObject.stages ? projectObject.stages : [];
-                submittedForm.datePlannedStart = $rootScope.formatDate(projectObject.datePlannedStart);
-                submittedForm.datePlannedEnd = $rootScope.formatDate(projectObject.datePlannedEnd);
-                submittedForm.dateActualStart = $rootScope.formatDate(projectObject.dateActualStart);
-                submittedForm.dateActualEnd = $rootScope.formatDate(projectObject.dateActualEnd);
-                submittedForm.active = projectObject.active === "true";
-                submittedForm.outputs = [];
-                submittedForm.outputs[0] = projectObject.outputs ? projectObject.outputs : "";
-                $log.debug("Submit program form");
-                $log.debug(submittedForm);
-
-                user.editProject(submittedForm).then(function (resolved) {
-                    $scope.filterProjects();
+                $.confirm({
+                    title: '',
+                    content: 'تأكيد تعديل مشروع؟',
+                    buttons: {
+                        confirm:{
+                            text: 'تأكيد',
+                            action: function(){
+                                var submittedForm = $scope.initializeProjectForm(projectObject);
+                                submittedForm._id = $scope.selectedProject._id;
+                                $log.debug("Submit program form");
+                                $log.debug(submittedForm);
+                                user.editProject(submittedForm).then(function (resolved) {
+                                    $scope.filterProjects();
+                                    $.alert("تم تعديل المشروع بنجاح!");                                    
+                                });
+                            }
+                        },
+                        cancel:{
+                            text: 'إلغاء',
+                            action: function () {
+                                console.log("Cancelled");
+                            }
+                        }
+                       
+                    }
                 });
+               
             }
         }
         else {

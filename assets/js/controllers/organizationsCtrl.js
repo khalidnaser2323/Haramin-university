@@ -133,44 +133,67 @@ app.controller('organizationsCtrl', function ($log, $scope, $rootScope, $locatio
         }
     };
     $scope.deleteEntry = function (type) {
-        switch (type) {
-            case 'level1':
-                user.deleteEntity($scope.selectedFirstLevelObject._id).then(function (resolved) {
-                    delete $scope.selectedSecondLevelObject;
-                    delete $scope.selectedThirdLevelObject;
-                    $scope.renderEntities();
-                });
-                break;
-            case 'level2':
-                var entityObject = angular.copy($scope.selectedFirstLevelObject);
-                delete entityObject.children[$scope.secondLevelKey];
-                user.updateEntity(entityObject).then(function (resolved) {
-                    delete $scope.selectedThirdLevelObject;
-                    $scope.renderEntities();
-                });
-
-                break;
-            case 'level3':
-                var entityObject = angular.copy($scope.selectedFirstLevelObject);
-                delete entityObject.children[$scope.secondLevelKey].children[$scope.thirdLevelKey];
-                user.updateEntity(entityObject).then(function (resolved) {
-                    $scope.showFourthLevel = false;
-                    $scope.renderEntities();
-                });
-
-                break;
-            case 'level4':
-                var entityObject = angular.copy($scope.selectedFirstLevelObject);
-                delete entityObject.children[$scope.secondLevelKey].children[$scope.thirdLevelKey].children[$scope.fourthLevelKey];
-                user.updateEntity(entityObject).then(function (resolved) {
-                    $scope.renderEntities();
-                });
-                break;
-        }
-        $scope.firstLevelModel = '';
-        $scope.secondLevelModel = '';
-        $scope.thirdLevelModel = '';
-        $scope.fourthLevelModel = '';
+        $.confirm({
+            title: '',
+            content: 'تأكيد حذف الجهة؟',
+            buttons: {
+                confirm:{
+                    text: 'تأكيد',
+                    action: function(){
+                        switch (type) {
+                            case 'level1':
+                                user.deleteEntity($scope.selectedFirstLevelObject._id).then(function (resolved) {
+                                    delete $scope.selectedSecondLevelObject;
+                                    delete $scope.selectedThirdLevelObject;
+                                    $scope.renderEntities();
+                                    $.alert("تم حذف الجهة!");                                        
+                                    
+                                });
+                                break;
+                            case 'level2':
+                                var entityObject = angular.copy($scope.selectedFirstLevelObject);
+                                delete entityObject.children[$scope.secondLevelKey];
+                                user.updateEntity(entityObject).then(function (resolved) {
+                                    delete $scope.selectedThirdLevelObject;
+                                    $scope.renderEntities();
+                                    $.alert("تم حذف الجهة!");
+                                });
+                
+                                break;
+                            case 'level3':
+                                var entityObject = angular.copy($scope.selectedFirstLevelObject);
+                                delete entityObject.children[$scope.secondLevelKey].children[$scope.thirdLevelKey];
+                                user.updateEntity(entityObject).then(function (resolved) {
+                                    $scope.showFourthLevel = false;
+                                    $scope.renderEntities();
+                                    $.alert("تم حذف الجهة!");
+                                });
+                
+                                break;
+                            case 'level4':
+                                var entityObject = angular.copy($scope.selectedFirstLevelObject);
+                                delete entityObject.children[$scope.secondLevelKey].children[$scope.thirdLevelKey].children[$scope.fourthLevelKey];
+                                user.updateEntity(entityObject).then(function (resolved) {
+                                    $scope.renderEntities();
+                                    $.alert("تم حذف الجهة!");
+                                });
+                                break;
+                        }
+                        $scope.firstLevelModel = '';
+                        $scope.secondLevelModel = '';
+                        $scope.thirdLevelModel = '';
+                        $scope.fourthLevelModel = '';
+                    }
+                },
+                cancel:{
+                    text: 'إلغاء',
+                    action: function () {
+                        console.log("Cancelled");
+                    }
+                }
+               
+            }
+        });
     };
     $scope.editEntry = function (type, valid) {
 
@@ -178,18 +201,56 @@ app.controller('organizationsCtrl', function ($log, $scope, $rootScope, $locatio
             case 'level1':
                 if (valid) {
                     if ($scope.addNewEntity == true) {
-                        user.addEntity($scope.firstLevelModel).then(function (resolved) {
-                            $scope.firstLevelModel = '';
-                            $scope.renderEntities();
-
+                        $.confirm({
+                            title: '',
+                            content: 'تأكيد إضافة جهة جديدة؟',
+                            buttons: {
+                                confirm:{
+                                    text: 'تأكيد',
+                                    action: function(){
+                                        user.addEntity($scope.firstLevelModel).then(function (resolved) {
+                                            $.alert("تمت الإضافة بنجاح!");
+                                            $scope.firstLevelModel = '';
+                                            $scope.renderEntities();
+    
+                                        });
+                                    }
+                                },
+                                cancel:{
+                                    text: 'إلغاء',
+                                    action: function () {
+                                        console.log("Cancelled");
+                                    }
+                                }
+                               
+                            }
                         });
                     }
                     else {
-                        var entityObject = angular.copy($scope.selectedFirstLevelObject);
-                        entityObject.name = $scope.firstLevelModel;
-                        user.updateEntity(entityObject).then(function (resolved) {
-                            $scope.firstLevelModel = '';
-                            $scope.renderEntities();
+                        $.confirm({
+                            title: '',
+                            content: 'تأكيد تعديل الجهة؟',
+                            buttons: {
+                                confirm:{
+                                    text: 'تأكيد',
+                                    action: function(){
+                                        var entityObject = angular.copy($scope.selectedFirstLevelObject);
+                                        entityObject.name = $scope.firstLevelModel;
+                                        user.updateEntity(entityObject).then(function (resolved) {
+                                            $.alert("تم تعديل الجهة بنجاح!");                                        
+                                            $scope.firstLevelModel = '';
+                                            $scope.renderEntities();
+                                        });
+                                    }
+                                },
+                                cancel:{
+                                    text: 'إلغاء',
+                                    action: function () {
+                                        console.log("Cancelled");
+                                    }
+                                }
+                               
+                            }
                         });
                     }
                 }
@@ -197,45 +258,124 @@ app.controller('organizationsCtrl', function ($log, $scope, $rootScope, $locatio
             case 'level2':
                 if (valid) {
                     if ($scope.secondLevelKey == undefined) {
-                        var timestampString = new Date().getTime() + '';
-                        var entityObject = angular.copy($scope.selectedFirstLevelObject);
-                        entityObject.children[timestampString] = { "name": $scope.secondLevelModel, "children": {} };
-                        user.updateEntity(entityObject).then(function (resolved) {
-                            $scope.secondLevelModel = '';
-                            $scope.renderEntities();
+                        $.confirm({
+                            title: '',
+                            content: 'تأكيد إضافة جهة جديدة؟',
+                            buttons: {
+                                confirm:{
+                                    text: 'تأكيد',
+                                    action: function(){
+                                        var timestampString = new Date().getTime() + '';
+                                        var entityObject = angular.copy($scope.selectedFirstLevelObject);
+                                        entityObject.children[timestampString] = { "name": $scope.secondLevelModel, "children": {} };
+                                        user.updateEntity(entityObject).then(function (resolved) {
+                                            $.alert("تمت الإضافة بنجاح!");
+                                            $scope.secondLevelModel = '';
+                                            $scope.renderEntities();
+                                        });
+                                    }
+                                },
+                                cancel:{
+                                    text: 'إلغاء',
+                                    action: function () {
+                                        console.log("Cancelled");
+                                    }
+                                }
+                               
+                            }
                         });
+
                     }
                     else {
-                        var entityObject = angular.copy($scope.selectedFirstLevelObject);
-                        entityObject.children[$scope.secondLevelKey].name = $scope.secondLevelModel;
-                        user.updateEntity(entityObject).then(function (resolved) {
-                            $scope.secondLevelModel = '';
-                            $scope.renderEntities();
+                        $.confirm({
+                            title: '',
+                            content: 'تأكيد تعديل الجهة؟',
+                            buttons: {
+                                confirm:{
+                                    text: 'تأكيد',
+                                    action: function(){
+                                        var entityObject = angular.copy($scope.selectedFirstLevelObject);
+                                        entityObject.children[$scope.secondLevelKey].name = $scope.secondLevelModel;
+                                        user.updateEntity(entityObject).then(function (resolved) {
+                                            $.alert("تم تعديل الجهة بنجاح!");                                                                                
+                                            $scope.secondLevelModel = '';
+                                            $scope.renderEntities();
+                                        });
+                                    }
+                                },
+                                cancel:{
+                                    text: 'إلغاء',
+                                    action: function () {
+                                        console.log("Cancelled");
+                                    }
+                                }
+                               
+                            }
                         });
                     }
                 }
                 break;
             case 'level3':
                 if (valid) {
-                    if ($scope.thirdLevelKey == undefined) {
-                        var timestampString = new Date().getTime() + '';
-                        var entityObject = angular.copy($scope.selectedFirstLevelObject);
-                        entityObject.children[$scope.secondLevelKey].children[timestampString] = {
-                            "name": $scope.thirdLevelModel,
-                            "children": {}
-                        };
-                        user.updateEntity(entityObject).then(function (resolved) {
-                            $scope.thirdLevelModel = '';
-                            $scope.renderEntities();
+                    if ($scope.thirdLevelKey == undefined) {                    
+                        $.confirm({
+                            title: '',
+                            content: 'تأكيد إضافة جهة جديدة؟',
+                            buttons: {
+                                confirm:{
+                                    text: 'تأكيد',
+                                    action: function(){
+                                        var timestampString = new Date().getTime() + '';
+                                        var entityObject = angular.copy($scope.selectedFirstLevelObject);
+                                        entityObject.children[$scope.secondLevelKey].children[timestampString] = {
+                                            "name": $scope.thirdLevelModel,
+                                            "children": {}
+                                        };
+                                        user.updateEntity(entityObject).then(function (resolved) {
+                                            $.alert("تمت الإضافة بنجاح!");
+                                            $scope.thirdLevelModel = '';
+                                            $scope.renderEntities();
+                                        });
+                                    }
+                                },
+                                cancel:{
+                                    text: 'إلغاء',
+                                    action: function () {
+                                        console.log("Cancelled");
+                                    }
+                                }
+                               
+                            }
                         });
+
                     }
                     else {
-                        var entityObject = angular.copy($scope.selectedFirstLevelObject);
-                        entityObject.children[$scope.secondLevelKey].children[$scope.thirdLevelKey].name = $scope.thirdLevelModel;
-                        user.updateEntity(entityObject).then(function (resolved) {
-                            $scope.thirdLevelModel = '';
-                            $scope.renderEntities();
+                        $.confirm({
+                            title: '',
+                            content: 'تأكيد تعديل الجهة؟',
+                            buttons: {
+                                confirm:{
+                                    text: 'تأكيد',
+                                    action: function(){
+                                        var entityObject = angular.copy($scope.selectedFirstLevelObject);
+                                        entityObject.children[$scope.secondLevelKey].children[$scope.thirdLevelKey].name = $scope.thirdLevelModel;
+                                        user.updateEntity(entityObject).then(function (resolved) {
+                                            $.alert("تم تعديل الجهة بنجاح!");                                                                                
+                                            $scope.thirdLevelModel = '';
+                                            $scope.renderEntities();
+                                        });
+                                    }
+                                },
+                                cancel:{
+                                    text: 'إلغاء',
+                                    action: function () {
+                                        console.log("Cancelled");
+                                    }
+                                }
+                               
+                            }
                         });
+                    
                     }
                 }
                 break;
@@ -243,21 +383,62 @@ app.controller('organizationsCtrl', function ($log, $scope, $rootScope, $locatio
             case 'level4':
                 if (valid) {
                     if ($scope.fourthLevelKey == undefined) {
-                        var timestampString = new Date().getTime() + '';
-                        var entityObject = angular.copy($scope.selectedFirstLevelObject);
-                        entityObject.children[$scope.secondLevelKey].children[$scope.thirdLevelKey].children[timestampString] = { "name": $scope.fourthLevelModel };
-                        user.updateEntity(entityObject).then(function (resolved) {
-                            $scope.fourthLevelModel = '';
-                            $scope.renderEntities();
+                        $.confirm({
+                            title: '',
+                            content: 'تأكيد إضافة جهة جديدة؟',
+                            buttons: {
+                                confirm:{
+                                    text: 'تأكيد',
+                                    action: function(){
+                                        var timestampString = new Date().getTime() + '';
+                                        var entityObject = angular.copy($scope.selectedFirstLevelObject);
+                                        entityObject.children[$scope.secondLevelKey].children[$scope.thirdLevelKey].children[timestampString] = { "name": $scope.fourthLevelModel };
+                                        user.updateEntity(entityObject).then(function (resolved) {
+                                            $.alert("تمت الإضافة بنجاح!");
+                                            $scope.fourthLevelModel = '';
+                                            $scope.renderEntities();
+                                        });
+                                    }
+                                },
+                                cancel:{
+                                    text: 'إلغاء',
+                                    action: function () {
+                                        console.log("Cancelled");
+                                    }
+                                }
+                               
+                            }
                         });
+                      
                     }
                     else {
-                        var entityObject = angular.copy($scope.selectedFirstLevelObject);
-                        entityObject.children[$scope.secondLevelKey].children[$scope.thirdLevelKey].children[$scope.fourthLevelKey].name = $scope.fourthLevelModel;
-                        user.updateEntity(entityObject).then(function (resolved) {
-                            $scope.fourthLevelModel = '';
-                            $scope.renderEntities();
+                        $.confirm({
+                            title: '',
+                            content: 'تأكيد تعديل الجهة؟',
+                            buttons: {
+                                confirm:{
+                                    text: 'تأكيد',
+                                    action: function(){
+                                        var entityObject = angular.copy($scope.selectedFirstLevelObject);
+                                        entityObject.children[$scope.secondLevelKey].children[$scope.thirdLevelKey].children[$scope.fourthLevelKey].name = $scope.fourthLevelModel;
+                                        user.updateEntity(entityObject).then(function (resolved) {
+                                            $.alert("تم تعديل الجهة بنجاح!");                                                                                
+                                            $scope.fourthLevelModel = '';
+                                            $scope.renderEntities();
+                                        });
+                                    }
+                                },
+                                cancel:{
+                                    text: 'إلغاء',
+                                    action: function () {
+                                        console.log("Cancelled");
+                                    }
+                                }
+                               
+                            }
                         });
+                   
+                      
                     }
                 }
                 break;

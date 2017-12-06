@@ -16,11 +16,30 @@ app.controller('homeScreenController', function ($log, $scope, $rootScope, $loca
         $scope.editEnabled = false;
     };
     $scope.updateContents = function () {
-        user.updateHomeContents($scope.message, $scope.vision, $scope.principles).then(function (resolved) {
-            $.alert("ثم التحديث بنجاح");
-            $scope.editEnabled = false;
-
+        $.confirm({
+            title: '',
+            content: 'تأكيد تغيير محتوى الرسالة والرؤية والقيم؟',
+            buttons: {
+                confirm:{
+                    text: 'تأكيد',
+                    action: function(){
+                        user.updateHomeContents($scope.message, $scope.vision, $scope.principles).then(function (resolved) {
+                            $.alert("ثم التحديث بنجاح");
+                            $scope.editEnabled = false;
+                
+                        });
+                    }
+                },
+                cancel:{
+                    text: 'إلغاء',
+                    action: function () {
+                        console.log("Cancelled");
+                    }
+                }
+               
+            }
         });
+      
     };
     $scope.getContents = function () {
         debugger;
