@@ -162,8 +162,21 @@ app.controller('createProgramCtrl', function ($log, $scope, $rootScope, $locatio
         $scope.programForm.datePlannedEnd = new Date(selectedProgram.datePlannedEnd);
         $scope.programForm.dateActualStart = new Date(selectedProgram.dateActualStart);
         $scope.programForm.dateActualEnd = new Date(selectedProgram.dateActualEnd);
-        internalTeamSelect.val(selectedProgram.teamInt).trigger('change');
-        externalTeamSelect.val(selectedProgram.teamExt).trigger('change');
+        // internalTeamSelect.val(selectedProgram.teamInt).trigger('change');
+        // externalTeamSelect.val(selectedProgram.teamExt).trigger('change');
+        $scope.internalTeamArr = [];
+        $scope.externalTeamArr = [];
+        if ($scope.allUsers != undefined) {
+            for (var userIndex in $scope.allUsers) {
+                if (selectedProgram.teamInt.indexOf($scope.allUsers[userIndex]._id) > -1) {
+                    $scope.internalTeamArr.push($scope.allUsers[userIndex]);
+                }
+                if (selectedProgram.teamExt.indexOf($scope.allUsers[userIndex]._id) > -1) {
+                    $scope.externalTeamArr.push($scope.allUsers[userIndex]);
+                }
+            }
+        }
+
         $scope.programForm.description = selectedProgram.description;
         $scope.programForm.strategies = selectedProgram.strategies;
         $scope.programForm.stages = selectedProgram.stages;
@@ -183,6 +196,9 @@ app.controller('createProgramCtrl', function ($log, $scope, $rootScope, $locatio
         user.getUsers(filter).then(function (resolved) {
             $timeout(function () {
                 //debugger;
+                if (filter == undefined) {
+                    $scope.allUsers = resolved;
+                }
                 $scope.users = resolved;
                 $scope.$apply();
             });
@@ -257,8 +273,10 @@ app.controller('createProgramCtrl', function ($log, $scope, $rootScope, $locatio
                             user.deleteProgram($scope.selectedProgram._id).then(function (resolved) {
                                 $scope.programForm = {};
                                 delete $scope.selectedProgram;
-                                internalTeamSelect.val([]).trigger('change');
-                                externalTeamSelect.val([]).trigger('change');
+                                // internalTeamSelect.val([]).trigger('change');
+                                // externalTeamSelect.val([]).trigger('change');
+                                $scope.internalTeamArr = [];
+                                $scope.externalTeamArr = [];
                                 $scope.renderPrograms($scope.filterationModel);
                                 $.alert("تم حذف البرنامج");
                             });
@@ -281,8 +299,10 @@ app.controller('createProgramCtrl', function ($log, $scope, $rootScope, $locatio
     $scope.createNewProgram = function (newProgramForm, valid, form) {
         $scope.programForm = {};
         delete $scope.selectedProgram;
-        internalTeamSelect.val([]).trigger('change');
-        externalTeamSelect.val([]).trigger('change');
+        $scope.internalTeamArr = [];
+        $scope.externalTeamArr = [];
+        // internalTeamSelect.val([]).trigger('change');
+        // externalTeamSelect.val([]).trigger('change');
         // if (valid) {
         //     var submittedForm = angular.copy(newProgramForm);
         //     submittedForm._id = new Date().getTime() + '';
@@ -334,9 +354,9 @@ app.controller('createProgramCtrl', function ($log, $scope, $rootScope, $locatio
                     title: '',
                     content: 'تأكيد إضافة برنامج؟',
                     buttons: {
-                        confirm:{
+                        confirm: {
                             text: 'تأكيد',
-                            action: function(){
+                            action: function () {
                                 var submittedForm = $scope.initializeProgramForm(programForm);
                                 submittedForm._id = new Date().getTime() + '';
                                 $log.debug("Submit program form");
@@ -347,45 +367,45 @@ app.controller('createProgramCtrl', function ($log, $scope, $rootScope, $locatio
                                 });
                             }
                         },
-                        cancel:{
+                        cancel: {
                             text: 'إلغاء',
                             action: function () {
                                 console.log("Cancelled");
                             }
                         }
-                       
+
                     }
                 });
-               
+
             }
             else {
                 $.confirm({
                     title: '',
                     content: 'تأكيد تعديل برنامج؟',
                     buttons: {
-                        confirm:{
+                        confirm: {
                             text: 'تأكيد',
-                            action: function(){
-                                var submittedForm =  $scope.initializeProgramForm(programForm);
+                            action: function () {
+                                var submittedForm = $scope.initializeProgramForm(programForm);
                                 submittedForm._id = $scope.selectedProgram._id;
                                 $log.debug("Submit program form");
                                 $log.debug(submittedForm);
                                 user.editProgram(submittedForm).then(function (resolved) {
-                                    $.alert("تم تعديل البرنامج!");                                    
+                                    $.alert("تم تعديل البرنامج!");
                                     $scope.renderPrograms($scope.filterationModel);
                                 });
                             }
                         },
-                        cancel:{
+                        cancel: {
                             text: 'إلغاء',
                             action: function () {
                                 console.log("Cancelled");
                             }
                         }
-                       
+
                     }
                 });
-              
+
             }
         }
         else {
@@ -394,7 +414,7 @@ app.controller('createProgramCtrl', function ($log, $scope, $rootScope, $locatio
         }
     };
     $scope.initializeProgramForm = function (programForm) {
-        var newForm = angular.copy(programForm); 
+        var newForm = angular.copy(programForm);
         newForm.manager = programForm.manager ? programForm.manager : "";
         newForm.approxCost = programForm.approxCost ? programForm.approxCost : 0;
         newForm.datePlannedStart = $rootScope.formatDate(programForm.datePlannedStart);
@@ -423,22 +443,114 @@ app.controller('createProgramCtrl', function ($log, $scope, $rootScope, $locatio
         newForm.description = programForm.description ? programForm.description : "";
         newForm.strategies = programForm.strategies ? programForm.strategies : "";
         newForm.stages = programForm.stages ? programForm.stages : "";
-        newForm.teamInt = programForm.teamInt ? programForm.teamInt : [];
-        newForm.teamExt = programForm.teamExt ? programForm.teamExt : [];
-
+        newForm.teamInt = [];
+        for (var index3 in $scope.internalTeamArr) {
+            newForm.teamInt[index3] = $scope.internalTeamArr[index3]._id;
+        }
+        newForm.teamExt = [];
+        for (var index4 in $scope.externalTeamArr) {
+            newForm.teamExt[index4] = $scope.externalTeamArr[index4]._id;
+        }
         return newForm;
     };
 
 
-    var internalTeamSelect = $("#sel1");
-    internalTeamSelect.select2();
-    internalTeamSelect.change(function () {
-        $scope.programForm.teamInt = internalTeamSelect.val();
-    });
-    var externalTeamSelect = $("#sel2");
-    externalTeamSelect.select2();
-    externalTeamSelect.change(function () {
-        $scope.programForm.teamExt = externalTeamSelect.val();
-    });
+    // var internalTeamSelect = $("#sel1");
+    // internalTeamSelect.select2();
+    // internalTeamSelect.change(function () {
+    //     $scope.programForm.teamInt = internalTeamSelect.val();
+    //     $scope.internalTeamArr.push(internalTeamSelect.val());
+    //     $log.debug("Internal team");
+    //     $log.debug($scope.internalTeamArr);
+    // });
+    // var externalTeamSelect = $("#sel2");
+    // externalTeamSelect.select2();
+    // externalTeamSelect.change(function () {
+    //     $scope.programForm.teamExt = externalTeamSelect.val();
+    //     $scope.externalTeamArr.push(externalTeamSelect.val())
+    //     $log.debug("External team");
+    //     $log.debug($scope.externalTeamArr);
+    // });
+    $scope.internalTeamArr = [];
+    $scope.externalTeamArr = [];
+    $scope.putUserInTeam = function (user) {
+        $.confirm({
+            title: '',
+            content: 'اختر الفريق',
+            buttons: {
+                internal: {
+                    text: 'فريق العمل داخليا',
+                    action: function () {
+                        $timeout(function () {
+                            $scope.internalTeamArr.push(user);
+                            $log.debug("Internal team");
+                            $log.debug($scope.internalTeamArr);
+                            $scope.$apply();
+                        });
+
+                    }
+                },
+                external: {
+                    text: 'فريق العمل خارجيا',
+                    action: function () {
+                        $timeout(function () {
+                            $scope.externalTeamArr.push(user);
+                            $log.debug("External team");
+                            $log.debug($scope.externalTeamArr);
+                            $scope.$apply();
+                        });
+
+                    }
+                },
+                cancel: {
+                    text: 'إلغاء',
+                    action: function () {
+                        console.log("Cancelled");
+                    }
+                }
+
+            }
+        });
+
+    };
+    $scope.deleteMember = function (index, teamType) {
+        $.confirm({
+            title: '',
+            content: 'هل ترغب بحذف العضو من هذه القائمة؟',
+            buttons: {
+                confirm: {
+                    text: 'حذف',
+                    action: function () {
+                        switch (teamType) {
+                            case 'internal':
+                                $timeout(function () {
+                                    $scope.internalTeamArr.splice(index, 1);
+                                    $log.debug("Internal team");
+                                    $log.debug($scope.internalTeamArr);
+                                    $scope.$apply();
+                                });
+                                break;
+                            case 'external':
+                                $timeout(function () {
+                                    $scope.externalTeamArr.splice(index, 1);
+                                    $log.debug("External team");
+                                    $log.debug($scope.externalTeamArr);
+                                    $scope.$apply();
+                                });
+                                break;
+
+                        }
+                    }
+                },
+                cancel: {
+                    text: 'إلغاء',
+                    action: function () {
+                        console.log("Cancelled");
+                    }
+                }
+
+            }
+        });
+    };
 
 });

@@ -336,7 +336,6 @@
                             <label style="font-weight: bold;"> فلترة الأشخاص</label>
                         </div>
                         <div class="col-md-6">
-                            <!--<div class="col-md-12">-->
                             <div class="form-group">
                                 <label>المستوى الأول</label>
 
@@ -358,18 +357,6 @@
                                     </option>
                                 </select>
                             </div>
-
-                            <!--</div>-->
-                            <!--<div class="col-md-12">-->
-                            <!--<div class="form-group">-->
-                            <!--<label>اختيار فريق العمل</label>-->
-                            <!--<select multiple="multiple" class="form-control">-->
-                            <!--<option ng-repeat="user in users">{{user.name}}</option>-->
-                            <!--</select>-->
-                            <!--</div>-->
-                            <!--</div>-->
-                        </div>
-                        <div class="col-md-6">
                             <div class="form-group">
                                 <label>المستوى الثالث</label>
                                 <select name="select" class="form-control" ng-model="userFilterEntitiesModel.thirdLevel" ng-change="filterUsers('level3')"
@@ -391,24 +378,56 @@
 
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label>اختيار فريق العمل</label>
+                                <select multiple="multiple" class="form-control">
+                                    <option ng-repeat="user in users" ng-click="putUserInTeam(user)">{{user.name}}</option>
+                                </select>
+                            </div>
                         </div>
-                        <!-- <div class="col-md-12"> -->
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label> فريق العمل داخلياً </label>
+                                <label>فريق العمل داخليا</label>
+                                <select multiple="multiple" class="form-control" style="height: 214px">
+                                    <option ng-repeat="user in internalTeamArr track by $index" ng-click="deleteMember($index,'internal')">{{user.name}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>فريق العمل خارجياً</label>
+                                <select multiple="multiple" class="form-control" style="height: 214px">
+                                    <option ng-repeat="user in externalTeamArr track by $index" ng-click="deleteMember($index,'external')">{{user.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- <div class="col-md-12"> -->
+                        <!-- <div class="col-md-6">
+                            <div class="form-group">
+                                <label> اختيار فريق العمل داخلياً </label>
                                 <select id="sel1" multiple="multiple" class="form-control select" ng-model="programForm.teamInt">
                                     <option value="{{user._id}}" ng-repeat="user in users">{{user.name}}</option>
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label>فريق العمل داخليا</label>
+                                <select multiple="multiple" class="form-control">
+                                    <option ng-repeat="user in internalTeamArr">{{user.name}}</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label> فريق العمل خارجياً </label>
+                                <label> اخنيار فريق العمل خارجياً </label>
                                 <select id="sel2" multiple="multiple" class="form-control select" ng-model="programForm.teamExt">
                                     <option value="{{user._id}}" ng-repeat="user in users">{{user.name}}</option>
                                 </select>
                             </div>
-                        </div>
+                            <div class="form-group">
+                                <label>فريق العمل خارجياً</label>
+                                <select multiple="multiple" class="form-control">
+                                    <option ng-repeat="user in externalTeamArr">{{user.name}}</option>
+                                </select>
+                            </div>
+                        </div> -->
                         <!-- </div> -->
                         <div class="col-md-12">
                             <div class="form-group">

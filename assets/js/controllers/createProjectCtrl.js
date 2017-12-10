@@ -159,8 +159,20 @@ app.controller('createProjectCtrl', function ($log, $scope, $rootScope, $locatio
         $scope.projectObject.datePlannedEnd = new Date(object.datePlannedEnd);
         $scope.projectObject.dateActualStart = new Date(object.dateActualStart);
         $scope.projectObject.dateActualEnd = new Date(object.dateActualEnd);
-        internalTeamSelect.val(object.teamInt).trigger('change');
-        externalTeamSelect.val(object.teamExt).trigger('change');
+        // internalTeamSelect.val(object.teamInt).trigger('change');
+        // externalTeamSelect.val(object.teamExt).trigger('change');
+        $scope.internalTeamArr = [];
+        $scope.externalTeamArr = [];
+        if ($scope.allUsers != undefined) {
+            for (var userIndex in $scope.allUsers) {
+                if (object.teamInt.indexOf($scope.allUsers[userIndex]._id) > -1) {
+                    $scope.internalTeamArr.push($scope.allUsers[userIndex]);
+                }
+                if (object.teamExt.indexOf($scope.allUsers[userIndex]._id) > -1) {
+                    $scope.externalTeamArr.push($scope.allUsers[userIndex]);
+                }
+            }
+        }
         $scope.projectObject.description = object.description;
         $scope.projectObject.outputs = object.outputs[0];
         $scope.projectObject.stages = object.stages;
@@ -177,7 +189,9 @@ app.controller('createProjectCtrl', function ($log, $scope, $rootScope, $locatio
     $scope.renderUsers = function (filter) {
         user.getUsers(filter).then(function (resolved) {
             $timeout(function () {
-                //debugger;
+                if (filter == undefined) {
+                    $scope.allUsers = resolved;
+                }
                 $scope.users = resolved;
                 $scope.$apply();
             });
@@ -252,8 +266,10 @@ app.controller('createProjectCtrl', function ($log, $scope, $rootScope, $locatio
                         user.deleteProject($scope.selectedProject._id).then(function (resolved) {
                             $scope.projectObject = {};
                             delete $scope.selectedProject;
-                            internalTeamSelect.val([]).trigger('change');
-                            externalTeamSelect.val([]).trigger('change');
+                            // internalTeamSelect.val([]).trigger('change');
+                            // externalTeamSelect.val([]).trigger('change');
+                            $scope.internalTeamArr = [];
+                            $scope.externalTeamArr = [];
                             $scope.filterProjects();
                             $.alert("تم حذف المشروع بنجاح")
                         });
@@ -280,8 +296,10 @@ app.controller('createProjectCtrl', function ($log, $scope, $rootScope, $locatio
         $scope.projectObject.outputs = [];
         delete $scope.selectedProject;
         delete $scope.selectedProjectStage;
-        internalTeamSelect.val([]).trigger('change');
-        externalTeamSelect.val([]).trigger('change');
+        // internalTeamSelect.val([]).trigger('change');
+        // externalTeamSelect.val([]).trigger('change');
+        $scope.internalTeamArr = [];
+        $scope.externalTeamArr = [];
         $scope.indicatorName = "";
         $scope.goalValue = "";
         $scope.actualValue = "";
@@ -317,8 +335,18 @@ app.controller('createProjectCtrl', function ($log, $scope, $rootScope, $locatio
         var submittedForm = angular.copy(projectObject);
         submittedForm.manager = projectObject.manager ? projectObject.manager : "";
         submittedForm.approxCost = projectObject.approxCost ? projectObject.approxCost : 0;
-        submittedForm.teamInt = projectObject.teamInt ? projectObject.teamInt : [];
-        submittedForm.teamExt = projectObject.teamExt ? projectObject.teamExt : [];
+        // submittedForm.teamInt = projectObject.teamInt ? projectObject.teamInt : [];
+        // submittedForm.teamExt = projectObject.teamExt ? projectObject.teamExt : [];
+        submittedForm.teamInt = [];
+        for (var index3 in $scope.internalTeamArr) {
+            submittedForm.teamInt[index3] = $scope.internalTeamArr[index3]._id;
+        }
+        submittedForm.teamExt = [];
+        for (var index4 in $scope.externalTeamArr) {
+            submittedForm.teamExt[index4] = $scope.externalTeamArr[index4]._id;
+        }
+
+
         submittedForm.description = projectObject.description ? projectObject.description : "";
         submittedForm.stages = projectObject.stages ? projectObject.stages : [];
         submittedForm.datePlannedStart = $rootScope.formatDate(projectObject.datePlannedStart);
@@ -398,18 +426,97 @@ app.controller('createProjectCtrl', function ($log, $scope, $rootScope, $locatio
     };
 
 
-    var internalTeamSelect = $("#sel1");
-    internalTeamSelect.select2();
-    internalTeamSelect.change(function () {
-        $scope.projectObject.teamInt = internalTeamSelect.val();
-    });
-    var externalTeamSelect = $("#sel2");
-    externalTeamSelect.select2();
-    externalTeamSelect.change(function () {
-        $scope.projectObject.teamExt = externalTeamSelect.val();
-    });
+    // var internalTeamSelect = $("#sel1");
+    // internalTeamSelect.select2();
+    // internalTeamSelect.change(function () {
+    //     $scope.projectObject.teamInt = internalTeamSelect.val();
+    // });
+    // var externalTeamSelect = $("#sel2");
+    // externalTeamSelect.select2();
+    // externalTeamSelect.change(function () {
+    //     $scope.projectObject.teamExt = externalTeamSelect.val();
+    // });
+    $scope.internalTeamArr = [];
+    $scope.externalTeamArr = [];
+    $scope.putUserInTeam = function (user) {
+        $.confirm({
+            title: '',
+            content: 'اختر الفريق',
+            buttons: {
+                internal: {
+                    text: 'فريق العمل داخليا',
+                    action: function () {
+                        $timeout(function () {
+                            $scope.internalTeamArr.push(user);
+                            $log.debug("Internal team");
+                            $log.debug($scope.internalTeamArr);
+                            $scope.$apply();
+                        });
 
+                    }
+                },
+                external: {
+                    text: 'فريق العمل خارجيا',
+                    action: function () {
+                        $timeout(function () {
+                            $scope.externalTeamArr.push(user);
+                            $log.debug("External team");
+                            $log.debug($scope.externalTeamArr);
+                            $scope.$apply();
+                        });
 
+                    }
+                },
+                cancel: {
+                    text: 'إلغاء',
+                    action: function () {
+                        console.log("Cancelled");
+                    }
+                }
+
+            }
+        });
+
+    };
+    $scope.deleteMember = function (index, teamType) {
+        $.confirm({
+            title: '',
+            content: 'هل ترغب بحذف العضو من هذه القائمة؟',
+            buttons: {
+                confirm: {
+                    text: 'حذف',
+                    action: function () {
+                        switch (teamType) {
+                            case 'internal':
+                                $timeout(function () {
+                                    $scope.internalTeamArr.splice(index, 1);
+                                    $log.debug("Internal team");
+                                    $log.debug($scope.internalTeamArr);
+                                    $scope.$apply();
+                                });
+                                break;
+                            case 'external':
+                                $timeout(function () {
+                                    $scope.externalTeamArr.splice(index, 1);
+                                    $log.debug("External team");
+                                    $log.debug($scope.externalTeamArr);
+                                    $scope.$apply();
+                                });
+                                break;
+
+                        }
+                    }
+                },
+                cancel: {
+                    text: 'إلغاء',
+                    action: function () {
+                        console.log("Cancelled");
+                    }
+                }
+
+            }
+        });
+    };
     $scope.setStageModel = function () {
         $scope.stageModel = {
             "name": '',
