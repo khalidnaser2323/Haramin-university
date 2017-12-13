@@ -3,7 +3,7 @@
  */
 
 var app = angular.module('myApp', [
-    'ui.router'
+    'ui.router','cp.ngConfirm'
 ]);
 
 app.config(['$locationProvider', '$stateProvider', '$urlRouterProvider', function ($locationProvider, $stateProvider, $urlRouterProvider) {

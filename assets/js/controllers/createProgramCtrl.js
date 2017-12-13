@@ -2,7 +2,7 @@
  * Created by Khalid on 11/2/2017.
  */
 
-app.controller('createProgramCtrl', function ($log, $scope, $rootScope, $location, user, $timeout) {
+app.controller('createProgramCtrl', function ($log, $scope, $rootScope, $location, user, $timeout, $ngConfirm) {
 
     console.log("Welcome to ProgramCtrl");
     $scope.goalsModel = {};
@@ -33,28 +33,32 @@ app.controller('createProgramCtrl', function ($log, $scope, $rootScope, $locatio
     $scope.renderEntities = function () {
         user.getEntities().then(function (entities) {
             $scope.associations = entities;
-            // $scope.selectableEntities = entities;
-            //$scope.selectableEntitiesSecondLevel = entities
 
-            $scope.ets = [];
-
-            for (var el1i in entities) {
-                var el1 = entities[el1i];
-                for (var el2i in el1.children) {
-                    var el2 = el1.children[el2i];
-                    for (var el3i in el2.children) {
-                        var el3 = el2.children[el3i];
-                        if (Object.keys(el3.children).length === 0) {
-                            continue;
-                        }
-                        var el4 = {};
-                        $scope.ets.push({ el1: el1, el2: el2, el3: el3, eli2: el2i, eli3: el3i, el4: el4 });
-                        for (var el4i in el3.children) {
-                            el4[el4i] = el3.children[el4i];
+            if (entities) {
+                $scope.flatEntities = {};
+                for (var et in entities) {
+                    $scope.flatEntities[entities[et]._id] = entities[et].name;
+                    if (Object.keys(entities[et].children).length != 0) {
+                        for (var secondLevelChild in entities[et].children) {
+                            $scope.flatEntities[secondLevelChild] = entities[et].children[secondLevelChild].name;
+                            if (Object.keys(entities[et].children[secondLevelChild].children).length != 0) {
+                                for (var thirdLevelChild in entities[et].children[secondLevelChild].children) {
+                                    $scope.flatEntities[thirdLevelChild] = entities[et].children[secondLevelChild].children[thirdLevelChild].name;
+                                    if (Object.keys(entities[et].children[secondLevelChild].children[thirdLevelChild].children).length != 0) {
+                                        for (var fourthLevelChild in entities[et].children[secondLevelChild].children[thirdLevelChild].children) {
+                                            $scope.flatEntities[fourthLevelChild] = entities[et].children[secondLevelChild].children[thirdLevelChild].children[fourthLevelChild].name;
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
+                $log.debug("Flat entities");
+                $log.debug($scope.flatEntities);
+
             }
+
         });
     };
     $scope.renderEntities();
@@ -108,15 +112,26 @@ app.controller('createProgramCtrl', function ($log, $scope, $rootScope, $locatio
     };
     $scope.renderGoals = function () {
         user.getGoals().then(function (goals) {
-            //debugger;
             $scope.strategicGoals = goals;
+            $scope.flatGoals = {};
+            if (goals) {
+                for (var goal in goals) {
+                    $scope.flatGoals[goals[goal]._id] = goals[goal].name;
+                    if (Object.keys(goals[goal].subgoals)) {
+                        for (var subgoal in goals[goal].subgoals) {
+                            $scope.flatGoals[subgoal] = goals[goal].subgoals[subgoal].name;
+                        }
+                    }
+                }
+                $log.debug("flat goals");
+                $log.debug($scope.flatGoals);
+            }
 
 
         });
     };
     $scope.renderGoals();
     $scope.onStrategicGoalSelected = function () {
-        debugger;
         $scope.selectedStrategicGoal = $scope.strategicGoals[$scope.goalsModel.strategicGoal];
         $scope.goalsModel.secondaryGoal = '';
         if ($scope.goalsModel.strategicGoal === "") {
@@ -136,7 +151,6 @@ app.controller('createProgramCtrl', function ($log, $scope, $rootScope, $locatio
     $scope.renderPrograms = function (filter) {
         user.getPrograms(filter).then(function (resolved) {
             $timeout(function () {
-                //debugger;
                 $scope.programs = resolved;
                 $scope.$apply();
             });
@@ -162,8 +176,6 @@ app.controller('createProgramCtrl', function ($log, $scope, $rootScope, $locatio
         $scope.programForm.datePlannedEnd = new Date(selectedProgram.datePlannedEnd);
         $scope.programForm.dateActualStart = new Date(selectedProgram.dateActualStart);
         $scope.programForm.dateActualEnd = new Date(selectedProgram.dateActualEnd);
-        // internalTeamSelect.val(selectedProgram.teamInt).trigger('change');
-        // externalTeamSelect.val(selectedProgram.teamExt).trigger('change');
         $scope.internalTeamArr = [];
         $scope.externalTeamArr = [];
         if ($scope.allUsers != undefined) {
@@ -176,26 +188,75 @@ app.controller('createProgramCtrl', function ($log, $scope, $rootScope, $locatio
                 }
             }
         }
-
         $scope.programForm.description = selectedProgram.description;
         $scope.programForm.strategies = selectedProgram.strategies;
         $scope.programForm.stages = selectedProgram.stages;
-        //$scope.programForm.entities = selectedProgram.entities;
-        $scope.programForm.entities = [];
-        $scope.programForm.goals = [];
-        for (var x in selectedProgram.entities) {
-            $scope.programForm.entities[x] = selectedProgram.entities[x].l1 + "." + selectedProgram.entities[x].l2 + "." + selectedProgram.entities[x].l3 + "." + selectedProgram.entities[x].l4;
+        $scope.selectedEntitiesArray = {};
+        var lvls = selectedProgram.entities;
+
+        var o = {};
+
+        for (var i = 0; i < lvls.length; i++) {
+            var lvl = lvls[i];
+            var l1 = lvl.l1;
+            var l2 = lvl.l2;
+            var l3 = lvl.l3;
+            var l4 = lvl.l4;
+
+            if (l1 != undefined && l1 != "undefined") {
+                if (!(l1 in o)) { o[l1] = {}; }
+                var ol1 = o[l1];
+                if (l2 != undefined && l2 != "undefined") {
+                    if (!(l2 in ol1)) { ol1[l2] = {}; }
+                    var ol2 = ol1[l2];
+                    if (l3 != undefined && l3 != "undefined") {
+                        if (!(l3 in ol2)) { ol2[l3] = {}; }
+                        var ol3 = ol2[l3];
+
+                        if (l4 != undefined && l4 != "undefined") {
+                            if (!(l4 in ol3)) {
+                                ol3[l4] = null;
+                            }
+                        }
+
+                    }
+
+                }
+            }
         }
-        for (var y in selectedProgram.goals) {
-            $scope.programForm.goals[y] = selectedProgram.goals[y].l1 + "." + selectedProgram.goals[y].l2;
+        $log.debug("output entities array");
+        $log.debug(o);
+        $scope.selectedEntitiesArray = o;
+
+        $scope.selectedGoalsArray = {};
+        var lvls = selectedProgram.goals;
+
+        var o = {};
+
+        for (var i = 0; i < lvls.length; i++) {
+            var lvl = lvls[i];
+            var l1 = lvl.l1;
+            var l2 = lvl.l2;
+
+            if (l1 != undefined && l1 != "undefined") {
+                if (!(l1 in o)) { o[l1] = {}; }
+                var ol1 = o[l1];
+
+                if (l2 != undefined && l2 != "undefined") {
+                    if (!(l2 in ol1)) { ol1[l2] = null; }
+                }
+            }
+
         }
+        $log.debug("output goals array");
+        $log.debug(o);
+        $scope.selectedGoalsArray = o;
 
 
     };
     $scope.renderUsers = function (filter) {
         user.getUsers(filter).then(function (resolved) {
             $timeout(function () {
-                //debugger;
                 if (filter == undefined) {
                     $scope.allUsers = resolved;
                 }
@@ -273,10 +334,10 @@ app.controller('createProgramCtrl', function ($log, $scope, $rootScope, $locatio
                             user.deleteProgram($scope.selectedProgram._id).then(function (resolved) {
                                 $scope.programForm = {};
                                 delete $scope.selectedProgram;
-                                // internalTeamSelect.val([]).trigger('change');
-                                // externalTeamSelect.val([]).trigger('change');
                                 $scope.internalTeamArr = [];
                                 $scope.externalTeamArr = [];
+                                $scope.selectedEntitiesArray = {};
+                                $scope.selectedGoalsArray = {};
                                 $scope.renderPrograms($scope.filterationModel);
                                 $.alert("تم حذف البرنامج");
                             });
@@ -301,50 +362,8 @@ app.controller('createProgramCtrl', function ($log, $scope, $rootScope, $locatio
         delete $scope.selectedProgram;
         $scope.internalTeamArr = [];
         $scope.externalTeamArr = [];
-        // internalTeamSelect.val([]).trigger('change');
-        // externalTeamSelect.val([]).trigger('change');
-        // if (valid) {
-        //     var submittedForm = angular.copy(newProgramForm);
-        //     submittedForm._id = new Date().getTime() + '';
-        //     submittedForm.manager = newProgramForm.manager ? newProgramForm.manager : "";
-        //     submittedForm.approxCost = newProgramForm.approxCost? newProgramForm.approxCost : 0;
-        //     submittedForm.datePlannedStart = $rootScope.formatDate(newProgramForm.datePlannedStart);
-        //     submittedForm.datePlannedEnd = $rootScope.formatDate(newProgramForm.datePlannedEnd);
-        //     submittedForm.dateActualStart = $rootScope.formatDate(newProgramForm.dateActualStart);
-        //     submittedForm.dateActualEnd = $rootScope.formatDate(newProgramForm.dateActualEnd);
-        //     submittedForm.active = newProgramForm.active === "true";
-        //     submittedForm.entities = [];
-        //     for (var index in newProgramForm.entities) {
-        //         var arr = newProgramForm.entities[index].split('.');
-        //         var entityObject = {"l1": undefined, "l2": undefined, "l3": undefined, "l4": undefined};
-        //         submittedForm.entities.push(entityObject);
-        //         submittedForm.entities[index].l1 = arr[0];
-        //         submittedForm.entities[index].l2 = arr[1];
-        //         submittedForm.entities[index].l3 = arr[2];
-        //         submittedForm.entities[index].l4 = arr[3];
-        //     }
-        //     submittedForm.goals = [];
-        //     for (var index2 in newProgramForm.goals) {
-        //         var arr2 = newProgramForm.goals[index2].split('.');
-        //         var goalObject = {"l1": undefined, "l2": undefined};
-        //         submittedForm.goals.push(goalObject);
-        //         submittedForm.goals[index2].l1 = arr2[0];
-        //         submittedForm.goals[index2].l2 = arr2[1];
-        //     }
-        //     submittedForm.description = newProgramForm.description ? newProgramForm.description : "";
-        //     submittedForm.strategies = newProgramForm.strategies ? newProgramForm.strategies : "";
-        //     submittedForm.stages = newProgramForm.stages ? newProgramForm.stages : "";
-        //     submittedForm.teamInt = newProgramForm.teamInt ? newProgramForm.teamInt : [];
-        //     submittedForm.teamExt = newProgramForm.teamExt ? newProgramForm.teamExt : [];
-        //     $log.debug("Submit program form");
-        //     $log.debug(submittedForm);
-        //     user.addProgram(submittedForm).then(function (resolved) {
-        //         $scope.renderPrograms();
-        //     });
-        // }
-        // else {
-        //     window.alert("من فضلك تأكد من إكمال البيانات المطلوبة");
-        // }
+        $scope.selectedEntitiesArray = {};
+        $scope.selectedGoalsArray = {};
     };
 
     $scope.editProgram = function (programForm, valid) {
@@ -422,24 +441,8 @@ app.controller('createProgramCtrl', function ($log, $scope, $rootScope, $locatio
         newForm.dateActualStart = $rootScope.formatDate(programForm.dateActualStart);
         newForm.dateActualEnd = $rootScope.formatDate(programForm.dateActualEnd);
         newForm.active = programForm.active === "true";
-        newForm.entities = [];
-        for (var index in programForm.entities) {
-            var arr = programForm.entities[index].split('.');
-            var entityObject = { "l1": undefined, "l2": undefined, "l3": undefined, "l4": undefined };
-            newForm.entities.push(entityObject);
-            newForm.entities[index].l1 = arr[0];
-            newForm.entities[index].l2 = arr[1];
-            newForm.entities[index].l3 = arr[2];
-            newForm.entities[index].l4 = arr[3];
-        }
-        newForm.goals = [];
-        for (var index2 in programForm.goals) {
-            var arr2 = programForm.goals[index2].split('.');
-            var goalObject = { "l1": undefined, "l2": undefined };
-            newForm.goals.push(goalObject);
-            newForm.goals[index2].l1 = arr2[0];
-            newForm.goals[index2].l2 = arr2[1];
-        }
+        newForm.entities = convert(serialize($scope.selectedEntitiesArray));
+        newForm.goals = convert(serialize($scope.selectedGoalsArray));
         newForm.description = programForm.description ? programForm.description : "";
         newForm.strategies = programForm.strategies ? programForm.strategies : "";
         newForm.stages = programForm.stages ? programForm.stages : "";
@@ -454,23 +457,6 @@ app.controller('createProgramCtrl', function ($log, $scope, $rootScope, $locatio
         return newForm;
     };
 
-
-    // var internalTeamSelect = $("#sel1");
-    // internalTeamSelect.select2();
-    // internalTeamSelect.change(function () {
-    //     $scope.programForm.teamInt = internalTeamSelect.val();
-    //     $scope.internalTeamArr.push(internalTeamSelect.val());
-    //     $log.debug("Internal team");
-    //     $log.debug($scope.internalTeamArr);
-    // });
-    // var externalTeamSelect = $("#sel2");
-    // externalTeamSelect.select2();
-    // externalTeamSelect.change(function () {
-    //     $scope.programForm.teamExt = externalTeamSelect.val();
-    //     $scope.externalTeamArr.push(externalTeamSelect.val())
-    //     $log.debug("External team");
-    //     $log.debug($scope.externalTeamArr);
-    // });
     $scope.internalTeamArr = [];
     $scope.externalTeamArr = [];
     $scope.putUserInTeam = function (user) {
@@ -540,6 +526,284 @@ app.controller('createProgramCtrl', function ($log, $scope, $rootScope, $locatio
                                 break;
 
                         }
+                    }
+                },
+                cancel: {
+                    text: 'إلغاء',
+                    action: function () {
+                        console.log("Cancelled");
+                    }
+                }
+
+            }
+        });
+    };
+
+    function serialize(obj, lstCmpl, lstCrnt) {
+        lstCmpl = lstCmpl || [];
+        lstCrnt = lstCrnt || [];
+
+        for (var key in obj) {
+            var lstCrntSub = lstCrnt.slice();
+
+            lstCrntSub.push(key);
+
+            if (obj[key] && Object.keys(obj[key]).length > 0) {
+                serialize(obj[key], lstCmpl, lstCrntSub);
+            } else {
+                lstCmpl.push(lstCrntSub);
+            }
+        }
+
+        return lstCmpl;
+    };
+
+    function convert(arr) {
+        var res = [];
+
+        for (var i in arr) {
+            var obj = {};
+
+            for (var j in arr[i]) {
+                obj["l" + (Number(j) + 1)] = arr[i][j];
+            }
+
+            res.push(obj);
+        }
+
+        return res;
+    };
+    $scope.onEntitySelected = function (type) {
+        switch (type) {
+            case 'level1':
+                for (var index = 0; index < $scope.associations.length; index++) {
+                    if ($scope.associations[index]._id == $scope.entityl1) {
+                        $scope.selectedUniversity = $scope.associations[index];
+                    }
+                }
+                $scope.entityl2 = '';
+                $scope.entityl3 = '';
+                $scope.entityl4 = '';
+
+
+                break;
+            case 'level2':
+                $scope.selectedFaculty = $scope.selectedUniversity.children[$scope.entityl2];
+                $scope.entityl3 = '';
+                $scope.entityl4 = '';
+                break;
+            case 'level3':
+                $scope.selectedSector = $scope.selectedUniversity.children[$scope.entityl2].children[$scope.entityl3];
+                $scope.entityl4 = '';
+                break;
+            case 'level4':
+                $scope.selectedDepartmentKey = $scope.entityl4;
+                break;
+        }
+    };
+
+    $scope.addEntityToProgram = function () {
+        $ngConfirm({
+            title: 'إضافة جهة',
+            contentUrl: 'add-entity-template.html',
+            scope: $scope,
+            rtl: true,
+            buttons: {
+                add: {
+                    text: 'إضافة',
+                    btnClass: 'btn-blue',
+                    action: function (scope, button) {
+                        if ($scope.entityl1 != undefined && $scope.entityl1 != '') {
+                            $timeout(function () {
+                                // var newEntityObject = {};
+                                debugger;
+                                if (!($scope.entityl1 in $scope.selectedEntitiesArray)) {
+                                    $scope.selectedEntitiesArray[$scope.entityl1] = null;
+                                }
+                                if ($scope.entityl2 != undefined && $scope.entityl2 != '') {
+                                    var secondLevel = $scope.selectedEntitiesArray[$scope.entityl1];
+                                    if (secondLevel == null || (!($scope.entityl2 in secondLevel))) {
+                                        if (secondLevel == null) {
+                                            secondLevel = {};
+                                        }
+                                        secondLevel[$scope.entityl2] = null;
+                                    }
+
+                                    if ($scope.entityl3 != undefined && $scope.entityl3 != '') {
+                                        var thirdLevel = secondLevel[$scope.entityl2];
+                                        if (thirdLevel == null || (!($scope.entityl3 in thirdLevel))) {
+                                            if (thirdLevel == null) {
+                                                thirdLevel = {};
+                                            }
+                                            thirdLevel[$scope.entityl3] = null;
+                                        }
+
+                                        if ($scope.entityl4 != undefined && $scope.entityl4 != '') {
+                                            var fourthLevel = thirdLevel[$scope.entityl3];
+                                            if (fourthLevel == null || (!($scope.entityl4 in fourthLevel))) {
+                                                if (fourthLevel == null) {
+                                                    fourthLevel = {};
+                                                }
+                                                fourthLevel[$scope.entityl4] = null;
+                                            }
+
+                                            thirdLevel[$scope.entityl3] = fourthLevel;
+
+                                        }
+                                        secondLevel[$scope.entityl2] = thirdLevel;
+
+                                    }
+                                    $scope.selectedEntitiesArray[$scope.entityl1] = secondLevel;
+                                }
+                                $log.debug("Entities object after adding");
+                                $log.debug($scope.selectedEntitiesArray);
+                                $scope.$apply();
+                            });
+                        }
+                        else {
+                            $ngConfirm('يجب اختيار المستوى الأول');
+                            return false;
+                        }
+
+
+                    }
+                },
+                cancel: {
+                    text: 'إلغاء',
+                    btnClass: 'btn-red',
+                    action: function (scope, button) {
+                    }
+                },
+            }
+        });
+    };
+    $scope.onGoalSelected = function (type) {
+        if (type == "strategic") {
+            for (var i = 0; i < $scope.strategicGoals.length; i++) {
+                if ($scope.strategicGoals[i]._id == $scope.strategicGoal) {
+                    $scope.selectedFirstLevelGoal = $scope.strategicGoals[i];
+                }
+            }
+            $scope.secondaryGoal = "";
+
+        }
+        else if (type == "secondary") {
+            // $log.debug("selected secondary goal");
+            // $log.debug($scope.secondaryGoal);
+
+        }
+    };
+    $scope.addGoalToProgram = function () {
+        $ngConfirm({
+            title: 'إضافة هدف',
+            contentUrl: 'add-goal-template.html',
+            scope: $scope,
+            rtl: true,
+            buttons: {
+                add: {
+                    text: 'إضافة',
+                    btnClass: 'btn-blue',
+                    action: function (scope, button) {
+                        if ($scope.strategicGoal != undefined && $scope.strategicGoal != "") {
+                            $timeout(function () {
+                                if (!($scope.strategicGoal in $scope.selectedGoalsArray)) {
+                                    $scope.selectedGoalsArray[$scope.strategicGoal] = null;
+                                }
+                                if ($scope.secondaryGoal != undefined && $scope.secondaryGoal != '') {
+                                    var secondLevel = $scope.selectedGoalsArray[$scope.strategicGoal];
+                                    if (secondLevel == null || (!($scope.secondaryGoal in secondLevel))) {
+                                        if (secondLevel == null) {
+                                            secondLevel = {};
+                                        }
+                                        secondLevel[$scope.secondaryGoal] = null;
+                                    }
+                                    $scope.selectedGoalsArray[$scope.strategicGoal] = secondLevel;
+
+                                }
+                                $log.debug("Goals array after adding");
+                                $log.debug($scope.selectedGoalsArray);
+                                $scope.$apply();
+                            });
+                        }
+                        else {
+                            $ngConfirm('يجب اختيار هدف استراتيجي على الأقل');
+                            return false;
+                        }
+
+
+
+                    }
+                },
+                cancel: {
+                    text: 'إلغاء',
+                    btnClass: 'btn-red',
+                    action: function (scope, button) {
+                    }
+                },
+            }
+        });
+    };
+    $scope.deletGoalFromProgram = function (type, key1, key2) {
+        $.confirm({
+            title: '',
+            content: 'هل ترغب بحذف الهدف من هذه القائمة؟',
+            buttons: {
+                confirm: {
+                    text: 'حذف',
+                    action: function () {
+                        $timeout(function () {
+                            if (type == "firstLevel") {
+                                delete $scope.selectedGoalsArray[key1];
+
+                            }
+                            else if (type == "secondLevel") {
+                                delete $scope.selectedGoalsArray[key1][key2];
+                            }
+                            $log.debug("Goals after deleting item");
+                            $log.debug($scope.selectedGoalsArray);
+                            $scope.$apply();
+                        });
+
+                    }
+                },
+                cancel: {
+                    text: 'إلغاء',
+                    action: function () {
+                        console.log("Cancelled");
+                    }
+                }
+
+            }
+        });
+
+    };
+    $scope.deleteEntityFromProgram = function (type, key1, key2, key3, key4) {
+        $.confirm({
+            title: '',
+            content: 'هل ترغب بحذف الجهة من هذه القائمة؟',
+            buttons: {
+                confirm: {
+                    text: 'حذف',
+                    action: function () {
+                        $timeout(function () {
+                            if (type == "firstLevel") {
+                                delete $scope.selectedEntitiesArray[key1];
+
+                            }
+                            else if (type == "secondLevel") {
+                                delete $scope.selectedEntitiesArray[key1][key2];
+                            }
+                            else if (type == "thirdLevel") {
+                                delete $scope.selectedEntitiesArray[key1][key2][key3];
+                            }
+                            else if (type == "fourthLevel") {
+                                delete $scope.selectedEntitiesArray[key1][key2][key3][key4];
+                            }
+                            $log.debug("Entities after deleting item");
+                            $log.debug($scope.selectedEntitiesArray);
+                            $scope.$apply();
+                        });
+
                     }
                 },
                 cancel: {
