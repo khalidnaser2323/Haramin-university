@@ -1,77 +1,14 @@
-app.controller('reportsCtrl', function ($log, $timeout, $scope, $rootScope, $location, user) {
+app.controller('reportsCtrl', function ($log, $timeout, $scope, $rootScope, $location, user, $ngConfirm) {
     $log.debug("Reports view");
-    // $scope.entitiesModel = {};
     $scope.reportForm = {};
-    // $scope.filterationModel = {
-    //     "entities": { "$elemMatch": { "l1": undefined, "l2": undefined, "l3": undefined, "l4": undefined } },
-    //     "goals": { "$elemMatch": { "l1": undefined, "l2": undefined } }
-    // };
 
-    // $scope.updateFilterationModel = function () {
-    //     $scope.filterationModel.entities.$elemMatch.l1 = angular.isDefined($scope.selectedFirstLevelObject) ? $scope.selectedFirstLevelObject._id : undefined;
-    //     $scope.filterationModel.entities.$elemMatch.l2 = $scope.entitiesModel.secondLevel == '' ? undefined : $scope.entitiesModel.secondLevel;
-    //     $scope.filterationModel.entities.$elemMatch.l3 = $scope.entitiesModel.thirdLevel == '' ? undefined : $scope.entitiesModel.thirdLevel;
-    //     $scope.filterationModel.entities.$elemMatch.l4 = $scope.entitiesModel.fourthLevel == '' ? undefined : $scope.entitiesModel.fourthLevel;
-    //     $scope.filterationModel.goals.$elemMatch.l1 = angular.isDefined($scope.selectedStrategicGoal) ? $scope.selectedStrategicGoal._id : undefined;
-    //     $scope.filterationModel.goals.$elemMatch.l2 = $scope.goalsModel.secondaryGoal == '' ? undefined : $scope.goalsModel.secondaryGoal;
-
-    //     $log.debug("new filter object");
-    //     $log.debug($scope.filterationModel);
-    // };
     $scope.renderEntities = function () {
         user.getEntities().then(function (entities) {
             $scope.associations = entities;
         });
     };
     $scope.renderEntities();
-    // $scope.onAssociationSelected = function (entityLevel) {
 
-    //     switch (entityLevel) {
-    //         case 'level1':
-    //             $scope.selectedFirstLevelObject = $scope.associations[parseInt($scope.entitiesModel.firstLevel)];
-    //             $scope.entitiesModel.secondLevel = '';
-    //             $scope.entitiesModel.thirdLevel = '';
-    //             $scope.entitiesModel.fourthLevel = '';
-    //             if ($scope.entitiesModel.firstLevel === "") {
-    //                 $scope.disableSecondLevel = true;
-    //                 $scope.disablethirdLevel = true;
-    //                 $scope.disableFourthLevel = true;
-    //             }
-    //             else {
-    //                 $scope.disableSecondLevel = false;
-    //             }
-
-    //             break;
-    //         case 'level2':
-    //             $scope.selectedSecondLevelObject = $scope.selectedFirstLevelObject.children[$scope.entitiesModel.secondLevel];
-    //             $scope.entitiesModel.thirdLevel = '';
-    //             $scope.entitiesModel.fourthLevel = '';
-    //             if ($scope.entitiesModel.secondLevel === "") {
-    //                 $scope.disablethirdLevel = true;
-    //                 $scope.disableFourthLevel = true;
-    //             }
-    //             else {
-    //                 $scope.disablethirdLevel = false;
-    //             }
-    //             break;
-    //         case 'level3':
-    //             $scope.selectedThirdLevelObject = $scope.selectedFirstLevelObject.children[$scope.entitiesModel.secondLevel].children[$scope.entitiesModel.thirdLevel];
-    //             $scope.entitiesModel.fourthLevel = '';
-    //             if ($scope.entitiesModel.thirdLevel === "") {
-    //                 $scope.disableFourthLevel = true;
-    //             }
-    //             else {
-    //                 $scope.disableFourthLevel = false;
-    //             }
-    //             break;
-    //         case 'level4':
-    //             $scope.fourthLevelKey = $scope.entitiesModel.fourthLevel;
-    //             break;
-    //     }
-    //     // $scope.updateFilterationModel();
-    //     // $scope.renderPrograms($scope.filterationModel);
-
-    // };
     $scope.onEntitySelected = function (type) {
         debugger;
         switch (type) {
@@ -255,7 +192,7 @@ app.controller('reportsCtrl', function ($log, $timeout, $scope, $rootScope, $loc
 
                 }
             });
-          
+
         } else {
             $.alert("لم يتم اختيار أي تقرير");
         }
@@ -278,6 +215,113 @@ app.controller('reportsCtrl', function ($log, $timeout, $scope, $rootScope, $loc
         form.entityl4 = report.entityl4 ? report.entityl4 : "";
 
         return form;
+
+    };
+    $scope.exportReport = function (elem) {
+        if ($scope.selectedReport) {
+
+            $ngConfirm({
+                title: '',
+                contentUrl: 'print-template.html',
+                scope: $scope,
+                rtl: true,
+                onOpenBefore: function (scope) {
+                    // scope.entity = "جامعة الحرمين | كلية المسجد النبوي | مكتب عميد الكلية";
+                    debugger;
+                    scope.entityl1 = '';
+                    scope.entityl2 = '';
+                    scope.entityl3 = '';
+                    scope.entityl4 = '';
+                    for (var x in $scope.associations) {
+                        if ($scope.reportForm.entityl1 === $scope.associations[x]._id) {
+                            scope.entityl1 = $scope.associations[x].name;
+                            if ($scope.reportForm.entityl2 != undefined && $scope.reportForm.entityl2 != '') {
+                                scope.entityl2 = "| " + $scope.associations[x].children[$scope.reportForm.entityl2].name;
+                                if($scope.reportForm.entityl3 != undefined && $scope.reportForm.entityl3 != ''){
+                                    scope.entityl3 = "| " + $scope.associations[x].children[$scope.reportForm.entityl2].children[$scope.reportForm.entityl3].name;
+                                    if($scope.reportForm.entityl4 != undefined && $scope.reportForm.entityl4 != ''){
+                                        scope.entityl4 = "| " + $scope.associations[x].children[$scope.reportForm.entityl2].children[$scope.reportForm.entityl3].children[$scope.reportForm.entityl4].name;
+                                    }
+                                }
+                            }
+                             
+                        }
+                    }
+                    user.getHomeContents().then(function (resolved) {
+                        for (var index in resolved) {
+                            if (resolved[index]._id == "homeContents") {
+                                scope.message = resolved[index].data.message;
+                                scope.vision = resolved[index].data.vision;
+                                scope.principles = resolved[index].data.principles;
+                            }
+                        }
+                    });
+                    user.getGoals().then(function (goals) {
+                        $scope.strategicGoals = goals;
+                        // $scope.flatGoals = {};
+                        // if (goals) {
+                        //     for (var goal in goals) {
+                        //         $scope.flatGoals[goals[goal]._id] = goals[goal].name;
+                        //         if (Object.keys(goals[goal].subgoals)) {
+                        //             for (var subgoal in goals[goal].subgoals) {
+                        //                 $scope.flatGoals[subgoal] = goals[goal].subgoals[subgoal].name;
+                        //             }
+                        //         }
+                        //     }
+                        //     $log.debug("flat goals");
+                        //     $log.debug($scope.flatGoals);
+                        // }
+                    });
+                    user.getPrograms(undefined).then(function (resolved) {
+                        // $timeout(function () {
+                        $scope.programs = resolved;
+                        // $scope.$apply();
+                        // });
+
+
+                    });
+                    user.getProjects(undefined).then(function (projects) {
+                        // $timeout(function () {
+                        $scope.projects = projects;
+                        // $scope.$apply();
+                        // });
+
+                    });
+
+                },
+                buttons: {
+                    add: {
+                        text: 'طباعة',
+                        btnClass: 'btn-blue',
+                        action: function (scope, button) {
+                            // $("#result").load("print-template.html");
+                            // var template = document.getElementById("#result");
+
+                            // debugger;
+                            // var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+
+                            // mywindow.document.write(template.innerHTML);
+
+                            // mywindow.document.close(); // necessary for IE >= 10
+                            // mywindow.focus(); // necessary for IE >= 10*/
+
+                            // mywindow.print();
+                            // mywindow.close();
+
+                        }
+                    },
+                    cancel: {
+                        text: 'إلغاء',
+                        btnClass: 'btn-red',
+                        action: function (scope, button) {
+                        }
+                    },
+                }
+            });
+        } else {
+            $.alert("لم يتم اختيار أي تقرير");
+        }
+
 
     };
 

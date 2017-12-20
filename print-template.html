@@ -1,0 +1,69 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-3">
+            <img src="assets/images/logo.jpg" class="img-responsive" alt="">
+        </div>
+        <div class="col-md-8">
+            <div class="col-md-12">
+                <p style="font-weight: bold;font-size:20px;">
+                    {{reportForm.name}}
+                </p>
+
+            </div>
+            <div class="col-md-12">
+                <p>
+                    {{entityl1}}  {{entityl2}}  {{entityl3}}  {{entityl4}}
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12" ng-if="reportForm.message">
+        <p style="font-weight: bold;color: blue;font-size:20px;">
+            الرسالة
+        </p>
+        <p>
+            {{message}}
+        </p>
+    </div>
+    <div class="col-md-12" ng-if="reportForm.vision">
+        <p style="font-weight: bold;color: blue;font-size:20px;">
+            الرؤية
+        </p>
+        <p>
+            {{vision}}
+        </p>
+    </div>
+    <div class="col-md-12" ng-if="reportForm.principles">
+        <p style="font-weight: bold;color: blue;font-size:20px;">
+            القيم
+        </p>
+        <p>
+            {{principles}}
+        </p>
+    </div>
+    <div class="col-md-12">
+        <p style="font-weight: bold;color: blue;font-size:20px;">
+            الأهداف الاستراتيجية
+        </p>
+        <p ng-repeat="goal in strategicGoals">
+            {{goal.name}}
+        </p>
+    </div>
+    <div class="col-md-12">
+        <p style="font-weight: bold;color: blue;font-size:20px;">
+            البرامج
+        </p>
+        <p ng-repeat="program in programs">
+            {{program.name}}
+        </p>
+    </div>
+    <div class="col-md-12">
+        <p style="font-weight: bold;color: blue;font-size:20px;">
+            المشاريع
+        </p>
+        <p ng-repeat="project in projects">
+            {{project.name}}
+        </p>
+    </div>
+
+</div>

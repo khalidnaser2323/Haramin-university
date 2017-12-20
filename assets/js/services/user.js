@@ -3,9 +3,6 @@
  */
 //implement main user services
 /**
- * Created by Khalid on 11/6/2017.
- */
-/**
  * @ngdoc factory
  * @name user
  * @description Responsible for:  <br />
