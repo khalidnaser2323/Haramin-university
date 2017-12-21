@@ -57,7 +57,7 @@ app.controller('reportsCtrl', function ($log, $timeout, $scope, $rootScope, $loc
             $scope.reportForm.vision = report.vision;
             $scope.reportForm.message = report.message;
             $scope.reportForm.principles = report.principles;
-
+debugger;
             $scope.reportForm.goals = report.goals;
             $scope.enableGoals = $scope.reportForm.goals != '';
             $scope.reportForm.programs = report.programs;
@@ -218,7 +218,7 @@ app.controller('reportsCtrl', function ($log, $timeout, $scope, $rootScope, $loc
 
     };
     $scope.exportReport = function (elem) {
-        if ($scope.selectedReport) {
+        // if ($scope.selectedReport) {
 
             $ngConfirm({
                 title: '',
@@ -318,9 +318,9 @@ app.controller('reportsCtrl', function ($log, $timeout, $scope, $rootScope, $loc
                     },
                 }
             });
-        } else {
-            $.alert("لم يتم اختيار أي تقرير");
-        }
+        // } else {
+            // $.alert("لم يتم اختيار أي تقرير");
+        // }
 
 
     };
