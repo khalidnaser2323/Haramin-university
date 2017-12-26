@@ -57,7 +57,6 @@ app.controller('reportsCtrl', function ($log, $timeout, $scope, $rootScope, $loc
             $scope.reportForm.vision = report.vision;
             $scope.reportForm.message = report.message;
             $scope.reportForm.principles = report.principles;
-debugger;
             $scope.reportForm.goals = report.goals;
             $scope.enableGoals = $scope.reportForm.goals != '';
             $scope.reportForm.programs = report.programs;
@@ -197,7 +196,35 @@ debugger;
             $.alert("لم يتم اختيار أي تقرير");
         }
     };
-
+    // prepare all basic data in scope so it's easy to use them in case of needed
+    user.getPrograms(undefined).then(function (resolved) {
+        $scope.programs = resolved;
+    });
+    user.getHomeContents().then(function (resolved) {
+        for (var index in resolved) {
+            if (resolved[index]._id == "homeContents") {
+                $scope.message = resolved[index].data.message;
+                $scope.vision = resolved[index].data.vision;
+                $scope.principles = resolved[index].data.principles;
+            }
+        }
+    });
+    user.getGoals().then(function (goals) {
+        $scope.strategicGoals = goals;
+    });
+    user.getProjects(undefined).then(function (projects) {
+        $scope.projects = projects;
+        $scope.indicesArray = [];
+        for (var project in $scope.projects) {
+            for (var stage in $scope.projects[project].stages) {
+                for (var indicator in $scope.projects[project].stages[stage].indices) {
+                    $scope.indicesArray.push($scope.projects[project].stages[stage].indices[indicator]);
+                }
+            }
+        }
+        console.log("indices array");
+        console.log($scope.indicesArray);
+    });
     $scope.initializeReportForm = function (report) {
         var form = {};
         form.name = report.name;
@@ -220,108 +247,141 @@ debugger;
     $scope.exportReport = function (elem) {
         // if ($scope.selectedReport) {
 
-            $ngConfirm({
-                title: '',
-                contentUrl: 'print-template.html',
-                scope: $scope,
-                rtl: true,
-                onOpenBefore: function (scope) {
-                    // scope.entity = "جامعة الحرمين | كلية المسجد النبوي | مكتب عميد الكلية";
-                    debugger;
-                    scope.entityl1 = '';
-                    scope.entityl2 = '';
-                    scope.entityl3 = '';
-                    scope.entityl4 = '';
-                    for (var x in $scope.associations) {
-                        if ($scope.reportForm.entityl1 === $scope.associations[x]._id) {
-                            scope.entityl1 = $scope.associations[x].name;
-                            if ($scope.reportForm.entityl2 != undefined && $scope.reportForm.entityl2 != '') {
-                                scope.entityl2 = "| " + $scope.associations[x].children[$scope.reportForm.entityl2].name;
-                                if($scope.reportForm.entityl3 != undefined && $scope.reportForm.entityl3 != ''){
-                                    scope.entityl3 = "| " + $scope.associations[x].children[$scope.reportForm.entityl2].children[$scope.reportForm.entityl3].name;
-                                    if($scope.reportForm.entityl4 != undefined && $scope.reportForm.entityl4 != ''){
-                                        scope.entityl4 = "| " + $scope.associations[x].children[$scope.reportForm.entityl2].children[$scope.reportForm.entityl3].children[$scope.reportForm.entityl4].name;
-                                    }
+        $ngConfirm({
+            title: '',
+            contentUrl: 'print-template.html',
+            scope: $scope,
+            rtl: true,
+            columnClass: 'col-md-6 col-md-offset-3',
+            onOpenBefore: function (scope) {
+                scope.entityl1 = '';
+                scope.entityl2 = '';
+                scope.entityl3 = '';
+                scope.entityl4 = '';
+                for (var x in $scope.associations) {
+                    if ($scope.reportForm.entityl1 === $scope.associations[x]._id) {
+                        scope.entityl1 = $scope.associations[x].name;
+                        if ($scope.reportForm.entityl2 != undefined && $scope.reportForm.entityl2 != '') {
+                            scope.entityl2 = "| " + $scope.associations[x].children[$scope.reportForm.entityl2].name;
+                            if ($scope.reportForm.entityl3 != undefined && $scope.reportForm.entityl3 != '') {
+                                scope.entityl3 = "| " + $scope.associations[x].children[$scope.reportForm.entityl2].children[$scope.reportForm.entityl3].name;
+                                if ($scope.reportForm.entityl4 != undefined && $scope.reportForm.entityl4 != '') {
+                                    scope.entityl4 = "| " + $scope.associations[x].children[$scope.reportForm.entityl2].children[$scope.reportForm.entityl3].children[$scope.reportForm.entityl4].name;
                                 }
                             }
-                             
                         }
+
                     }
-                    user.getHomeContents().then(function (resolved) {
-                        for (var index in resolved) {
-                            if (resolved[index]._id == "homeContents") {
-                                scope.message = resolved[index].data.message;
-                                scope.vision = resolved[index].data.vision;
-                                scope.principles = resolved[index].data.principles;
-                            }
-                        }
-                    });
-                    user.getGoals().then(function (goals) {
-                        $scope.strategicGoals = goals;
-                        // $scope.flatGoals = {};
-                        // if (goals) {
-                        //     for (var goal in goals) {
-                        //         $scope.flatGoals[goals[goal]._id] = goals[goal].name;
-                        //         if (Object.keys(goals[goal].subgoals)) {
-                        //             for (var subgoal in goals[goal].subgoals) {
-                        //                 $scope.flatGoals[subgoal] = goals[goal].subgoals[subgoal].name;
-                        //             }
-                        //         }
-                        //     }
-                        //     $log.debug("flat goals");
-                        //     $log.debug($scope.flatGoals);
-                        // }
-                    });
-                    user.getPrograms(undefined).then(function (resolved) {
-                        // $timeout(function () {
-                        $scope.programs = resolved;
-                        // $scope.$apply();
-                        // });
-
-
-                    });
-                    user.getProjects(undefined).then(function (projects) {
-                        // $timeout(function () {
-                        $scope.projects = projects;
-                        // $scope.$apply();
-                        // });
-
-                    });
-
-                },
-                buttons: {
-                    add: {
-                        text: 'طباعة',
-                        btnClass: 'btn-blue',
-                        action: function (scope, button) {
-                            // $("#result").load("print-template.html");
-                            // var template = document.getElementById("#result");
-
-                            // debugger;
-                            // var mywindow = window.open('', 'PRINT', 'height=400,width=600');
-
-                            // mywindow.document.write(template.innerHTML);
-
-                            // mywindow.document.close(); // necessary for IE >= 10
-                            // mywindow.focus(); // necessary for IE >= 10*/
-
-                            // mywindow.print();
-                            // mywindow.close();
-
-                        }
-                    },
-                    cancel: {
-                        text: 'إلغاء',
-                        btnClass: 'btn-red',
-                        action: function (scope, button) {
-                        }
-                    },
                 }
-            });
+            },
+            buttons: {
+                add: {
+                    text: 'طباعة',
+                    btnClass: 'btn-blue',
+                    action: function (scope, button) {
+
+                        var htmlPrint = document.getElementById("printArea");
+                        console.log("Parsed html");
+                        console.log(htmlPrint);
+                        var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+                        mywindow.document.write($('<div/>').append($(htmlPrint).clone()).html());
+                        mywindow.document.close(); // necessary for IE >= 10
+                        mywindow.focus(); // necessary for IE >= 10*/
+                        console.log("To be printed");
+                        console.log(mywindow.document);
+                        mywindow.print();
+                        mywindow.close();
+
+
+                        return false;
+
+                    }
+                },
+                cancel: {
+                    text: 'إلغاء',
+                    btnClass: 'btn-red',
+                    action: function (scope, button) {
+                    }
+                },
+            }
+        });
         // } else {
-            // $.alert("لم يتم اختيار أي تقرير");
+        // $.alert("لم يتم اختيار أي تقرير");
         // }
 
+
+    };
+    $scope.checkForGoalInProgram = function (goal, program) {
+        var exist = false;
+        for (var index in program.goals) {
+            if (program.goals[index].l1 == goal._id) {
+                exist = true;
+            }
+        }
+        return exist;
+    };
+    $scope.checkIfGoalHasPrograms = function (goal) {
+        var hasPrograms = false;
+        for (var x in $scope.programs) {
+            for (var x2 in $scope.programs[x].goals) {
+                if ($scope.programs[x].goals[x2].l1 == goal._id) {
+                    hasPrograms = true;
+                }
+            }
+        }
+        return hasPrograms;
+    };
+    $scope.checkIfProgramHasProjects = function (program) {
+        var hasProjects = false;
+        for (var project in $scope.projects) {
+            if (program._id === $scope.projects[project].program) {
+                hasProjects = true;
+            }
+        }
+        return hasProjects;
+    };
+    $scope.programWithNoSubGoals = function (goal, program) {
+        var hasNoSubGoal = true;
+        for (var index in program.goals) {
+            for (var subgoal in goal.subgoals) {
+                if (program.goals[index].l2 == subgoal) {
+                    hasNoSubGoal = false;
+                }
+            }
+        }
+        return hasNoSubGoal;
+    };
+    $scope.subgoalHasPrograms = function (subgoal) {
+        var hasPrograms = false;
+        for (var x in $scope.programs) {
+            for (var x2 in $scope.programs[x].goals) {
+                if ($scope.programs[x].goals[x2].l2 == subgoal) {
+                    hasPrograms = true;
+                }
+            }
+        }
+        return hasPrograms;
+    };
+    $scope.subGoalInProgram = function (subgoal, program) {
+        var exist = false;
+        for (var index in program.goals) {
+            if (program.goals[index].l2 == subgoal) {
+                exist = true;
+            }
+        }
+        return exist;
+    };
+    $scope.showProject = function (project) {
+        // to make sure if a project should be shown, if project had no stages or all its stages have no indices it shouldn't be shown
+        var shouldShowProject = false;
+        if (project.stages.length > 0) {
+            for (var index in project.stages){
+                if (project.stages[index].indices.length > 0){
+                    shouldShowProject = true;
+                }
+            }
+        }
+        return shouldShowProject;
 
     };
 

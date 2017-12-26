@@ -156,12 +156,17 @@ app.factory('user', function ($q, $rootScope, $log, $timeout, connector) {
 
             if (filterObject) {
                 var filter = angular.copy(filterObject);
-                if (filterObject.entities.$elemMatch.l1 == undefined && filterObject.entities.$elemMatch.l2 == undefined && filterObject.entities.$elemMatch.l3 == undefined && filterObject.entities.$elemMatch.l4 == undefined) {
-                    filter.entities = undefined;
+                if (filterObject.entities) {
+                    if (filterObject.entities.$elemMatch.l1 == undefined && filterObject.entities.$elemMatch.l2 == undefined && filterObject.entities.$elemMatch.l3 == undefined && filterObject.entities.$elemMatch.l4 == undefined) {
+                        filter.entities = undefined;
+                    }
                 }
-                if (filterObject.goals.$elemMatch.l1 == undefined && filterObject.goals.$elemMatch.l2 == undefined) {
-                    filter.goals = undefined;
+                if (filterObject.goals) {
+                    if (filterObject.goals.$elemMatch.l1 == undefined && filterObject.goals.$elemMatch.l2 == undefined) {
+                        filter.goals = undefined;
+                    }
                 }
+
             }
             connector.send(filter, '/program/list', 'POST', null).then(function (resolved) {
                 $log.debug('get programs response');
@@ -447,9 +452,5 @@ app.factory('user', function ($q, $rootScope, $log, $timeout, connector) {
             });
             return deferred.promise;
         }
-        
-
-
-
     };
 });

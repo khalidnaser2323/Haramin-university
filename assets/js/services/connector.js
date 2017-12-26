@@ -22,9 +22,8 @@ app.factory('connector', function ($http, $q, $rootScope, $log, $timeout) {
             if (angular.isDefined(connectionMethod) && connectionMethod != null) {
                 requestMethod = connectionMethod;
             }
-            debugger;
             var handleSuccessFlow = function (data, status, headers, config) {
-                    debugger;
+                    
                     $log.debug('Response on spot');
                     if (angular.isString(data)) {
                         try {
@@ -43,7 +42,7 @@ app.factory('connector', function ($http, $q, $rootScope, $log, $timeout) {
                     });
                 },
                 handleErrorFlow = function (data, status, headers, config) {
-                    debugger;
+                    
                     var respTime = new Date().getTime() - startTime;
 
                     $log.debug('\\\\\\\\Error on spot - start\\\\\\\\\\\\\\');
@@ -67,7 +66,7 @@ app.factory('connector', function ($http, $q, $rootScope, $log, $timeout) {
 
                 },
                 sendHttpRequest = function () {
-                    debugger;
+                    
                     var requestHeaders = '';
                     if (angular.isDefined(headers) && headers != null) {
                         requestHeaders = headers;
