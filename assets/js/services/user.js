@@ -451,6 +451,70 @@ app.factory('user', function ($q, $rootScope, $log, $timeout, connector) {
                 deferred.reject(rejected);
             });
             return deferred.promise;
+        },
+        'addTask': function (task) {
+            var $this = this;
+            var deferred = $q.defer();
+            connector.send(task, '/mission', 'POST', null).then(function (resolved) {
+                $log.debug('Add task response');
+                $log.debug(resolved.data);
+                if (resolved.data.message === "OK") {
+                    deferred.resolve(resolved.data);
+                }
+            }, function (rejected) {
+                $log.debug(rejected);
+                deferred.reject(rejected);
+            });
+            return deferred.promise;
+        },
+        'editTask': function (task) {
+            var $this = this;
+            var deferred = $q.defer();
+
+            connector.send(task, '/mission', 'PUT', null).then(function (resolved) {
+                $log.debug('edit task response');
+                $log.debug(resolved.data);
+                if (resolved.data.message === "OK") {
+                    deferred.resolve(resolved.data);
+                }
+            }, function (rejected) {
+                $log.debug(rejected);
+                deferred.reject(rejected);
+            });
+            return deferred.promise;
+        },
+        'getTasks': function (projectId, stageName) {
+            var filter = {
+                "project": projectId != '' ? projectId : undefined,
+                "stage": stageName != '' ? stageName : undefined
+            };
+            var $this = this;
+            var deferred = $q.defer();
+            connector.send(filter, '/mission/list', 'POST', null).then(function (resolved) {
+                $log.debug('get tasks response');
+                $log.debug(resolved.data);
+                deferred.resolve(resolved.data);
+            }, function (rejected) {
+                $log.debug(rejected);
+                deferred.reject(rejected);
+            });
+            return deferred.promise;
+        },
+        'deleteTask': function (taskId) {
+            var $this = this;
+            var deferred = $q.defer();
+            connector.send(null, '/mission/' + taskId, 'DELETE', null).then(function (resolved) {
+                $log.debug('delete task response');
+                $log.debug(resolved.data);
+                if (resolved.data.message === "OK") {
+                    deferred.resolve(resolved.data);
+                }
+            }, function (rejected) {
+                $log.debug(rejected);
+                deferred.reject(rejected);
+            });
+            return deferred.promise;
         }
+
     };
 });

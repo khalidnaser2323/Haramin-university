@@ -1,219 +1,113 @@
-﻿<!--<!DOCTYPE html>-->
-<!--<html lang="en" dir="rtl">-->
-<!--<head>-->
-
-<!--&lt;!&ndash; Global stylesheets &ndash;&gt;-->
-<!--<link href="assets/css/ar/icons/icomoon/styles.css" rel="stylesheet" type="text/css">-->
-<!--<link href="assets/css/ar/bootstrap.css" rel="stylesheet" type="text/css">-->
-<!--<link href="assets/css/ar/core.css" rel="stylesheet" type="text/css">-->
-<!--<link href="assets/css/ar/font.css" rel="stylesheet" type="text/css">-->
-<!--<link href="assets/css/ar/components.css" rel="stylesheet" type="text/css">-->
-<!--<link href="assets/css/ar/colors.css" rel="stylesheet" type="text/css">-->
-<!--&lt;!&ndash; /global stylesheets &ndash;&gt;-->
-<!--&lt;!&ndash; Core JS files &ndash;&gt;-->
-<!--<script type="text/javascript" src="assets/js/core/libraries/jquery.min.js"></script>-->
-<!--<script type="text/javascript" src="assets/js/core/libraries/bootstrap.min.js"></script>-->
-
-<!--&lt;!&ndash; /core JS files &ndash;&gt;-->
-<!--&lt;!&ndash; Theme JS files &ndash;&gt;-->
-<!--<script type="text/javascript" src="assets/js/plugins/ui/moment/moment.min.js"></script>-->
-<!--<script type="text/javascript" src="assets/js/plugins/pickers/daterangepicker.js"></script>-->
-<!--&lt;!&ndash;<script type="text/javascript" src="assets/js/core/app.js"></script>&ndash;&gt;-->
-<!--<script type="text/javascript" src="assets/js/core/libraries/jquery_ui/interactions.min.js"></script>-->
-<!--<script type="text/javascript" src="assets/js/plugins/forms/selects/select2.min.js"></script>-->
-<!--<script type="text/javascript" src="assets/js/pages/form_select2.js"></script>-->
-<!--<script type="text/javascript" src="assets/js/pages/picker_date.js"></script>-->
-
-<!-- /theme JS files -->
-<!--</head>-->
-<!--<body>-->
-<!--Main navbar -->
-<!--<div class="navbar navbar-inverse navbar-fixed-top">-->
-<!--<div class="navbar-header">-->
-<!--<a class="navbar-brand" href="index.html"><img src="assets/images/logo_light.png" alt=""></a>-->
-<!--<ul class="nav navbar-nav pull-right visible-xs-block">-->
-<!--<li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>-->
-<!--<li><a class="sidebar-mobile-main-toggle"><i class="icon-paragraph-justify3"></i></a></li>-->
-<!--</ul>-->
-<!--</div>-->
-<!--<div class="navbar-collapse collapse" id="navbar-mobile">-->
-<!--<ul class="nav navbar-nav">-->
-<!--<li><a class="sidebar-control sidebar-main-toggle hidden-xs"><i class="icon-paragraph-justify3"></i></a>-->
-<!--</li>-->
-<!--<li><a> نظام توثيق ومتابعة المشاريع والمهام الإستراتيجية | جامعة الحرمين </a></li>-->
-<!--</ul>-->
-<!--<ul class="nav navbar-nav navbar-right">-->
-
-<!--<li class="dropdown language-switch">-->
-<!--<a class="dropdown-toggle" data-toggle="dropdown">-->
-<!--<img src="assets/images/flags/sa.png" class="position-left" alt="">-->
-<!--العربية-->
-<!--<span class="caret"></span>-->
-<!--</a>-->
-<!--<ul class="dropdown-menu">-->
-<!--<li><a class="english-font" href="index.html"><img src="assets/images/flags/gb.png" alt=""> English-->
-<!--</a></li>-->
-<!--</ul>-->
-<!--</li>-->
-<!--<li><a href="#"><i class="icon-switch2"></i> تسجيل خروج </a></li>-->
-<!--</ul>-->
-<!--</div>-->
-<!--</div>-->
-<!--&lt;!&ndash;/main navbar&ndash;&gt;-->
-<!--&lt;!&ndash;Page container&ndash;&gt;-->
-<!--<div class="page-container">-->
-<!--&lt;!&ndash;Page content&ndash;&gt;-->
-<!--<div class="page-content">-->
-<!--&lt;!&ndash;Main sidebar&ndash;&gt;-->
-<!--<div class="sidebar sidebar-main sidebar-fixed">-->
-<!--<div class="sidebar-content">-->
-
-<!--&lt;!&ndash; User menu &ndash;&gt;-->
-<!--<div class="sidebar-user-material">-->
-<!--<div class="category-content">-->
-<!--<div class="sidebar-user-material-content">-->
-<!--<a href="#"><img src="assets/images/logo.jpg" class="img-responsive" alt=""></a>-->
-<!--<h6>جامعة الحرمين </h6>-->
-<!--<span class="text-size-small">ومن يؤت الحكمة فقد أوتي خيراً كثيراً</span>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--&lt;!&ndash; /user menu &ndash;&gt;-->
-<!--&lt;!&ndash; Main navigation &ndash;&gt;-->
-<!--<div class="sidebar-category sidebar-category-visible">-->
-<!--<div class="category-content no-padding">-->
-<!--<ul class="navigation navigation-main navigation-accordion">-->
-<!--&lt;!&ndash; Main &ndash;&gt;-->
-<!--<li class="navigation-header"><span> الرئيسية </span> <i class="icon-menu"-->
-<!--title="Main pages"></i></li>-->
-<!--<li><a href="index-ar.html"><i class="icon-home4"></i> <span> الرئيسية</span></a></li>-->
-<!--<li><a href="profile-ar.html"><i class="icon-profile"></i> <span> الصفحة الشخصية </span></a>-->
-<!--</li>-->
-<!--<li class="active"><a href="roles-ar.html"><i class="icon-clipboard2"></i>-->
-<!--<span> المهام </span></a></li>-->
-<!--<li><a href="projects-ar.html"><i class="icon-stack2"></i> <span> المشاريع </span></a></li>-->
-<!--<li><a href="programs-ar.html"><i class="icon-stack"></i> <span> البرامج</span></a></li>-->
-<!--<li><a href="targets-ar.html"><i class="icon-target"></i> <span> الأهداف </span></a></li>-->
-<!--<li><a href="persons-ar.html"><i class="icon-users"></i> <span> الأشخاص</span></a></li>-->
-<!--<li><a href="organizations-ar.html"><i class="icon-office"></i> <span> الجهات </span></a>-->
-<!--</li>-->
-<!--<li><a href="targets-map-ar.html"><i class="icon-server"></i> <span> خريطة الأهداف / البرامج / الجهات </span></a>-->
-<!--</li>-->
-<!--<li><a href="reports.html"><i class="icon-file-text2"></i> <span> التقارير</span></a>-->
-<!--</li>-->
-<!--&lt;!&ndash; /main &ndash;&gt;-->
-<!--</ul>-->
-<!--</div>-->
-<!--</div>-->
-<!--&lt;!&ndash; /main navigation &ndash;&gt;-->
-<!--</div>-->
-<!--</div>-->
-<!--&lt;!&ndash;/main sidebar &ndash;&gt;-->
-<!--&lt;!&ndash;Main content &ndash;&gt;-->
-<!--<div class="content-wrapper pattern-bg">-->
-<!-- Content area -->
+﻿<!-- Content area -->
 <div class="content">
     <div class="">
         <div class="page-header-content">
             <div class="page-title">
-                <h3><span class="text-semibold"> تعريف المهام </span></h3>
+                <h3>
+                    <span class="text-semibold"> تعريف المهام </span>
+                </h3>
             </div>
         </div>
-
-
     </div>
     <div class="row">
         <div class="col-md-6">
-            <form action="#">
+            <form>
                 <div class="panel panel-flat">
                     <div class="panel-body height-70-vh">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label> الجامعة </label>
-                                <select name="select" class="form-control">
-                                    <option value="opt1"> جامعة الحرمين</option>
-                                    <option value="opt2">Option 2</option>
-                                    <option value="opt3">Option 3</option>
+                                <label> المستوى الأول </label>
+                                <select name="select" class="form-control" ng-change="onAssociationSelected('level1')" ng-model="entitiesModel.firstLevel">
+                                    <option value="">جميع الجهات</option>
+                                    <option value="{{$index}}" ng-repeat="association in associations">
+                                        {{association.name}}
+                                    </option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label> الكلية </label>
-                                <select name="select" class="form-control">
-                                    <option value="opt1"> كلية المسجد النبوي الشريف</option>
-                                    <option value="opt2">Option 2</option>
-                                    <option value="opt3">Option 3</option>
+                                <label> المستوى الثاني </label>
+                                <select name="select" class="form-control" ng-model="entitiesModel.secondLevel" ng-change="onAssociationSelected('level2')"
+                                    ng-disabled="disableSecondLevel">
+                                    <option value="">جميع الجهات</option>
+                                    <option value="{{key}}" ng-repeat="(key, value) in selectedFirstLevelObject.children">
+                                        {{value.name}}
+                                    </option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label> الوكالة </label>
-                                <select name="select" class="form-control">
-                                    <option value="opt1"> جميع الوكالات</option>
-                                    <option value="opt2">Option 2</option>
-                                    <option value="opt3">Option 3</option>
+                                <label> المستوى الثالث </label>
+                                <select name="select" class="form-control" ng-model="entitiesModel.thirdLevel" ng-change="onAssociationSelected('level3')"
+                                    ng-disabled="disablethirdLevel">
+                                    <option value=""> جميع الجهات</option>
+                                    <option value="{{key}}" ng-repeat="(key, value) in selectedSecondLevelObject.children">
+                                        {{value.name}}
+                                    </option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label> القسم </label>
-                                <select name="select" class="form-control">
-                                    <option value="opt1"> جميع الأقسام</option>
-                                    <option value="opt2">Option 2</option>
-                                    <option value="opt3">Option 3</option>
+                                <label> المستوى الرابع </label>
+                                <select name="select" class="form-control" ng-model="entitiesModel.fourthLevel" ng-change="onAssociationSelected('level4')"
+                                    ng-disabled="disableFourthLevel">
+                                    <option value=""> جميع الجهات</option>
+                                    <option value="{{key}}" ng-repeat="(key, value) in selectedThirdLevelObject.children">{{value.name}}
+                                    </option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label> إختيار الهدف الإستراتيجي </label>
-                                <select name="select" class="form-control">
-                                    <option value="opt1"> الهدف الإستراتيجي</option>
-                                    <option value="opt2">Option 2</option>
-                                    <option value="opt3">Option 3</option>
+                                <label> اختيار الهدف الإستراتيجي </label>
+                                <select name="select" class="form-control" ng-model="goalsModel.strategicGoal" ng-change="onStrategicGoalSelected()">
+                                    <option value="">جميع الأهداف الاستراتيجية</option>
+                                    <option value="{{$index}}" ng-repeat="mainGoal in strategicGoals">
+                                        {{mainGoal.name}}
+                                    </option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label> إختيار الهدف التفصيلي </label>
-                                <select name="select" class="form-control">
-                                    <option value="opt1"> الهدف التفصيلي</option>
-                                    <option value="opt2">Option 2</option>
-                                    <option value="opt3">Option 3</option>
+                                <label> اختيار الهدف التفصيلي </label>
+                                <select name="select" class="form-control" ng-model="goalsModel.secondaryGoal" ng-change="onSecondaryGoalSelected()" ng-disabled="disableSecondaryGoal">
+                                    <option value="">جميع الأهداف التفصيلية</option>
+                                    <option value="{{key}}" ng-repeat="(key, value) in selectedStrategicGoal.subgoals">
+                                        {{value.name}}
+                                    </option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label> البرنامج </label>
-                                <select name="select" class="form-control">
-                                    <option value="opt1"> جميع البرامج</option>
-                                    <option value="opt2">Option 2</option>
-                                    <option value="opt3">Option 3</option>
+                                <select name="select" class="form-control" ng-model="programId" ng-change="filterProjects()">
+                                    <option value="">جميع البرامج</option>
+                                    <option ng-repeat="program in programs" value="{{program._id}}">{{program.name}}
+                                    </option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label> المشروع </label>
-                                <select name="select" class="form-control">
-                                    <option value="opt1"> مشروع 5</option>
-                                    <option value="opt2">Option 2</option>
-                                    <option value="opt3">Option 3</option>
+                                <select name="select" class="form-control" ng-model="projectId" ng-change="onProjectSelected()">
+                                    <option value="">جميع المشاريع</option>
+                                    <option ng-repeat="project in projects" value="{{project._id}}">{{project.name}}
+                                    </option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label> المرحلة </label>
-                                <select name="select" class="form-control">
-                                    <option value="opt1"> المرحلة الأولى</option>
-                                    <option value="opt2">Option 2</option>
-                                    <option value="opt3">Option 3</option>
+                                <select name="select" class="form-control" ng-model="stageName" ng-change="onStageSelected()">
+                                    <option value=""> جميع المراحل</option>
+                                    <option ng-repeat="stage in selectedProject.stages" value="{{stage.name}}">{{stage.name}}</option>
                                 </select>
                             </div>
                         </div>
@@ -221,91 +115,85 @@
                             <div class="form-group">
                                 <label> المهمة </label>
                                 <select multiple="multiple" class="form-control">
-                                    <option selected="selected"> مهمة 1</option>
-                                    <option>مهمة 2</option>
-                                    <option>مهمة 3</option>
-
+                                    <option ng-repeat="task in tasks" ng-click="onTaskClicked(task)"> {{task.name}} </option>
                                 </select>
                             </div>
                         </div>
                         <div class="text-right">
-                            <!-- <button type="button" class="btn bg-primary-400"> جديد</button>
-                            <button type="button" class="btn bg-success-400"> حفظ</button>
-                            <button type="button" class="btn bg-danger-400"> إلغاء</button> -->
-                            <i class="fa fa-plus fa-2x text-green action-icon"  aria-hidden="true"></i>                                                                                                                                            
-                            <i class="fa fa-floppy-o fa-2x action-icon"  aria-hidden="true"></i>                                            
-                            <i class="fa fa-times fa-2x text-danger action-icon" aria-hidden="true"></i>
-                          
+                            <i class="fa fa-plus fa-2x text-green action-icon" ng-click="addNewTask()" aria-hidden="true"></i>
+                            <i class="fa fa-floppy-o fa-2x action-icon" ng-click="editTask(taskObject,taskForm.$valid)" aria-hidden="true"></i>
+                            <i class="fa fa-times fa-2x text-danger action-icon" ng-click="deleteTask()" aria-hidden="true"></i>
+
                         </div>
                     </div>
                 </div>
             </form>
         </div>
         <div class="col-md-6">
-            <form>
+            <form name="taskForm">
                 <div class="panel panel-flat">
                     <div class="panel-body height-70-vh">
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label> عنوان المهمة </label>
-                                <input type="text" class="form-control" placeholder="مشروع 2">
+                                <input type="text" class="form-control" placeholder="مهمة " required ng-model="taskObject.name">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label> حالة المهمة </label>
-                                <select name="select" class="form-control">
-                                    <option value="opt1"> نشطة</option>
-                                    <option value="opt2">Option 2</option>
-                                    <option value="opt3">Option 3</option>
+                                <select name="select" class="form-control" ng-model="taskObject.active">
+                                    <option value="" disabled> حالة المهمة </option>
+                                    <option value="true"> نشطة</option>
+                                    <option value="false">تمت</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label> مدير المهمة </label>
-                                <select name="select" class="form-control">
-                                    <option value="opt1"> د.أحمد الطويل</option>
-                                    <option value="opt2">Option 2</option>
-                                    <option value="opt3">Option 3</option>
+                                <select name="select" class="form-control" ng-model="taskObject.manager">
+                                    <option value="" disabled> مدير المهمة</option>
+                                    <option ng-repeat="user in usersList" value="{{user._id}}">{{user.name}}</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label> المرحلة </label>
-                                <select name="select" class="form-control">
-                                    <option value="opt1"> المرحلة الاولى</option>
-                                    <option value="opt2">Option 2</option>
-                                    <option value="opt3">Option 3</option>
+                                <select name="select" class="form-control" ng-model="taskObject.stage">
+                                    <option value=""> غير محدد</option>
+                                    <option ng-repeat="stage in selectedProject.stages" value="{{stage.name}}">{{stage.name}}</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label> التكلفة التقديرية </label>
-                                <input type="text" class="form-control" placeholder="" value="10,000">
+                                <input type="number" class="form-control" placeholder="10,000" ng-model="taskObject.approxCost">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label> تاريخ بداية المخطط </label>
+                                <label> تاريخ البداية المخطط </label>
 
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="icon-calendar22"></i></span>
-                                    <input type="text" class="form-control daterange-single"
-                                           value="03/18/2013">
+                                    <span class="input-group-addon">
+                                        <i class="icon-calendar22"></i>
+                                    </span>
+                                    <input type="date" class="form-control daterange-single" ng-model="taskObject.datePlannedStart">
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label> تاريخ نهاية المخطط </label>
+                                <label> تاريخ النهاية المخطط </label>
 
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="icon-calendar22"></i></span>
-                                    <input type="text" class="form-control daterange-single"
-                                           value="03/18/2013">
+                                    <span class="input-group-addon">
+                                        <i class="icon-calendar22"></i>
+                                    </span>
+                                    <input type="date" class="form-control daterange-single" placeholder="03/18/2013" ng-model="taskObject.datePlannedEnd">
                                 </div>
                             </div>
                         </div>
@@ -314,9 +202,10 @@
                                 <label> تاريخ البداية الفعلي </label>
 
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="icon-calendar22"></i></span>
-                                    <input type="text" class="form-control daterange-single"
-                                           value="03/18/2013">
+                                    <span class="input-group-addon">
+                                        <i class="icon-calendar22"></i>
+                                    </span>
+                                    <input type="date" class="form-control daterange-single" placeholder="03/18/2013" ng-model="taskObject.dateActualStart">
                                 </div>
                             </div>
                         </div>
@@ -325,64 +214,56 @@
                                 <label> تاريخ النهاية الفعلي </label>
 
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="icon-calendar22"></i></span>
-                                    <input type="text" class="form-control daterange-single"
-                                           value="03/18/2013">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label> إختيار فريق العمل </label>
-                                    <select multiple="multiple" class="form-control">
-                                        <option> فرد 1</option>
-                                        <option>فرد 2</option>
-                                        <option>فرد 3</option>
-                                        <option>فرد 4</option>
-                                        <option>فرد 5</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label> فريق العمل داخلياً </label>
-                                    <select multiple="multiple" class="select">
-                                        <option> فرد 1</option>
-                                        <option>فرد 2</option>
-                                        <option>فرد 3</option>
-                                        <option>فرد 4</option>
-                                        <option>فرد 5</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label> فريق العمل خارجياً </label>
-                                    <select multiple="multiple" class="select">
-                                        <option> فرد 1</option>
-                                        <option>فرد 2</option>
-                                        <option>فرد 3</option>
-                                        <option>فرد 4</option>
-                                        <option>فرد 5</option>
-                                    </select>
+                                    <span class="input-group-addon">
+                                        <i class="icon-calendar22"></i>
+                                    </span>
+                                    <input type="date" class="form-control daterange-single" placeholder="03/18/2013" ng-model="taskObject.dateActualEnd">
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-12">
+                                <label style="font-weight: bold">اختيار فريق العمل</label>                                
+                        </div>
+                    
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label> تفصيلات المهمة </label>
-                                            <textarea rows="3" class="form-control"
-                                                      placeholder="تفصيلات المهمة"></textarea>
+                                <label>الأشخاص المضافين للمشروع</label>
+                                <select multiple="multiple" class="form-control" style="height: 345px">
+                                    <option ng-repeat="user in usersList" ng-click="putUserInTeam(user)">{{user.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>فريق العمل داخليا</label>
+                                <select multiple="multiple" class="form-control">
+                                    <option ng-repeat="user in internalTeamArr track by $index" ng-click="deleteMember($index,'internal')">{{user.name}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>فريق العمل خارجياً</label>
+                                <select multiple="multiple" class="form-control">
+                                    <option ng-repeat="user in externalTeamArr track by $index" ng-click="deleteMember($index,'external')">{{user.name}}</option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label> إجراءات المهمة </label>
-                                            <textarea rows="3" class="form-control"
-                                                      placeholder="إجراءات المهمة"></textarea>
+                                <label> تفصيلات المهمة والخطوات التنفيذية </label>
+                                <textarea rows="3" class="form-control" ng-model="taskObject.description" ></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label> مطالب التنفيذ - الأدوات </label>
+                                <textarea rows="3" class="form-control" ng-model="taskObject.requirements"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>مؤشرات الأداء</label>
+                                <textarea rows="3" class="form-control" ng-model="taskObject.kpis"></textarea>
                             </div>
                         </div>
                     </div>
@@ -398,12 +279,3 @@
     </div>
     <!-- /footer -->
 </div>
-<!-- /content area -->
-<!--</div>-->
-<!-- /main content -->
-<!--</div>-->
-<!-- /page content -->
-<!--</div>-->
-<!-- /page container -->
-<!--</body>-->
-<!--</html>-->
