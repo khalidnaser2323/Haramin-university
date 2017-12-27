@@ -111,6 +111,53 @@
         </div>
 
     </div>
+    <div ng-if="enableTasks">
+        <p style="font-weight: bold;color: blue;font-size:20px;" ng-if="reportForm.tasks === 'opt1'">
+            المهام
+        </p>
+        <p style="font-weight: bold;color: blue;font-size:20px;" ng-if="reportForm.tasks === 'opt2'">
+            المهام موزعة تبعا للحالة الراهنة
+        </p>
+        <p style="font-weight: bold;color: blue;font-size:20px;" ng-if="reportForm.tasks === 'opt3'">
+            المهام موزعة تبعا للمشاريع
+        </p>
+        <p ng-repeat="task in tasks" style="margin: 8px 10px" ng-if="reportForm.tasks === 'opt1'">
+            {{task.name}}
+        </p>
+        <div ng-if="reportForm.tasks === 'opt2'" style="margin:8px">
+            <div>
+                <p style="font-weight: bold">المهام المنتهية</p>
+                <div style="margin: 0 10px" ng-repeat="task in tasks" ng-if="task.active == false">
+                    <p>
+                        {{task.name}}
+                    </p>
+                </div>
+            </div>
+            <div>
+                <p style="font-weight: bold">المهام تحت الإجراء</p>
+                <div style="margin: 0 10px" ng-repeat="task in tasks" ng-if="task.active == true">
+                    <p>
+                        {{task.name}}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div ng-if="reportForm.tasks === 'opt3'" style="margin:8px">
+            <div ng-repeat="project in projects" ng-if="checkIfProjectHasTasks(project)" style="margin:8px">
+                <p style="font-weight: bold">
+                    {{project.name}}
+                </p>
+                <div style="margin: 0 10px" ng-repeat="task in tasks" ng-if="task.project == project._id">
+                    <p>
+                        {{task.name}}
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
     <div ng-if="enableKPIs">
         <p style="font-weight: bold;color: blue;font-size:20px;" ng-if="reportForm.kpis === 'opt2'">
             مؤشرات الأداء

@@ -225,6 +225,9 @@ app.controller('reportsCtrl', function ($log, $timeout, $scope, $rootScope, $loc
         console.log("indices array");
         console.log($scope.indicesArray);
     });
+    user.getTasks().then(function (tasks) {
+        $scope.tasks = tasks;
+    });
     $scope.initializeReportForm = function (report) {
         var form = {};
         form.name = report.name;
@@ -375,14 +378,23 @@ app.controller('reportsCtrl', function ($log, $timeout, $scope, $rootScope, $loc
         // to make sure if a project should be shown, if project had no stages or all its stages have no indices it shouldn't be shown
         var shouldShowProject = false;
         if (project.stages.length > 0) {
-            for (var index in project.stages){
-                if (project.stages[index].indices.length > 0){
+            for (var index in project.stages) {
+                if (project.stages[index].indices.length > 0) {
                     shouldShowProject = true;
                 }
             }
         }
         return shouldShowProject;
 
+    };
+    $scope.checkIfProjectHasTasks = function (project) {
+        var hasTasks = false;
+        for (var index in $scope.tasks) {
+            if (project._id == $scope.tasks[index].project) {
+                hasTasks = true;
+            }
+        }
+        return hasTasks;
     };
 
 });
