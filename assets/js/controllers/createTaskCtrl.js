@@ -129,9 +129,11 @@ app.controller('createTaskCtrl', function ($log, $scope, $rootScope, $location, 
     $scope.renderProjects();
     $scope.filterProjects = function () {
         $scope.projectId = '';
+        $scope.stageName = '';
         if ($scope.programId != undefined) {
             if ($scope.programId === "") {
                 $scope.renderProjects();
+                $scope.renderTasks();
             }
             else {
                 var object = { "program": $scope.programId }
@@ -154,17 +156,14 @@ app.controller('createTaskCtrl', function ($log, $scope, $rootScope, $location, 
     $scope.renderTasks();
     $scope.onProjectSelected = function () {
         $scope.stageName = '';
-        $scope.taskObject.stage = '';
         $scope.internalTeamArr = [];
         $scope.externalTeamArr = [];
-        $scope.taskObject.manager = '';
         if ($scope.projectId != undefined && $scope.projectId != '') {
             for (var index in $scope.projects) {
                 if ($scope.projects[index]._id == $scope.projectId) {
                     $scope.selectedProject = $scope.projects[index];
                     console.log("Selected project");
                     console.log($scope.selectedProject);
-                    debugger;
                     $scope.setUsersList();
                 }
             }
@@ -208,6 +207,18 @@ app.controller('createTaskCtrl', function ($log, $scope, $rootScope, $location, 
         $scope.taskObject._id = object._id;
         $scope.taskObject.name = object.name;
         $scope.taskObject.project = object.project;
+        $scope.usersList = [];
+        if ($scope.selectedProject) {
+            delete $scope.selectedProject;
+        }
+        for (var index in $scope.projects) {
+            if ($scope.projects[index]._id == $scope.taskObject.project) {
+                $scope.selectedProject = $scope.projects[index];
+                console.log("Selected project");
+                console.log($scope.selectedProject);
+                $scope.setUsersList();
+            }
+        }
         $scope.taskObject.manager = object.manager;
         $scope.taskObject.active = object.active ? "true" : "false";
         $scope.taskObject.approxCost = object.approxCost;
