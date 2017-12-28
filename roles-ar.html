@@ -3,10 +3,12 @@
     <div class="">
         <div class="page-header-content">
             <div class="page-title">
-                <h3>
-                    <span class="text-semibold"> تعريف المهام </span>
-                </h3>
+                <!-- <h3> -->
+                <span style="font-size: 21px" class="text-semibold"> تعريف المهام </span>
+                <i class="fa fa-print fa-2x action-icon" style="float: left" ng-click="exportReport()" aria-hidden="true"></i>
+                <!-- </h3> -->
             </div>
+
         </div>
     </div>
     <div class="row">
@@ -222,9 +224,9 @@
                             </div>
                         </div>
                         <div class="col-md-12">
-                                <label style="font-weight: bold">اختيار فريق العمل</label>                                
+                            <label style="font-weight: bold">اختيار فريق العمل</label>
                         </div>
-                    
+
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>الأشخاص المضافين للمشروع</label>
@@ -251,7 +253,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label> تفصيلات المهمة والخطوات التنفيذية </label>
-                                <textarea rows="3" class="form-control" ng-model="taskObject.description" ></textarea>
+                                <textarea rows="3" class="form-control" ng-model="taskObject.description"></textarea>
                             </div>
                         </div>
                         <div class="col-md-12">

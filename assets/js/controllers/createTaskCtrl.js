@@ -1,7 +1,7 @@
 /**
  * Created by Khalid on 11/1/2017.
  */
-app.controller('createTaskCtrl', function ($log, $scope, $rootScope, $location, user, $timeout) {
+app.controller('createTaskCtrl', function ($log, $scope, $rootScope, $location, user, $timeout, $ngConfirm) {
     console.log("Welcome to tasks screen");
     $scope.goalsModel = {};
     $scope.entitiesModel = {};
@@ -156,8 +156,8 @@ app.controller('createTaskCtrl', function ($log, $scope, $rootScope, $location, 
     $scope.renderTasks();
     $scope.onProjectSelected = function () {
         $scope.stageName = '';
-        $scope.internalTeamArr = [];
-        $scope.externalTeamArr = [];
+        // $scope.internalTeamArr = [];
+        // $scope.externalTeamArr = [];
         if ($scope.projectId != undefined && $scope.projectId != '') {
             for (var index in $scope.projects) {
                 if ($scope.projects[index]._id == $scope.projectId) {
@@ -469,5 +469,100 @@ app.controller('createTaskCtrl', function ($log, $scope, $rootScope, $location, 
             }
         });
     };
+    $scope.exportReport = function () {
+        if ($scope.selectedTask) {
+            $.confirm({
+                title: '',
+                content: 'هل ترغب بطباعة جميع المهام المفلترة أم المهمة التي تم تحديدها فقط؟',
+                buttons: {
+                    printSelectedTask: {
+                        text: 'طباعة المهمة فقط',
+                        action: function () {
+                            $scope.printReport(false);
+                        }
+                    },
+                    printAllTasks: {
+                        text: 'طباعة جميع المهام',
+                        action: function () {
+                            $scope.printReport(true);
+                        }
+                    },
+                    cancel: {
+                        text: 'إلغاء',
+                        action: function () {
+                            console.log("Cancelled");
+                        }
+                    }
 
+                }
+            });
+        }
+        else {
+            $scope.printReport(true);
+        }
+
+    };
+    $scope.printReport = function (printAllTasks) {
+        $ngConfirm({
+            title: '',
+            contentUrl: 'task-print-template.html',
+            scope: $scope,
+            rtl: true,
+            columnClass: 'col-md-8 col-md-offset-3',
+            onOpenBefore: function (scope) {
+                scope.printAllTasks = printAllTasks;
+                scope.entityl1 = '';
+                scope.entityl2 = '';
+                scope.entityl3 = '';
+                scope.entityl4 = '';
+                if ($scope.selectedFirstLevelObject) {
+                    for (var x in $scope.associations) {
+                        if ($scope.selectedFirstLevelObject._id === $scope.associations[x]._id) {
+                            scope.entityl1 = $scope.associations[x].name;
+                            if ($scope.entitiesModel.secondLevel != undefined && $scope.entitiesModel.secondLevel != '') {
+                                scope.entityl2 = "| " + $scope.associations[x].children[$scope.entitiesModel.secondLevel].name;
+                                if ($scope.entitiesModel.thirdLevel != undefined && $scope.entitiesModel.thirdLevel != '') {
+                                    scope.entityl3 = "| " + $scope.associations[x].children[$scope.entitiesModel.secondLevel].children[$scope.entitiesModel.thirdLevel].name;
+                                    if ($scope.entitiesModel.fourthLevel != undefined && $scope.entitiesModel.fourthLevel != '') {
+                                        scope.entityl4 = "| " + $scope.associations[x].children[$scope.entitiesModel.secondLevel].children[$scope.entitiesModel.thirdLevel].children[$scope.entitiesModel.fourthLevel].name;
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
+            },
+            buttons: {
+                add: {
+                    text: 'طباعة',
+                    btnClass: 'btn-blue',
+                    action: function (scope, button) {
+
+                        var htmlPrint = document.getElementById("printArea");
+                        console.log("Parsed html");
+                        console.log(htmlPrint);
+                        var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+                        mywindow.document.write($('<div/>').append($(htmlPrint).clone()).html());
+                        mywindow.document.close(); // necessary for IE >= 10
+                        mywindow.focus(); // necessary for IE >= 10*/
+                        console.log("To be printed");
+                        console.log(mywindow.document);
+                        mywindow.print();
+                        mywindow.close();
+
+
+                        return false;
+
+                    }
+                },
+                cancel: {
+                    text: 'إلغاء',
+                    btnClass: 'btn-red',
+                    action: function (scope, button) {
+                    }
+                },
+            }
+        });
+    }
 });

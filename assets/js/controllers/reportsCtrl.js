@@ -247,7 +247,7 @@ app.controller('reportsCtrl', function ($log, $timeout, $scope, $rootScope, $loc
         return form;
 
     };
-    $scope.exportReport = function (elem) {
+    $scope.exportReport = function () {
         // if ($scope.selectedReport) {
 
         $ngConfirm({
